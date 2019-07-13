@@ -47,7 +47,6 @@ public class DetailsActivity extends AppCompatActivity {
 
         rowData = getIntent().getExtras().getParcelable("itemData");
 
-
         String nameText = rowData.getName() + " " + rowData.getSurname_1();
 
         TextView nameTextView = findViewById(R.id.nameTextView);
