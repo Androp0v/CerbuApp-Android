@@ -1,8 +1,8 @@
 package com.raulmonton.cerbuapp;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
@@ -13,6 +13,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.material.snackbar.Snackbar;
+
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -21,6 +23,7 @@ public class DetailsActivity extends AppCompatActivity {
     private DatabaseHelper databaseHelper;
     private boolean changedFlag = false;
     private Data rowData;
+    private CoordinatorLayout coordinatorLayout;
 
     @Override
     public void onBackPressed() {
@@ -39,6 +42,8 @@ public class DetailsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
+
+        coordinatorLayout = findViewById(R.id.coordinatorLayout);
 
         rowData = getIntent().getExtras().getParcelable("itemData");
 
@@ -72,6 +77,7 @@ public class DetailsActivity extends AppCompatActivity {
         }
 
         setFavorite.setClickable(true);
+
         setFavorite.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View V) {
@@ -92,11 +98,15 @@ public class DetailsActivity extends AppCompatActivity {
                 if (rowData.getLiked() == 1) {
                     setFavorite.setImageResource(R.drawable.ic_favorites_unselected);
                     rowData.setLiked(0);
+                    Snackbar snackbar = Snackbar.make(coordinatorLayout,"Eliminado de favoritos",Snackbar.LENGTH_SHORT);
+                    snackbar.show();
                     databaseHelper.setLikedOnDatabase(rowData.getId(), 0);
 
                 }else{
                     setFavorite.setImageResource(R.drawable.ic_favorites);
                     rowData.setLiked(1);
+                    Snackbar snackbar = Snackbar.make(coordinatorLayout,"Añadido a favoritos",Snackbar.LENGTH_SHORT);
+                    snackbar.show();
                     databaseHelper.setLikedOnDatabase(rowData.getId(), 1);
                 }
 
