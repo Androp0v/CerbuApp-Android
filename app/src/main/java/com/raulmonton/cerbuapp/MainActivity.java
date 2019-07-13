@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -34,6 +35,15 @@ public class MainActivity extends AppCompatActivity {
 
                 Intent intent = new Intent(V.getContext(), TabActivity.class);
                 startActivityForResult(intent, 0);
+            }
+        });
+
+        LinearLayout boletinLayout = findViewById(R.id.boletinLayout);
+        boletinLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent boletinIntent = new Intent(MainActivity.this, BoletinActivity.class);
+                startActivity(boletinIntent);
             }
         });
     }

@@ -12,4 +12,5 @@
     <string name="tab_text_5">Quinta</string>
     <string name="title_activity_filters">Filtrar lista</string>
     <string name="title_settings">Ajustes</string>
+    <string name="title_activity_boletin">Boletín semanal</string>
 </resources>
