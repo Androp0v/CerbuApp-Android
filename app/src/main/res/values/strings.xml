@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">CerbuApp</string>
+    <string name="action_settings">Settings</string>
+    <string name="content_des_orlabackground">Acceso a la orla</string>
+    <string name="settingsTitle">Ajustes</string>
+    <string name="title_activity_tab">Orla colegial</string>
+    <string name="tab_text_0">Todos</string>
+    <string name="tab_text_1">Primera</string>
+    <string name="tab_text_2">Segunda</string>
+    <string name="tab_text_3">Tercera</string>
+    <string name="tab_text_4">Cuarta</string>
+    <string name="tab_text_5">Quinta</string>
+    <string name="title_activity_filters">Filtrar lista</string>
+</resources>
