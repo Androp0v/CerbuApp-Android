@@ -1,6 +1,8 @@
 package com.raulmonton.cerbuapp;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -12,7 +14,11 @@ import androidx.appcompat.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
+import android.widget.Switch;
+
+import static com.raulmonton.cerbuapp.MainActivity.MyPREFERENCES;
 
 public class SettingsActivity extends AppCompatActivity {
 
@@ -23,6 +29,41 @@ public class SettingsActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        Switch orderSwitch = findViewById(R.id.orderSwitch);
+
+        final SharedPreferences preferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+
+        boolean switchSavedState = preferences.getBoolean("nameFirst", true);
+
+        if (switchSavedState){
+            orderSwitch.setChecked(false);
+        }
+        else {
+            orderSwitch.setChecked(true);
+        }
+
+        orderSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean bChecked) {
+
+                if (bChecked) {
+
+                    SharedPreferences.Editor editor = preferences.edit();
+                    editor.putBoolean("nameFirst",false);
+                    editor.apply();
+
+                } else {
+
+                    SharedPreferences.Editor editor = preferences.edit();
+                    editor.putBoolean("nameFirst",true);
+                    editor.apply();
+
+                }
+            }
+        });
+
+
     }
 
     @Override

@@ -1,6 +1,7 @@
 package com.raulmonton.cerbuapp.ui.main;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.SQLException;
 import android.util.Log;
 
@@ -19,6 +20,9 @@ import com.raulmonton.cerbuapp.R;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import static android.content.Context.MODE_PRIVATE;
+import static com.raulmonton.cerbuapp.MainActivity.MyPREFERENCES;
 
 
 public class SectionsPagerAdapter extends FragmentStatePagerAdapter {
@@ -53,6 +57,7 @@ public class SectionsPagerAdapter extends FragmentStatePagerAdapter {
         }catch(SQLException sqle){
             throw sqle;
         }
+
 
         switch(position) {
             case 0:

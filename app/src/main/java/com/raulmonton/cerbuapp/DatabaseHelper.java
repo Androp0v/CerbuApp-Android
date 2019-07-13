@@ -2,6 +2,7 @@ package com.raulmonton.cerbuapp;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.database.SQLException;
@@ -16,6 +17,9 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
+
+import static android.content.Context.MODE_PRIVATE;
+import static com.raulmonton.cerbuapp.MainActivity.MyPREFERENCES;
 
 public class DatabaseHelper extends SQLiteOpenHelper{
     private static int database_version = 1;
@@ -148,8 +152,16 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     public ArrayList<Data> getAllData() {
         ArrayList<Data> Datas = new ArrayList<>();
 
-        // Select All Query
-        String selectQuery = "SELECT  * FROM " + table_name + " ORDER BY " + coloumn_names;
+        SharedPreferences preferences = myContext.getSharedPreferences(MyPREFERENCES, MODE_PRIVATE);
+        boolean nameFirstSetting = preferences.getBoolean("nameFirst", true);
+
+        String selectQuery;
+
+        if (nameFirstSetting){
+            selectQuery = "SELECT  * FROM " + table_name + " ORDER BY " + coloumn_names;
+        }else{
+            selectQuery = "SELECT  * FROM " + table_name + " ORDER BY " + coloumn_surnames_1;
+        }
 
         Cursor cursor = myDataBase.rawQuery(selectQuery, null);
 
@@ -180,8 +192,16 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     public ArrayList<Data> getPromData(int promotion) {
         ArrayList<Data> Datas = new ArrayList<>();
 
-        // Select All Query
-        String selectQuery = "SELECT  * FROM " + table_name + " WHERE " + coloumn_promotions + " = " + promotion + " ORDER BY " + coloumn_names;
+        SharedPreferences preferences = myContext.getSharedPreferences(MyPREFERENCES, MODE_PRIVATE);
+        boolean nameFirstSetting = preferences.getBoolean("nameFirst", true);
+
+        String selectQuery;
+
+        if (nameFirstSetting){
+            selectQuery = "SELECT  * FROM " + table_name + " WHERE " + coloumn_promotions + " = " + promotion + " ORDER BY " + coloumn_names;
+        }else{
+            selectQuery = "SELECT  * FROM " + table_name + " WHERE " + coloumn_promotions + " = " + promotion + " ORDER BY " + coloumn_surnames_1;
+        }
 
         Cursor cursor = myDataBase.rawQuery(selectQuery, null);
 
