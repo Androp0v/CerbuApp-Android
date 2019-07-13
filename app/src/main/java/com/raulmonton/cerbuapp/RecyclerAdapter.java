@@ -3,7 +3,6 @@ package com.raulmonton.cerbuapp;
 import android.content.Context;
 import android.content.res.Resources;
 import android.database.SQLException;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,9 +17,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
-import com.raulmonton.cerbuapp.Data;
-import com.raulmonton.cerbuapp.DatabaseHelper;
 
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyViewHolder> implements Filterable {
     private Context context;
@@ -86,6 +82,13 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
         if (rowData.getBeca() != null && !rowData.getBeca().isEmpty()){
             holder.career.setText(rowData.getCareer() + " | " + rowData.getBeca());
             holder.attributes.setImageResource(R.drawable.ic_becario);
+
+            if (rowData.getLiked() == 1) {
+                holder.attributes.setImageResource(R.drawable.ic_becario_hot);
+            }else{
+                holder.attributes.setImageResource(R.drawable.ic_becario);
+            }
+
         }else{
             holder.career.setText(rowData.getCareer());
             holder.attributes.setImageDrawable(null);
