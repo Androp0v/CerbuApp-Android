@@ -13,4 +13,5 @@
     <string name="title_activity_filters">Filtrar lista</string>
     <string name="title_settings">Ajustes</string>
     <string name="title_activity_boletin">Boletín semanal</string>
+    <string name="title_activity_menu">Menú de comedor</string>
 </resources>

@@ -46,6 +46,15 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(boletinIntent);
             }
         });
+
+        LinearLayout menuLayout = findViewById(R.id.menuLayout);
+        menuLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent menuIntent = new Intent(MainActivity.this, MenuActivity.class);
+                startActivity(menuIntent);
+            }
+        });
     }
 
     @Override

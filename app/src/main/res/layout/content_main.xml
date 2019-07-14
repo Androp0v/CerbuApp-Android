@@ -99,6 +99,7 @@ tools:showIn="@layout/activity_main">
         android:background="@color/colorSeparator" />
 
     <LinearLayout
+        android:id="@+id/menuLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?attr/selectableItemBackground"
