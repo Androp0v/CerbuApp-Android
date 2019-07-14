@@ -27,6 +27,17 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
 
     private ItemFilter mFilter = new ItemFilter();
 
+    public String cleanString(String rawString){
+        rawString = rawString.replace("á", "a");
+        rawString = rawString.replace("é", "e");
+        rawString = rawString.replace("í", "i");
+        rawString = rawString.replace("ó", "o");
+        rawString = rawString.replace("ú", "u");
+        rawString = rawString.replace("ü", "u");
+
+        return rawString;
+    }
+
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         public TextView name;
         public TextView career;
@@ -171,6 +182,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
             String filterableSurname_1;
             String filterableSurname_2;
             String filterableCareer;
+            String filterableBeca;
             boolean approvedFlag;
 
             for (int i = 0; i < List.size(); i++){
@@ -180,32 +192,18 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
                 filterableSurname_2 = List.get(i).getSurname_2().toLowerCase();
                 filterableCareer = List.get(i).getCareer().toLowerCase();
 
-                filterableName = filterableName.replace("á", "a");
-                filterableName = filterableName.replace("é", "e");
-                filterableName = filterableName.replace("í", "i");
-                filterableName = filterableName.replace("ó", "o");
-                filterableName = filterableName.replace("ú", "u");
-                filterableName = filterableName.replace("ü", "u");
+                try{
+                    filterableBeca = List.get(i).getBeca().toLowerCase();
+                    filterableBeca = cleanString(filterableBeca.replace("á", "a"));
+                }catch(Exception e){
+                    filterableBeca = "";
+                }
 
-                filterableSurname_1 = filterableSurname_1.replace("á", "a");
-                filterableSurname_1 = filterableSurname_1.replace("é", "e");
-                filterableSurname_1 = filterableSurname_1.replace("í", "i");
-                filterableSurname_1 = filterableSurname_1.replace("ó", "o");
-                filterableSurname_1 = filterableSurname_1.replace("ú", "u");
-                filterableSurname_1 = filterableSurname_1.replace("ü", "u");
+                filterableName = cleanString(filterableName);
+                filterableSurname_1 = cleanString(filterableSurname_1);
+                filterableSurname_2 = cleanString(filterableSurname_2);
+                filterableCareer = cleanString(filterableCareer);
 
-                filterableSurname_2 = filterableSurname_2.replace("á", "a");
-                filterableSurname_2 = filterableSurname_2.replace("é", "e");
-                filterableSurname_2 = filterableSurname_2.replace("í", "i");
-                filterableSurname_2 = filterableSurname_2.replace("ó", "o");
-                filterableSurname_2 = filterableSurname_2.replace("ú", "u");
-                filterableSurname_2 = filterableSurname_2.replace("ü", "u");
-
-                filterableCareer = filterableCareer.replace("á", "a");
-                filterableCareer = filterableCareer.replace("é", "e");
-                filterableCareer = filterableCareer.replace("í", "i");
-                filterableCareer = filterableCareer.replace("ó", "o");
-                filterableCareer = filterableCareer.replace("ú", "u");
 
                 approvedFlag = false;
 
@@ -213,11 +211,23 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
                     if (filterableName.startsWith(splitedFilterStrings[j])
                             || filterableSurname_1.startsWith(splitedFilterStrings[j])
                             || filterableSurname_2.startsWith(splitedFilterStrings[j])
-                            || filterableCareer.startsWith(splitedFilterStrings[j])) {
+                            || filterableCareer.startsWith(splitedFilterStrings[j])
+                            || filterableBeca.startsWith(splitedFilterStrings[j])) {
+
                         approvedFlag = true;
+
                     }else{
-                        approvedFlag = false;
-                        break;
+                        if (j != 0 && (filterableSurname_1.startsWith(splitedFilterStrings[j-1] + " " + splitedFilterStrings[j])
+                                || filterableSurname_2.startsWith(splitedFilterStrings[j-1] + " " + splitedFilterStrings[j]))){
+
+                            approvedFlag = true;
+
+                        }else{
+
+                            approvedFlag = false;
+                            break;
+
+                        }
                     }
                 }
 
