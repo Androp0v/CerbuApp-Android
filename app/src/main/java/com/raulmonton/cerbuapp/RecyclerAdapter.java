@@ -3,6 +3,7 @@ package com.raulmonton.cerbuapp;
 import android.content.Context;
 import android.content.res.Resources;
 import android.database.SQLException;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -217,18 +218,30 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
                         approvedFlag = true;
 
                     }else{
-                        if (j != 0 && (filterableSurname_1.startsWith(splitedFilterStrings[j-1] + " " + splitedFilterStrings[j])
-                                || filterableSurname_2.startsWith(splitedFilterStrings[j-1] + " " + splitedFilterStrings[j]))){
 
-                            approvedFlag = true;
+                        approvedFlag = false;
+                        String tmpString = splitedFilterStrings[j];
 
-                        }else{
+                        for(int k = 1; k < j+1; k++){
 
-                            approvedFlag = false;
-                            break;
+                            tmpString = splitedFilterStrings[j-k] + " " + tmpString;
 
+                            if (filterableName.startsWith(tmpString)
+                                    || filterableSurname_1.startsWith(tmpString)
+                                    || filterableSurname_2.startsWith(tmpString)
+                                    || filterableCareer.startsWith(tmpString)
+                                    || filterableBeca.startsWith(tmpString)){
+
+                                approvedFlag = true;
+                                break;
+                            }
                         }
                     }
+
+                    if (!approvedFlag){
+                        break;
+                    }
+
                 }
 
                 if (approvedFlag){

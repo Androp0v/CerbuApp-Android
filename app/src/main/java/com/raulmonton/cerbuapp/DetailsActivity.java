@@ -57,8 +57,8 @@ public class DetailsActivity extends AppCompatActivity {
         TextView careerTextView = findViewById(R.id.careerTextView);
 
         if (rowData.getBeca() != null && !rowData.getBeca().isEmpty()){
-            careerTextView.setText("");
-            careerTextViewBeca.setText(rowData.getCareer() + " | ");
+            careerTextView.setText(" | ");
+            careerTextViewBeca.setText(rowData.getCareer());
             becaTextViewBeca.setText(rowData.getBeca());
             nameTextView.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_becario, 0);
         }else{

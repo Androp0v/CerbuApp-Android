@@ -229,36 +229,6 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         return Datas;
     }
 
-    public ArrayList<Data> queryDatabase(CharSequence searchSequence) {
-        ArrayList<Data> Datas = new ArrayList<>();
-
-        String selectQuery = "SELECT  * FROM " + table_name + " WHERE " + coloumn_promotions + " = " + "4" + " ORDER BY " + coloumn_names;
-
-        Cursor cursor = myDataBase.rawQuery(selectQuery, null);
-
-        // looping through all rows and adding to list
-        if (cursor.moveToFirst()) {
-            do {
-                Data data = new Data();
-                data.setId(cursor.getInt(cursor.getColumnIndex(coloumn_id)));
-                data.setName(cursor.getString(cursor.getColumnIndex(coloumn_names)));
-                data.setSurname_1(cursor.getString(cursor.getColumnIndex(coloumn_surnames_1)));
-                data.setSurname_2(cursor.getString(cursor.getColumnIndex(coloumn_surnames_2)));
-                data.setCareer(cursor.getString(cursor.getColumnIndex(coloumn_careers)));
-                data.setPromotion(cursor.getInt(cursor.getColumnIndex(coloumn_promotions)));
-                data.setRoom(cursor.getString(cursor.getColumnIndex(coloumn_rooms)));
-                data.setBeca(cursor.getString(cursor.getColumnIndex(coloumn_becas)));
-                data.setLiked(cursor.getInt(cursor.getColumnIndex(coloumn_likes)));
-                data.setFloor(cursor.getInt(cursor.getColumnIndex(coloumn_floors)));
-
-                Datas.add(data);
-            } while (cursor.moveToNext());
-        }
-        // close db connection
-        cursor.close();
-        // return notes list
-        return Datas;
-    }
 
     public void setLikedOnDatabase(int id, int liked) {
 

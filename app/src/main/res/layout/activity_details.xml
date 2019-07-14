@@ -71,10 +71,13 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
+                    android:paddingEnd="4dp"
                     android:text="Carrera"
+                    android:textAlignment="textEnd"
                     android:textSize="18sp"
                     app:layout_constrainedWidth="true"
                     app:layout_constraintEnd_toEndOf="@+id/guideline8"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <androidx.constraintlayout.widget.Guideline
@@ -90,7 +93,9 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:layout_weight="1"
+                    android:paddingStart="4dp"
                     android:text="Beca"
+                    android:textAlignment="viewStart"
                     android:textSize="18sp"
                     app:layout_constrainedWidth="true"
                     app:layout_constraintEnd_toEndOf="parent"
