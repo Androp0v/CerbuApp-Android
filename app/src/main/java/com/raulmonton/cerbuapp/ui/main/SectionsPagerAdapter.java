@@ -25,7 +25,7 @@ import static android.content.Context.MODE_PRIVATE;
 import static com.raulmonton.cerbuapp.MainActivity.MyPREFERENCES;
 
 
-public class SectionsPagerAdapter extends FragmentStatePagerAdapter {
+public class SectionsPagerAdapter extends FragmentStatePagerAdapter{
 
     @StringRes
     private static final int[] TAB_TITLES = new int[]{R.string.tab_text_0, R.string.tab_text_1,
@@ -34,7 +34,7 @@ public class SectionsPagerAdapter extends FragmentStatePagerAdapter {
     private final Context mContext;
 
     public SectionsPagerAdapter(Context context, FragmentManager fm, int behavior) {
-        super(fm, FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
+        super(fm, behavior);
         mContext = context;
     }
 
@@ -81,4 +81,5 @@ public class SectionsPagerAdapter extends FragmentStatePagerAdapter {
     public int getCount() {
         return 6;
     }
+
 }

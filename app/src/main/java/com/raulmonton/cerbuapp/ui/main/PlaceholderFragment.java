@@ -27,6 +27,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.raulmonton.cerbuapp.Data;
 import com.raulmonton.cerbuapp.DatabaseHelper;
 import com.raulmonton.cerbuapp.DetailsActivity;
+import com.raulmonton.cerbuapp.InterfaceLike;
 import com.raulmonton.cerbuapp.R;
 import com.raulmonton.cerbuapp.RecyclerAdapter;
 
@@ -34,10 +35,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * A placeholder fragment containing a simple view.
- */
-public class PlaceholderFragment extends Fragment implements RecyclerAdapter.OnRowListener{
+
+public class PlaceholderFragment extends Fragment implements RecyclerAdapter.OnRowListener, InterfaceLike {
 
     private static final String ARG_SECTION_NUMBER = "section_number";
 
@@ -57,6 +56,7 @@ public class PlaceholderFragment extends Fragment implements RecyclerAdapter.OnR
         fragment.setArguments(bundle);
         return fragment;
     }
+
 
     @Override
     public void onRowClick(int position){
@@ -136,12 +136,22 @@ public class PlaceholderFragment extends Fragment implements RecyclerAdapter.OnR
 
                 int id = data.getIntExtra("id", -1);
                 int liked = data.getIntExtra("liked", 0);
-                adapter.changeItemLiked(id, liked);
-                adapter.notifyDataSetChanged();
+
+                List<Fragment> fragmentList = getFragmentManager().getFragments();
+                for (Fragment fragment : fragmentList) {
+                    ((PlaceholderFragment)fragment).onLikedChanged(id, liked);
+                }
+
             }
             if (resultCode == Activity.RESULT_CANCELED) {
                 //No need to do anything
             }
         }
+    }
+
+    @Override
+    public void onLikedChanged(int id, int liked) {
+        adapter.changeItemLiked(id, liked);
+        adapter.notifyDataSetChanged();
     }
 }

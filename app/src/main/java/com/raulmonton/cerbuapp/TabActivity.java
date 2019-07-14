@@ -20,9 +20,10 @@ import android.view.View;
 
 import com.raulmonton.cerbuapp.ui.main.SectionsPagerAdapter;
 
-public class TabActivity extends AppCompatActivity {
+public class TabActivity extends AppCompatActivity{
 
     static final int REQUEST_CODE = 1;
+    SectionsPagerAdapter sectionsPagerAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,13 +34,14 @@ public class TabActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        SectionsPagerAdapter sectionsPagerAdapter = new SectionsPagerAdapter(this,
+        sectionsPagerAdapter = new SectionsPagerAdapter(this,
                 getSupportFragmentManager(), FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
 
         ViewPager viewPager = findViewById(R.id.view_pager);
         viewPager.setAdapter(sectionsPagerAdapter);
         TabLayout tabs = findViewById(R.id.tabs);
         tabs.setupWithViewPager(viewPager);
+
         FloatingActionButton fab = findViewById(R.id.fab);
 
         fab.setOnClickListener(new View.OnClickListener() {
