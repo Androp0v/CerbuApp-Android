@@ -158,9 +158,9 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         String selectQuery;
 
         if (nameFirstSetting){
-            selectQuery = "SELECT  * FROM " + table_name + " ORDER BY " + coloumn_names;
+            selectQuery = "SELECT  * FROM " + table_name + " ORDER BY " + coloumn_names+ " COLLATE UNICODE";
         }else{
-            selectQuery = "SELECT  * FROM " + table_name + " ORDER BY " + coloumn_surnames_1;
+            selectQuery = "SELECT  * FROM " + table_name + " ORDER BY " + coloumn_surnames_1+ " COLLATE UNICODE";
         }
 
         Cursor cursor = myDataBase.rawQuery(selectQuery, null);
@@ -198,9 +198,9 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         String selectQuery;
 
         if (nameFirstSetting){
-            selectQuery = "SELECT  * FROM " + table_name + " WHERE " + coloumn_promotions + " = " + promotion + " ORDER BY " + coloumn_names;
+            selectQuery = "SELECT  * FROM " + table_name + " WHERE " + coloumn_promotions + " = " + promotion + " ORDER BY " + coloumn_names + " COLLATE UNICODE";
         }else{
-            selectQuery = "SELECT  * FROM " + table_name + " WHERE " + coloumn_promotions + " = " + promotion + " ORDER BY " + coloumn_surnames_1;
+            selectQuery = "SELECT  * FROM " + table_name + " WHERE " + coloumn_promotions + " = " + promotion + " ORDER BY " + coloumn_surnames_1 + " COLLATE UNICODE";
         }
 
         Cursor cursor = myDataBase.rawQuery(selectQuery, null);
