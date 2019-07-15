@@ -38,10 +38,6 @@ import java.util.List;
 
 public class PlaceholderFragment extends Fragment implements RecyclerAdapter.OnRowListener, InterfaceLike {
 
-    private static final String ARG_SECTION_NUMBER = "section_number";
-
-    private PageViewModel pageViewModel;
-
     public SearchView mSearchView;
 
     public RecyclerAdapter adapter;
@@ -71,12 +67,7 @@ public class PlaceholderFragment extends Fragment implements RecyclerAdapter.OnR
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-        pageViewModel = ViewModelProviders.of(this).get(PageViewModel.class);
-        int index = 1;
-        if (getArguments() != null) {
-            index = getArguments().getInt(ARG_SECTION_NUMBER);
-        }
-        pageViewModel.setIndex(index);
+
     }
 
     @Override
@@ -100,7 +91,7 @@ public class PlaceholderFragment extends Fragment implements RecyclerAdapter.OnR
     }
 
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         inflater.inflate(R.menu.menu_tab, menu);
 
         MenuItem mSearch = menu.findItem(R.id.app_bar_search);

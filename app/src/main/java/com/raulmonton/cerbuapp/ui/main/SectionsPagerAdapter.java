@@ -59,13 +59,10 @@ public class SectionsPagerAdapter extends FragmentStatePagerAdapter{
         }
 
 
-        switch(position) {
-            case 0:
-                Datas = databaseHelper.getAllData();
-                break;
-
-            default:
-                Datas = databaseHelper.getPromData(position);
+        if (position == 0) {
+            Datas = databaseHelper.getAllData();
+        } else {
+            Datas = databaseHelper.getPromData(position);
         }
 
         return PlaceholderFragment.newInstance(Datas, position);

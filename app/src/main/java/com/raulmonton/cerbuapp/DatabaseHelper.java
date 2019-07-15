@@ -1,10 +1,8 @@
 package com.raulmonton.cerbuapp;
 
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.database.Cursor;
-import android.database.DatabaseUtils;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
@@ -16,7 +14,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
-import java.util.List;
 
 import static android.content.Context.MODE_PRIVATE;
 import static com.raulmonton.cerbuapp.MainActivity.MyPREFERENCES;
@@ -25,16 +22,16 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     private static int database_version = 1;
     private static String database_name = "database";
     private static String table_name = "colegiales";
-    private static String coloumn_id = "_id";
-    private static String coloumn_names = "names";
-    private static String coloumn_surnames_1 = "surnames_1";
-    private static String coloumn_surnames_2 = "surnames_2";
-    private static String coloumn_careers = "careers";
-    private static String coloumn_promotions = "promotions";
-    private static String coloumn_rooms = "rooms";
-    private static String coloumn_becas = "becas";
-    private static String coloumn_likes = "likes";
-    private static String coloumn_floors = "floors";
+    private static String column_id = "_id";
+    private static String column_names = "names";
+    private static String column_surnames_1 = "surnames_1";
+    private static String column_surnames_2 = "surnames_2";
+    private static String column_careers = "careers";
+    private static String column_promotions = "promotions";
+    private static String column_rooms = "rooms";
+    private static String column_becas = "becas";
+    private static String column_likes = "likes";
+    private static String column_floors = "floors";
 
 
     private static String DB_NAME = "database.db";
@@ -158,9 +155,9 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         String selectQuery;
 
         if (nameFirstSetting){
-            selectQuery = "SELECT  * FROM " + table_name + " ORDER BY " + coloumn_names+ " COLLATE UNICODE";
+            selectQuery = "SELECT  * FROM " + table_name + " ORDER BY " + column_names + " COLLATE UNICODE";
         }else{
-            selectQuery = "SELECT  * FROM " + table_name + " ORDER BY " + coloumn_surnames_1+ " COLLATE UNICODE";
+            selectQuery = "SELECT  * FROM " + table_name + " ORDER BY " + column_surnames_1 + " COLLATE UNICODE";
         }
 
         Cursor cursor = myDataBase.rawQuery(selectQuery, null);
@@ -169,16 +166,16 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         if (cursor.moveToFirst()) {
             do {
                 Data data = new Data();
-                data.setId(cursor.getInt(cursor.getColumnIndex(coloumn_id)));
-                data.setName(cursor.getString(cursor.getColumnIndex(coloumn_names)));
-                data.setSurname_1(cursor.getString(cursor.getColumnIndex(coloumn_surnames_1)));
-                data.setSurname_2(cursor.getString(cursor.getColumnIndex(coloumn_surnames_2)));
-                data.setCareer(cursor.getString(cursor.getColumnIndex(coloumn_careers)));
-                data.setPromotion(cursor.getInt(cursor.getColumnIndex(coloumn_promotions)));
-                data.setRoom(cursor.getString(cursor.getColumnIndex(coloumn_rooms)));
-                data.setBeca(cursor.getString(cursor.getColumnIndex(coloumn_becas)));
-                data.setLiked(cursor.getInt(cursor.getColumnIndex(coloumn_likes)));
-                data.setFloor(cursor.getInt(cursor.getColumnIndex(coloumn_floors)));
+                data.setId(cursor.getInt(cursor.getColumnIndex(column_id)));
+                data.setName(cursor.getString(cursor.getColumnIndex(column_names)));
+                data.setSurname_1(cursor.getString(cursor.getColumnIndex(column_surnames_1)));
+                data.setSurname_2(cursor.getString(cursor.getColumnIndex(column_surnames_2)));
+                data.setCareer(cursor.getString(cursor.getColumnIndex(column_careers)));
+                data.setPromotion(cursor.getInt(cursor.getColumnIndex(column_promotions)));
+                data.setRoom(cursor.getString(cursor.getColumnIndex(column_rooms)));
+                data.setBeca(cursor.getString(cursor.getColumnIndex(column_becas)));
+                data.setLiked(cursor.getInt(cursor.getColumnIndex(column_likes)));
+                data.setFloor(cursor.getInt(cursor.getColumnIndex(column_floors)));
 
                 Datas.add(data);
             } while (cursor.moveToNext());
@@ -198,9 +195,9 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         String selectQuery;
 
         if (nameFirstSetting){
-            selectQuery = "SELECT  * FROM " + table_name + " WHERE " + coloumn_promotions + " = " + promotion + " ORDER BY " + coloumn_names + " COLLATE UNICODE";
+            selectQuery = "SELECT  * FROM " + table_name + " WHERE " + column_promotions + " = " + promotion + " ORDER BY " + column_names + " COLLATE UNICODE";
         }else{
-            selectQuery = "SELECT  * FROM " + table_name + " WHERE " + coloumn_promotions + " = " + promotion + " ORDER BY " + coloumn_surnames_1 + " COLLATE UNICODE";
+            selectQuery = "SELECT  * FROM " + table_name + " WHERE " + column_promotions + " = " + promotion + " ORDER BY " + column_surnames_1 + " COLLATE UNICODE";
         }
 
         Cursor cursor = myDataBase.rawQuery(selectQuery, null);
@@ -209,16 +206,16 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         if (cursor.moveToFirst()) {
             do {
                 Data data = new Data();
-                data.setId(cursor.getInt(cursor.getColumnIndex(coloumn_id)));
-                data.setName(cursor.getString(cursor.getColumnIndex(coloumn_names)));
-                data.setSurname_1(cursor.getString(cursor.getColumnIndex(coloumn_surnames_1)));
-                data.setSurname_2(cursor.getString(cursor.getColumnIndex(coloumn_surnames_2)));
-                data.setCareer(cursor.getString(cursor.getColumnIndex(coloumn_careers)));
-                data.setPromotion(cursor.getInt(cursor.getColumnIndex(coloumn_promotions)));
-                data.setRoom(cursor.getString(cursor.getColumnIndex(coloumn_rooms)));
-                data.setBeca(cursor.getString(cursor.getColumnIndex(coloumn_becas)));
-                data.setLiked(cursor.getInt(cursor.getColumnIndex(coloumn_likes)));
-                data.setFloor(cursor.getInt(cursor.getColumnIndex(coloumn_floors)));
+                data.setId(cursor.getInt(cursor.getColumnIndex(column_id)));
+                data.setName(cursor.getString(cursor.getColumnIndex(column_names)));
+                data.setSurname_1(cursor.getString(cursor.getColumnIndex(column_surnames_1)));
+                data.setSurname_2(cursor.getString(cursor.getColumnIndex(column_surnames_2)));
+                data.setCareer(cursor.getString(cursor.getColumnIndex(column_careers)));
+                data.setPromotion(cursor.getInt(cursor.getColumnIndex(column_promotions)));
+                data.setRoom(cursor.getString(cursor.getColumnIndex(column_rooms)));
+                data.setBeca(cursor.getString(cursor.getColumnIndex(column_becas)));
+                data.setLiked(cursor.getInt(cursor.getColumnIndex(column_likes)));
+                data.setFloor(cursor.getInt(cursor.getColumnIndex(column_floors)));
 
                 Datas.add(data);
             } while (cursor.moveToNext());
@@ -232,7 +229,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
     public void setLikedOnDatabase(int id, int liked) {
 
-        String selectQuery = "UPDATE " + table_name + " SET " + coloumn_likes + " = " + liked + " WHERE " + coloumn_id + " = " + id;
+        String selectQuery = "UPDATE " + table_name + " SET " + column_likes + " = " + liked + " WHERE " + column_id + " = " + id;
         myDataBase.execSQL(selectQuery);
     }
 }
