@@ -1,29 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <animation-list xmlns:android="http://schemas.android.com/apk/res/android"
     android:oneshot="true">
-    <item android:drawable="@drawable/boletin_0" android:duration="20" />
-    <item android:drawable="@drawable/boletin_02" android:duration="20" />
-    <item android:drawable="@drawable/boletin_04" android:duration="20" />
-    <item android:drawable="@drawable/boletin_06" android:duration="20" />
-    <item android:drawable="@drawable/boletin_08" android:duration="20" />
-    <item android:drawable="@drawable/boletin_010" android:duration="20" />
-    <item android:drawable="@drawable/boletin_012" android:duration="20" />
-    <item android:drawable="@drawable/boletin_014" android:duration="20" />
-    <item android:drawable="@drawable/boletin_016" android:duration="20" />
-    <item android:drawable="@drawable/boletin_018" android:duration="20" />
-    <item android:drawable="@drawable/boletin_020" android:duration="20" />
-    <item android:drawable="@drawable/boletin_022" android:duration="20" />
-    <item android:drawable="@drawable/boletin_024" android:duration="20" />
-    <item android:drawable="@drawable/boletin_026" android:duration="20" />
-    <item android:drawable="@drawable/boletin_028" android:duration="20" />
-    <item android:drawable="@drawable/boletin_030" android:duration="20" />
-    <item android:drawable="@drawable/boletin_032" android:duration="20" />
-    <item android:drawable="@drawable/boletin_034" android:duration="20" />
-    <item android:drawable="@drawable/boletin_036" android:duration="20" />
-    <item android:drawable="@drawable/boletin_038" android:duration="20" />
-    <item android:drawable="@drawable/boletin_040" android:duration="20" />
-    <item android:drawable="@drawable/boletin_042" android:duration="20" />
-    <item android:drawable="@drawable/boletin_044" android:duration="20" />
-    <item android:drawable="@drawable/boletin_046" android:duration="20" />
-    <item android:drawable="@drawable/boletin_048" android:duration="20" />
+    <item android:drawable="@drawable/boletin_0" android:duration="40" />
+    <item android:drawable="@drawable/boletin_02" android:duration="40" />
+    <item android:drawable="@drawable/boletin_04" android:duration="40" />
+    <item android:drawable="@drawable/boletin_06" android:duration="40" />
+    <item android:drawable="@drawable/boletin_08" android:duration="40" />
+    <item android:drawable="@drawable/boletin_010" android:duration="40" />
+    <item android:drawable="@drawable/boletin_012" android:duration="40" />
+    <item android:drawable="@drawable/boletin_014" android:duration="40" />
+    <item android:drawable="@drawable/boletin_016" android:duration="40" />
+    <item android:drawable="@drawable/boletin_018" android:duration="40" />
+    <item android:drawable="@drawable/boletin_020" android:duration="40" />
+    <item android:drawable="@drawable/boletin_022" android:duration="40" />
+    <item android:drawable="@drawable/boletin_024" android:duration="40" />
+    <item android:drawable="@drawable/boletin_026" android:duration="40" />
+    <item android:drawable="@drawable/boletin_028" android:duration="40" />
+    <item android:drawable="@drawable/boletin_030" android:duration="40" />
+    <item android:drawable="@drawable/boletin_032" android:duration="40" />
+    <item android:drawable="@drawable/boletin_034" android:duration="40" />
+    <item android:drawable="@drawable/boletin_036" android:duration="40" />
+    <item android:drawable="@drawable/boletin_038" android:duration="40" />
+    <item android:drawable="@drawable/boletin_040" android:duration="40" />
+    <item android:drawable="@drawable/boletin_042" android:duration="40" />
+    <item android:drawable="@drawable/boletin_044" android:duration="40" />
+    <item android:drawable="@drawable/boletin_046" android:duration="40" />
+    <item android:drawable="@drawable/boletin_048" android:duration="40" />
 </animation-list>
