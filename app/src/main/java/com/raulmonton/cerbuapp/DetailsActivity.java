@@ -3,6 +3,8 @@ package com.raulmonton.cerbuapp;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
@@ -10,6 +12,7 @@ import android.database.SQLException;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
+import android.view.animation.BounceInterpolator;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -97,19 +100,28 @@ public class DetailsActivity extends AppCompatActivity {
                 if (rowData.getLiked() == 1) {
                     setFavorite.setImageResource(R.drawable.ic_favorites_unselected);
                     rowData.setLiked(0);
-                    Snackbar snackbar = Snackbar.make(coordinatorLayout,"Eliminado de favoritos",Snackbar.LENGTH_SHORT);
-                    snackbar.show();
+                    //Snackbar snackbar = Snackbar.make(coordinatorLayout,"Eliminado de favoritos",Snackbar.LENGTH_SHORT);
+                    //snackbar.show();
                     databaseHelper.setLikedOnDatabase(rowData.getId(), 0);
 
                 }else{
                     setFavorite.setImageResource(R.drawable.ic_favorites);
                     rowData.setLiked(1);
-                    Snackbar snackbar = Snackbar.make(coordinatorLayout,"Añadido a favoritos",Snackbar.LENGTH_SHORT);
-                    snackbar.show();
+                    //Snackbar snackbar = Snackbar.make(coordinatorLayout,"Añadido a favoritos",Snackbar.LENGTH_SHORT);
+                    //snackbar.show();
                     databaseHelper.setLikedOnDatabase(rowData.getId(), 1);
                 }
 
                 changedFlag = true;
+
+                ObjectAnimator animX = ObjectAnimator.ofFloat(setFavorite, "scaleX", 0.8f, 1.0f);
+                ObjectAnimator animY = ObjectAnimator.ofFloat(setFavorite, "scaleY", 0.8f, 1.0f);
+                AnimatorSet animSetXY = new AnimatorSet();
+                animSetXY.playTogether(animX, animY);
+
+                animSetXY.setDuration(500);
+                animSetXY.setInterpolator(new BounceInterpolator());
+                animSetXY.start();
 
             }
         });
