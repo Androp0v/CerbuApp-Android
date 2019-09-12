@@ -8,57 +8,70 @@ app:layout_behavior="@string/appbar_scrolling_view_behavior"
 tools:context=".MainActivity"
 tools:showIn="@layout/activity_main">
 
-<LinearLayout
+    <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:layout_editor_absoluteX="8dp"
     tools:layout_editor_absoluteY="8dp">
 
-    <androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="260dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="12dp"
-        android:layout_marginEnd="24dp"
-        android:layout_marginBottom="12dp"
-        app:cardCornerRadius="24dp">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp">
 
-        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            android:id="@+id/relativelayout"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent">
+            <androidx.cardview.widget.CardView
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginBottom="20dp"
+                app:cardCornerRadius="24dp"
+                app:layout_constraintDimensionRatio="H,1920:1273"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
-            <ImageView
-                android:id="@+id/orlaImageView"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:contentDescription="@string/content_des_orlabackground"
-                android:scaleType="centerCrop"
-                app:srcCompat="@drawable/orlabackground" />
+                <RelativeLayout
+                    android:id="@+id/relativelayout"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent">
 
-            <TextView
-                android:id="@+id/orlaTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignLeft="@id/orlaImageView"
-                android:layout_alignTop="@id/orlaImageView"
-                android:layout_alignRight="@id/orlaImageView"
-                android:layout_alignBottom="@id/orlaImageView"
-                android:gravity="top|left"
-                android:paddingStart="22dp"
-                android:paddingTop="12dp"
-                android:paddingRight="12dp"
-                android:paddingBottom="12dp"
-                android:text="Orla colegial"
-                android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                android:textColor="#FFFFFF"
-                android:textSize="34dp"
-                android:textStyle="bold" />
+                    <ImageView
+                        android:id="@+id/orlaImageView"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:contentDescription="@string/content_des_orlabackground"
+                        android:scaleType="centerCrop"
+                        app:srcCompat="@drawable/orlabackground" />
 
-        </RelativeLayout>
+                    <TextView
+                        android:id="@+id/orlaTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignLeft="@id/orlaImageView"
+                        android:layout_alignTop="@id/orlaImageView"
+                        android:layout_alignRight="@id/orlaImageView"
+                        android:layout_alignBottom="@id/orlaImageView"
+                        android:gravity="top|left"
+                        android:paddingStart="22dp"
+                        android:paddingTop="12dp"
+                        android:paddingRight="12dp"
+                        android:paddingBottom="12dp"
+                        android:text="Orla colegial"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                        android:textColor="#FFFFFF"
+                        android:textSize="34dp"
+                        android:textStyle="bold" />
 
-    </androidx.cardview.widget.CardView>
+                </RelativeLayout>
+
+            </androidx.cardview.widget.CardView>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
 
     <LinearLayout
         android:id="@+id/boletinLayout"
