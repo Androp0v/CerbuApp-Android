@@ -32,6 +32,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     private static String column_becas = "becas";
     private static String column_likes = "likes";
     private static String column_floors = "floors";
+    private static String column_genders = "gender";
 
 
     private static String DB_NAME = "database.db";
@@ -176,6 +177,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
                 data.setBeca(cursor.getString(cursor.getColumnIndex(column_becas)));
                 data.setLiked(cursor.getInt(cursor.getColumnIndex(column_likes)));
                 data.setFloor(cursor.getInt(cursor.getColumnIndex(column_floors)));
+                data.setGender(cursor.getInt(cursor.getColumnIndex(column_genders)));
 
                 Datas.add(data);
             } while (cursor.moveToNext());
@@ -216,6 +218,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
                 data.setBeca(cursor.getString(cursor.getColumnIndex(column_becas)));
                 data.setLiked(cursor.getInt(cursor.getColumnIndex(column_likes)));
                 data.setFloor(cursor.getInt(cursor.getColumnIndex(column_floors)));
+                data.setGender(cursor.getInt(cursor.getColumnIndex(column_genders)));
 
                 Datas.add(data);
             } while (cursor.moveToNext());

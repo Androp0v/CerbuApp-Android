@@ -14,12 +14,13 @@ public class Data implements Parcelable{
     private String beca;
     private int liked;
     private int floor;
+    private int gender;
 
     public Data(){
 
     }
 
-    public Data(int id, String name, String surname_1, String surname_2, String career, int promotion, String room, String beca, int liked, int floor){
+    public Data(int id, String name, String surname_1, String surname_2, String career, int promotion, String room, String beca, int liked, int floor, int gender){
         this.id = id;
         this.name = name;
         this.surname_1 = surname_1;
@@ -30,6 +31,7 @@ public class Data implements Parcelable{
         this.beca = beca;
         this.liked = liked;
         this.floor = floor;
+        this.gender = gender;
 
     }
 
@@ -113,6 +115,14 @@ public class Data implements Parcelable{
         this.floor = floor;
     }
 
+    public int getGender() {
+        return gender;
+    }
+
+    public void setGender(int gender) {
+        this.gender = gender;
+    }
+
     // Parcelling part
 
     @Override
@@ -132,6 +142,7 @@ public class Data implements Parcelable{
         dest.writeString(beca);
         dest.writeInt(liked);
         dest.writeInt(floor);
+        dest.writeInt(gender);
     }
 
     public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
@@ -155,5 +166,6 @@ public class Data implements Parcelable{
         beca = source.readString();
         liked = source.readInt();
         floor = source.readInt();
+        gender = source.readInt();
     }
 }

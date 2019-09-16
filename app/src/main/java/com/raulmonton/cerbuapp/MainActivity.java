@@ -1,6 +1,8 @@
 package com.raulmonton.cerbuapp;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 
@@ -15,6 +17,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ShareActionProvider;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -26,6 +29,26 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        SharedPreferences preferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+
+        editor.putBoolean("FiltersActive", false);
+
+        editor.putBoolean("adjuntos", false);
+        editor.putBoolean("favoritos", false);
+
+        editor.putBoolean("male", true);
+        editor.putBoolean("female", true);
+        editor.putBoolean("NBothers", true);
+
+        editor.putBoolean("100s", true);
+        editor.putBoolean("200s", true);
+        editor.putBoolean("300s", true);
+        editor.putBoolean("400s", true);
+
+        editor.apply();
+
 
         ImageView orlaImageView = findViewById(R.id.orlaImageView);
         orlaImageView.setClickable(true);
