@@ -122,24 +122,24 @@ public class TabActivity extends AppCompatActivity{
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        //Refresh all fragments
-        sectionsPagerAdapter = new SectionsPagerAdapter(this,
-                getSupportFragmentManager(), FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
+        if (requestCode == REQUEST_CODE){
+            //Refresh all fragments
+            sectionsPagerAdapter = new SectionsPagerAdapter(this,
+                    getSupportFragmentManager(), FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
 
-        final ViewPager viewPager = findViewById(R.id.view_pager);
-        viewPager.setAdapter(sectionsPagerAdapter);
-        tabs.setupWithViewPager(viewPager);
+            final ViewPager viewPager = findViewById(R.id.view_pager);
+            viewPager.setAdapter(sectionsPagerAdapter);
+            tabs.setupWithViewPager(viewPager);
 
-        SharedPreferences preferences;
-        preferences = getApplicationContext().getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
-        boolean filtersActive = preferences.getBoolean("FiltersActive", false);
+            SharedPreferences preferences;
+            preferences = getApplicationContext().getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+            boolean filtersActive = preferences.getBoolean("FiltersActive", false);
 
-        if (filtersActive){
-            fab.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(getApplicationContext(), R.color.colorAccent)));
-        }else{
-            fab.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(getApplicationContext(), R.color.colorBeca)));
+            if (filtersActive){
+                fab.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(getApplicationContext(), R.color.colorAccent)));
+            }else{
+                fab.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(getApplicationContext(), R.color.colorBeca)));
+            }
         }
-
-
     }
 }
