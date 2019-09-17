@@ -78,6 +78,15 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(menuIntent);
             }
         });
+
+        LinearLayout notificationsLayout = findViewById(R.id.notificationLayout);
+        notificationsLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent menuIntent = new Intent(MainActivity.this, NotificationsActivity.class);
+                startActivity(menuIntent);
+            }
+        });
     }
 
     @Override

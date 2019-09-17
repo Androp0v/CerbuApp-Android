@@ -6,4 +6,5 @@
     <color name="colorHot">#b53d00</color>
     <color name="colorBeca">#042f73</color>
     <color name="colorSeparator">#313131</color>
+    <color name="colorLabelPrimary">#FFFFFF</color>
 </resources>

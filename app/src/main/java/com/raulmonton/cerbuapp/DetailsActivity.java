@@ -52,22 +52,23 @@ public class DetailsActivity extends AppCompatActivity {
 
         String nameText = rowData.getName() + " " + rowData.getSurname_1();
 
+        ImageView becaImage = findViewById(R.id.becaView);
+
         TextView nameTextView = findViewById(R.id.nameTextView);
+        TextView roomTextView = findViewById(R.id.roomTextView);
+
         nameTextView.setText(rowData.getName() + " " + rowData.getSurname_1() + " " + rowData.getSurname_2());
 
-        TextView careerTextViewBeca = findViewById(R.id.careerTextViewBeca);
-        TextView becaTextViewBeca = findViewById(R.id.becaTextViewBeca);
         TextView careerTextView = findViewById(R.id.careerTextView);
 
         if (rowData.getBeca() != null && !rowData.getBeca().isEmpty()){
-            careerTextView.setText(" | ");
-            careerTextViewBeca.setText(rowData.getCareer());
-            becaTextViewBeca.setText(rowData.getBeca());
-            nameTextView.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_becario, 0);
+            careerTextView.setText(rowData.getCareer() + " | " + rowData.getBeca());
+            becaImage.setImageResource(R.drawable.ic_becario_big);
+            roomTextView.setText("Habitación: " + rowData.getRoom());
         }else{
             careerTextView.setText(rowData.getCareer());
-            becaTextViewBeca.setText("");
-            careerTextViewBeca.setText("");
+            becaImage.setImageResource(0);
+            roomTextView.setText("");
         }
 
         final ImageView setFavorite = findViewById(R.id.setFavorite);
@@ -100,15 +101,11 @@ public class DetailsActivity extends AppCompatActivity {
                 if (rowData.getLiked() == 1) {
                     setFavorite.setImageResource(R.drawable.ic_favorites_unselected);
                     rowData.setLiked(0);
-                    //Snackbar snackbar = Snackbar.make(coordinatorLayout,"Eliminado de favoritos",Snackbar.LENGTH_SHORT);
-                    //snackbar.show();
                     databaseHelper.setLikedOnDatabase(rowData.getId(), 0);
 
                 }else{
                     setFavorite.setImageResource(R.drawable.ic_favorites);
                     rowData.setLiked(1);
-                    //Snackbar snackbar = Snackbar.make(coordinatorLayout,"Añadido a favoritos",Snackbar.LENGTH_SHORT);
-                    //snackbar.show();
                     databaseHelper.setLikedOnDatabase(rowData.getId(), 1);
                 }
 

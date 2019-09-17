@@ -43,67 +43,38 @@
             android:paddingStart="12dp"
             android:paddingTop="16dp"
             android:paddingEnd="12dp"
-            android:paddingBottom="8dp"
+            android:paddingBottom="4dp"
             android:text="Nombre"
             android:textAlignment="center"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:textStyle="bold" />
 
-        <RelativeLayout
+        <TextView
+            android:id="@+id/careerTextView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            android:padding="4dp"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:text="Carrera"
+            android:textAlignment="center"
+            android:textColor="@color/colorLabelPrimary"
+            android:textSize="18sp" />
 
-            <TextView
-                android:id="@+id/careerTextView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Carrera"
-                android:textAlignment="center"
-                android:textSize="18sp" />
+        <TextView
+            android:id="@+id/roomTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="4dp"
+            android:text="Habitación"
+            android:textAlignment="center"
+            android:textSize="16sp" />
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingStart="12dp"
-                android:paddingEnd="12dp">
-
-                <TextView
-                    android:id="@+id/careerTextViewBeca"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:paddingEnd="4dp"
-                    android:text="Carrera"
-                    android:textAlignment="textEnd"
-                    android:textSize="18sp"
-                    app:layout_constrainedWidth="true"
-                    app:layout_constraintEnd_toEndOf="@+id/guideline8"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <androidx.constraintlayout.widget.Guideline
-                    android:id="@+id/guideline8"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    app:layout_constraintGuide_percent="0.5" />
-
-                <TextView
-                    android:id="@+id/becaTextViewBeca"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_weight="1"
-                    android:paddingStart="4dp"
-                    android:text="Beca"
-                    android:textAlignment="viewStart"
-                    android:textSize="18sp"
-                    app:layout_constrainedWidth="true"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/guideline8"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </RelativeLayout>
+        <ImageView
+            android:id="@+id/becaView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="4dp" />
 
     </LinearLayout>
 

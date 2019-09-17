@@ -4,6 +4,9 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -12,6 +15,7 @@ import com.google.android.material.tabs.TabLayout;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
@@ -28,11 +32,14 @@ import com.raulmonton.cerbuapp.ui.main.SectionsPagerAdapter;
 
 import java.util.List;
 
+import static com.raulmonton.cerbuapp.MainActivity.MyPREFERENCES;
+
 public class TabActivity extends AppCompatActivity{
 
     static final int REQUEST_CODE = 1;
     SectionsPagerAdapter sectionsPagerAdapter;
     TabLayout tabs;
+    FloatingActionButton fab;
 
     public final void hideKeyboard(){
         InputMethodManager inputManager = (InputMethodManager)getApplicationContext().getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -90,7 +97,16 @@ public class TabActivity extends AppCompatActivity{
             }
         });
 
-        FloatingActionButton fab = findViewById(R.id.fab);
+        fab = findViewById(R.id.fab);
+        SharedPreferences preferences;
+        preferences = getApplicationContext().getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+        boolean filtersActive = preferences.getBoolean("FiltersActive", false);
+
+        if (filtersActive){
+            fab.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(getApplicationContext(), R.color.colorAccent)));
+        }else{
+            fab.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(getApplicationContext(), R.color.colorBeca)));
+        }
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -113,6 +129,17 @@ public class TabActivity extends AppCompatActivity{
         final ViewPager viewPager = findViewById(R.id.view_pager);
         viewPager.setAdapter(sectionsPagerAdapter);
         tabs.setupWithViewPager(viewPager);
+
+        SharedPreferences preferences;
+        preferences = getApplicationContext().getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+        boolean filtersActive = preferences.getBoolean("FiltersActive", false);
+
+        if (filtersActive){
+            fab.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(getApplicationContext(), R.color.colorAccent)));
+        }else{
+            fab.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(getApplicationContext(), R.color.colorBeca)));
+        }
+
 
     }
 }
