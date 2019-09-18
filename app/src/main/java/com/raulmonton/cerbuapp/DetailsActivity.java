@@ -51,6 +51,7 @@ public class DetailsActivity extends AppCompatActivity {
         rowData = getIntent().getExtras().getParcelable("itemData");
 
         String nameText = rowData.getName() + " " + rowData.getSurname_1();
+        String nameText2 = rowData.getName() + " " + rowData.getSurname_1() + rowData.getSurname_2();
 
         ImageView becaImage = findViewById(R.id.becaView);
 
@@ -138,12 +139,27 @@ public class DetailsActivity extends AppCompatActivity {
         nameText = nameText.replace("ñ", "n");
         nameText = nameText.replace("-", "");
 
+        nameText2 = nameText2.replace(" ","");
+        nameText2 = nameText2.toLowerCase();
+        nameText2 = nameText2.replace("á", "a");
+        nameText2 = nameText2.replace("é", "e");
+        nameText2 = nameText2.replace("í", "i");
+        nameText2 = nameText2.replace("ó", "o");
+        nameText2 = nameText2.replace("ú", "u");
+        nameText2 = nameText2.replace("ü", "u");
+        nameText2 = nameText2.replace("ñ", "n");
+        nameText2 = nameText2.replace("-", "");
+
         String nameTextHRes = nameText.concat("hres");
         int resID = res.getIdentifier(nameTextHRes , "drawable", getPackageName());
         myImage.setImageResource(resID);
 
         if (resID == 0){
             resID = res.getIdentifier(nameText , "drawable", getPackageName());
+            myImage.setImageResource(resID);
+        }
+        if (resID == 0){
+            resID = res.getIdentifier(nameText2 , "drawable", getPackageName());
             myImage.setImageResource(resID);
         }
         if (resID == 0) {
