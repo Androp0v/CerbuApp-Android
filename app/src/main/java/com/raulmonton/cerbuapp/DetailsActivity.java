@@ -5,8 +5,10 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout;
 
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.database.SQLException;
 import android.os.Bundle;
@@ -17,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.material.snackbar.Snackbar;
+import static com.raulmonton.cerbuapp.MainActivity.MyPREFERENCES;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -69,7 +72,15 @@ public class DetailsActivity extends AppCompatActivity {
         }else{
             careerTextView.setText(rowData.getCareer());
             becaImage.setImageResource(0);
-            roomTextView.setText("");
+
+            final SharedPreferences preferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+            boolean showRooms = preferences.getBoolean("showRooms", false);
+
+            if (showRooms){
+                roomTextView.setText("Habitación: " + rowData.getRoom());
+            }else{
+                roomTextView.setText("");
+            }
         }
 
         final ImageView setFavorite = findViewById(R.id.setFavorite);

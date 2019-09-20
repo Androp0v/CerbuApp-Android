@@ -1,6 +1,7 @@
 package com.raulmonton.cerbuapp;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.database.SQLException;
 import android.util.Log;
@@ -18,6 +19,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.raulmonton.cerbuapp.MainActivity.MyPREFERENCES;
 
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyViewHolder> implements Filterable {
     private Context context;
@@ -251,6 +254,15 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
                                 approvedFlag = true;
                                 break;
                             }
+                        }
+                    }
+
+                    final SharedPreferences preferences = context.getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+                    boolean showRooms = preferences.getBoolean("showRooms", false);
+
+                    if (showRooms){
+                        if (List.get(i).getRoom().toLowerCase().startsWith(splitedFilterStrings[j])){
+                            approvedFlag = true;
                         }
                     }
 
