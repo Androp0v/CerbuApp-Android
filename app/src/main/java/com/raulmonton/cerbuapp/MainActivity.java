@@ -79,6 +79,15 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        LinearLayout magazineLayout = findViewById(R.id.magazineLayout);
+        magazineLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent magazineIntent = new Intent(MainActivity.this, MagazineActivity.class);
+                startActivity(magazineIntent);
+            }
+        });
+
         LinearLayout notificationsLayout = findViewById(R.id.notificationLayout);
         notificationsLayout.setOnClickListener(new View.OnClickListener() {
             @Override

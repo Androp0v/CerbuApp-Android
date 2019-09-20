@@ -149,6 +149,7 @@ tools:showIn="@layout/activity_main">
         android:background="@color/colorSeparator" />
 
     <LinearLayout
+        android:id="@+id/magazineLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?attr/selectableItemBackground"
