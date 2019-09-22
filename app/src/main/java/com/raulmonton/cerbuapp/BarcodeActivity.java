@@ -19,6 +19,7 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.ImageView;
 
 import java.io.FileInputStream;
@@ -31,6 +32,8 @@ public class BarcodeActivity extends AppCompatActivity {
     private static final int PICK_FROM_GALLERY = 3;
     Uri imageUri;
     ImageView barcode;
+    Boolean invited = false;
+    Button changeInvited;
 
     public static void saveFile(Context context, Bitmap b, String picName){
         FileOutputStream fos;
@@ -80,9 +83,35 @@ public class BarcodeActivity extends AppCompatActivity {
         layout.screenBrightness = 1F;
         getWindow().setAttributes(layout);
 
+        //Button to change invite
+        changeInvited = findViewById(R.id.invitadoButton);
+        if (!invited){
+            changeInvited.setText("Mostrar código de invitado");
+        }else{
+            changeInvited.setText("Mostrar código de colegial");
+        }
+
+        changeInvited.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                invited = !invited;
+                if (!invited){
+                    changeInvited.setText("Mostrar código de invitado");
+                    barcode.setImageBitmap(loadBitmap(getApplicationContext(),"barcodeSaved"));
+                }else{
+                    changeInvited.setText("Mostrar código de colegial");
+                    barcode.setImageBitmap(loadBitmap(getApplicationContext(),"barcodeinvitedSaved"));
+                }
+            }
+        });
+
         //Try to load barcode and set OnClickListener to import/change it
         barcode = findViewById(R.id.barcodeImageView);
-        barcode.setImageBitmap(loadBitmap(getApplicationContext(),"barcodeSaved"));
+        if (!invited){
+            barcode.setImageBitmap(loadBitmap(getApplicationContext(),"barcodeSaved"));
+        }else{
+            barcode.setImageBitmap(loadBitmap(getApplicationContext(),"barcodeinvitedSaved"));
+        }
         barcode.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -121,9 +150,16 @@ public class BarcodeActivity extends AppCompatActivity {
         super.onActivityResult(requestCode,resultCode,data);
         if (requestCode == PICK_FROM_GALLERY && null != data) {
             imageUri = data.getData();
-            barcode.setImageURI(imageUri);
-            Bitmap bitmap = ((BitmapDrawable)barcode.getDrawable()).getBitmap();
-            saveFile(getApplicationContext(),bitmap,"barcodeSaved");
+            if (!invited){
+                barcode.setImageURI(imageUri);
+                Bitmap bitmap = ((BitmapDrawable)barcode.getDrawable()).getBitmap();
+                saveFile(getApplicationContext(),bitmap,"barcodeSaved");
+            }else{
+                barcode.setImageURI(imageUri);
+                Bitmap bitmap = ((BitmapDrawable)barcode.getDrawable()).getBitmap();
+                saveFile(getApplicationContext(),bitmap,"barcodeInvitedSaved");
+            }
+
         }
     }
 }
