@@ -70,6 +70,15 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        LinearLayout barcodeLayout = findViewById(R.id.barcodeLayout);
+        barcodeLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent barcodeIntent = new Intent(MainActivity.this, BarcodeActivity.class);
+                startActivity(barcodeIntent);
+            }
+        });
+
         LinearLayout menuLayout = findViewById(R.id.menuLayout);
         menuLayout.setOnClickListener(new View.OnClickListener() {
             @Override
