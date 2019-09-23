@@ -56,8 +56,8 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
         Log.i("MyTag", "onUpgrade() called");
-//        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + table_name);
-//        onCreate(sqLiteDatabase);
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + table_name);
+        onCreate(sqLiteDatabase);
     }
 
     public void createDataBase() throws IOException {

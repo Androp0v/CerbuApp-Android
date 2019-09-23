@@ -162,9 +162,16 @@ public class DetailsActivity extends AppCompatActivity {
         nameText2 = nameText2.replace("-", "");
 
         String nameTextHRes = nameText.concat("hres");
+        String nameTextHRes2 = nameText2.concat("hres");
+
         int resID = res.getIdentifier(nameTextHRes , "drawable", getPackageName());
+
         myImage.setImageResource(resID);
 
+        if (resID == 0){
+            resID = res.getIdentifier(nameTextHRes2 , "drawable", getPackageName());
+            myImage.setImageResource(resID);
+        }
         if (resID == 0){
             resID = res.getIdentifier(nameText , "drawable", getPackageName());
             myImage.setImageResource(resID);
