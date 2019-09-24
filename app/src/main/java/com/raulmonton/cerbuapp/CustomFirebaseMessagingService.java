@@ -2,7 +2,9 @@ package com.raulmonton.cerbuapp;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.util.Log;
@@ -44,15 +46,23 @@ public class CustomFirebaseMessagingService extends FirebaseMessagingService {
 
         createNotificationChannel();
 
+        Intent intent = new Intent(this, NotificationsActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
+
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_notification)
                 .setContentTitle(messageTitle)
                 .setContentText(messageContent)
                 .setStyle(new NotificationCompat.BigTextStyle().bigText(messageContent))
-                .setPriority(NotificationCompat.PRIORITY_HIGH);
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setContentIntent(pendingIntent)
+                .setVibrate(new long[0]);
 
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
         notificationManager.notify(1, builder.build());
 
+        NotificationsDatabaseHelper notificationsDatabaseHelper = new NotificationsDatabaseHelper(CustomFirebaseMessagingService.this);
+        notificationsDatabaseHelper.addMessage(messageTitle,messageContent);
     }
 }
