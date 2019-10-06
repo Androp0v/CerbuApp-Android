@@ -101,6 +101,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
         LinearLayout notificationsLayout = findViewById(R.id.notificationLayout);
         notificationsLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -109,6 +110,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(menuIntent);
             }
         });
+
     }
 
     @Override

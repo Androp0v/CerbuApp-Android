@@ -30,11 +30,10 @@ public class NotificationsRecyclerAdapter extends RecyclerView.Adapter<Notificat
         }
     }
 
-    public NotificationsRecyclerAdapter(Context context, List<String> titles, List<String> messages, NotificationsDatabaseHelper dbhelper){
+    public NotificationsRecyclerAdapter(Context context, List<String> titles, List<String> messages){
         this.context = context;
         this.titleList = titles;
         this.messageList = messages;
-        this.notificationDatabaseHelper = dbhelper;
     }
 
     @NonNull
@@ -56,6 +55,10 @@ public class NotificationsRecyclerAdapter extends RecyclerView.Adapter<Notificat
 
     @Override
     public int getItemCount() {
-        return titleList.size();
+        if (titleList != null) {
+            return titleList.size();
+        }else{
+            return 0;
+        }
     }
 }
