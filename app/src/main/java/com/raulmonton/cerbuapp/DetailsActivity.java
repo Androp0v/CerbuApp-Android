@@ -2,27 +2,26 @@ package com.raulmonton.cerbuapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import androidx.core.content.ContextCompat;
 
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.database.SQLException;
+import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.View;
 import android.view.animation.BounceInterpolator;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.google.android.material.snackbar.Snackbar;
 import static com.raulmonton.cerbuapp.MainActivity.MyPREFERENCES;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 public class DetailsActivity extends AppCompatActivity {
 
@@ -30,6 +29,7 @@ public class DetailsActivity extends AppCompatActivity {
     private boolean changedFlag = false;
     private Data rowData;
     private CoordinatorLayout coordinatorLayout;
+    private LinearLayout rootLayout;
 
     @Override
     public void onBackPressed() {
@@ -50,6 +50,7 @@ public class DetailsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_details);
 
         coordinatorLayout = findViewById(R.id.coordinatorLayout);
+        rootLayout = findViewById(R.id.rootLayout);
 
         rowData = getIntent().getExtras().getParcelable("itemData");
 
@@ -89,6 +90,9 @@ public class DetailsActivity extends AppCompatActivity {
             setFavorite.setImageResource(R.drawable.ic_favorites);
         }else{
             setFavorite.setImageResource(R.drawable.ic_favorites_unselected);
+            if (rowData.getName().equals("Raúl") && rowData.getSurname_1().equals("Montón")){
+                setFavorite.setImageResource(R.drawable.ic_favorites_unselected_white);
+            }
         }
 
         setFavorite.setClickable(true);
@@ -112,6 +116,9 @@ public class DetailsActivity extends AppCompatActivity {
 
                 if (rowData.getLiked() == 1) {
                     setFavorite.setImageResource(R.drawable.ic_favorites_unselected);
+                    if (rowData.getName().equals("Raúl") && rowData.getSurname_1().equals("Montón")){
+                        setFavorite.setImageResource(R.drawable.ic_favorites_unselected_white);
+                    }
                     rowData.setLiked(0);
                     databaseHelper.setLikedOnDatabase(rowData.getId(), 0);
 
@@ -182,6 +189,14 @@ public class DetailsActivity extends AppCompatActivity {
         }
         if (resID == 0) {
             myImage.setImageResource(R.drawable.nohres);
+        }
+
+        if (rowData.getName().equals("Raúl") && rowData.getSurname_1().equals("Montón")){
+            rootLayout.setBackgroundColor(Color.BLACK);
+            nameTextView.setTextColor(Color.WHITE);
+            careerTextView.setTextColor(Color.WHITE);
+            roomTextView.setTextColor(Color.WHITE);
+            getWindow().setStatusBarColor(ContextCompat.getColor(getApplicationContext(), R.color.colorRaulBackground));
         }
     }
 }
