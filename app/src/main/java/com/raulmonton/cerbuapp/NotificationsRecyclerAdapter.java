@@ -16,7 +16,6 @@ public class NotificationsRecyclerAdapter extends RecyclerView.Adapter<Notificat
     private Context context;
     private List<String> titleList;
     private List<String> messageList;
-    private NotificationsDatabaseHelper notificationDatabaseHelper;
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
@@ -51,6 +50,7 @@ public class NotificationsRecyclerAdapter extends RecyclerView.Adapter<Notificat
 
         holder.title.setText(title);
         holder.message.setText(message);
+        holder.message.setLinksClickable(true);
     }
 
     @Override

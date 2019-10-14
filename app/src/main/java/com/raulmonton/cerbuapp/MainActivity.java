@@ -1,5 +1,7 @@
 package com.raulmonton.cerbuapp;
 
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -12,10 +14,12 @@ import com.google.firebase.messaging.FirebaseMessaging;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.cardview.widget.CardView;
 
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.animation.BounceInterpolator;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ShareActionProvider;
@@ -54,7 +58,8 @@ public class MainActivity extends AppCompatActivity {
         editor.apply();
 
 
-        ImageView orlaImageView = findViewById(R.id.orlaImageView);
+        final ImageView orlaImageView = findViewById(R.id.orlaImageView);
+        final CardView cardView = findViewById(R.id.cardView);
         orlaImageView.setClickable(true);
         orlaImageView.setOnClickListener(new View.OnClickListener() {
 
@@ -62,6 +67,15 @@ public class MainActivity extends AppCompatActivity {
 
                 Intent intent = new Intent(V.getContext(), TabActivity.class);
                 startActivityForResult(intent, 0);
+
+                ObjectAnimator animX = ObjectAnimator.ofFloat(cardView, "scaleX", 0.98f, 1.0f);
+                ObjectAnimator animY = ObjectAnimator.ofFloat(cardView, "scaleY", 0.98f, 1.0f);
+                AnimatorSet animSetXY = new AnimatorSet();
+                animSetXY.playTogether(animX, animY);
+
+                animSetXY.setDuration(250);
+                animSetXY.setInterpolator(new BounceInterpolator());
+                animSetXY.start();
             }
         });
 

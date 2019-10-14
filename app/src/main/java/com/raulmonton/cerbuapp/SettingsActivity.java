@@ -34,13 +34,17 @@ public class SettingsActivity extends AppCompatActivity {
 
         Switch orderSwitch = findViewById(R.id.orderSwitch);
         final Switch roomSwitch = findViewById(R.id.roomsSwitch);
+        final Switch notifsSwitch = findViewById(R.id.notifSwitch);
         final ImageView lockImage = findViewById(R.id.lockImageView);
+        final ImageView lockImageNotifs = findViewById(R.id.lockNotifImageView);
 
         final SharedPreferences preferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
 
         final boolean becaUnlocked = preferences.getBoolean("becaUnlocked", false);
+        final boolean notifsUnlocked = preferences.getBoolean("notifsUnlocked", false);
         boolean switchSavedState = preferences.getBoolean("nameFirst", true);
         boolean roomSwitchSavedState = preferences.getBoolean("showRooms", false);
+        boolean notifsSwitchSavedState = preferences.getBoolean("showNotifs", false);
 
         if (switchSavedState){
             orderSwitch.setChecked(false);
@@ -56,6 +60,13 @@ public class SettingsActivity extends AppCompatActivity {
             roomSwitch.setChecked(false);
         }
 
+        if (notifsSwitchSavedState){
+            notifsSwitch.setChecked(true);
+        }
+        else {
+            notifsSwitch.setChecked(false);
+        }
+
         if (becaUnlocked){
             roomSwitch.setEnabled(true);
             lockImage.setImageResource(R.drawable.ic_lock_open);
@@ -64,6 +75,16 @@ public class SettingsActivity extends AppCompatActivity {
         else {
             roomSwitch.setEnabled(false);
             lockImage.setImageResource(R.drawable.ic_lock);
+        }
+
+        if (notifsUnlocked){
+            notifsSwitch.setEnabled(true);
+            lockImageNotifs.setImageResource(R.drawable.ic_lock_open);
+            lockImageNotifs.setClickable(false);
+        }
+        else {
+            notifsSwitch.setEnabled(false);
+            lockImageNotifs.setImageResource(R.drawable.ic_lock);
         }
 
         orderSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -100,6 +121,26 @@ public class SettingsActivity extends AppCompatActivity {
 
                     SharedPreferences.Editor editor = preferences.edit();
                     editor.putBoolean("showRooms",false);
+                    editor.apply();
+
+                }
+            }
+        });
+
+        notifsSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean bChecked) {
+
+                if (bChecked) {
+
+                    SharedPreferences.Editor editor = preferences.edit();
+                    editor.putBoolean("showNotifs",true);
+                    editor.apply();
+
+                } else {
+
+                    SharedPreferences.Editor editor = preferences.edit();
+                    editor.putBoolean("showNotifs",false);
                     editor.apply();
 
                 }
@@ -143,6 +184,45 @@ public class SettingsActivity extends AppCompatActivity {
                     builder.show();
                 }
                 }
+        });
+
+        lockImageNotifs.setClickable(true);
+        lockImageNotifs.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!notifsUnlocked){
+
+                    AlertDialog.Builder builder = new AlertDialog.Builder(SettingsActivity.this);
+                    builder.setMessage("Introduce la contraseña").setTitle("Contraseña");
+
+                    final EditText input = new EditText(SettingsActivity.this);
+                    input.setPadding(24,24,24,24);
+                    input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                    builder.setView(input);
+
+                    builder.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            String inputText = input.getText().toString();
+                            if (inputText.equals("Tungsteno")){
+                                SharedPreferences.Editor editor = preferences.edit();
+                                editor.putBoolean("notifsUnlocked",true);
+                                editor.apply();
+                                notifsSwitch.setEnabled(true);
+                                lockImageNotifs.setImageResource(R.drawable.ic_lock_open);
+                            }
+                        }
+                    });
+
+                    builder.setNeutralButton("Cancelar", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.cancel();
+                        }
+                    });
+
+                    builder.show();
+                }
+            }
         });
 
 
