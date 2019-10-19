@@ -68,14 +68,21 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(V.getContext(), TabActivity.class);
                 startActivityForResult(intent, 0);
 
-                ObjectAnimator animX = ObjectAnimator.ofFloat(cardView, "scaleX", 0.98f, 1.0f);
-                ObjectAnimator animY = ObjectAnimator.ofFloat(cardView, "scaleY", 0.98f, 1.0f);
+                /*ObjectAnimator animX = ObjectAnimator.ofFloat(cardView, "scaleX", 1.0f, 0.98f);
+                ObjectAnimator animY = ObjectAnimator.ofFloat(cardView, "scaleY", 1.0f, 0.98f);
                 AnimatorSet animSetXY = new AnimatorSet();
                 animSetXY.playTogether(animX, animY);
-
-                animSetXY.setDuration(250);
+                animSetXY.setDuration(125);
                 animSetXY.setInterpolator(new BounceInterpolator());
                 animSetXY.start();
+
+                animX = ObjectAnimator.ofFloat(cardView, "scaleX", 0.98f, 1.0f);
+                animY = ObjectAnimator.ofFloat(cardView, "scaleY", 0.98f, 1.0f);
+                animSetXY = new AnimatorSet();
+                animSetXY.playTogether(animX, animY);
+                animSetXY.setDuration(125);
+                animSetXY.setInterpolator(new BounceInterpolator());
+                animSetXY.start();*/
             }
         });
 

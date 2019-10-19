@@ -38,6 +38,7 @@ public class CustomFirebaseMessagingService extends FirebaseMessagingService {
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
+        /*
         String messageTitle = remoteMessage.getData().get("title");
         String messageContent = remoteMessage.getData().get("message");
 
@@ -64,5 +65,6 @@ public class CustomFirebaseMessagingService extends FirebaseMessagingService {
 
         NotificationsDatabaseHelper notificationsDatabaseHelper = new NotificationsDatabaseHelper(CustomFirebaseMessagingService.this);
         notificationsDatabaseHelper.addMessage(messageTitle,messageContent);
+        */
     }
 }
