@@ -17,6 +17,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.io.IOException;
+import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -119,7 +120,6 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
 
         Resources res = context.getResources();
         String nameText = rowData.getName() + rowData.getSurname_1();
-        String nameText2 = rowData.getName() + rowData.getSurname_1() + rowData.getSurname_2();
 
         nameText = nameText.replace(" ","");
         nameText = nameText.toLowerCase();
@@ -132,25 +132,21 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
         nameText = nameText.replace("ñ", "n");
         nameText = nameText.replace("-", "");
 
-        nameText2 = nameText2.replace(" ","");
-        nameText2 = nameText2.toLowerCase();
-        nameText2 = nameText2.replace("á", "a");
-        nameText2 = nameText2.replace("é", "e");
-        nameText2 = nameText2.replace("í", "i");
-        nameText2 = nameText2.replace("ó", "o");
-        nameText2 = nameText2.replace("ú", "u");
-        nameText2 = nameText2.replace("ü", "u");
-        nameText2 = nameText2.replace("ñ", "n");
-        nameText2 = nameText2.replace("-", "");
-
         int resID = res.getIdentifier(nameText , "drawable", context.getPackageName());
         holder.icon.setImageResource(resID);
 
         if (resID == 0){
-            resID = res.getIdentifier(nameText , "drawable", context.getPackageName());
-            holder.icon.setImageResource(resID);
-        }
-        if (resID == 0){
+            String nameText2 = rowData.getName() + rowData.getSurname_1() + rowData.getSurname_2();
+            nameText2 = nameText2.replace(" ","");
+            nameText2 = nameText2.toLowerCase();
+            nameText2 = nameText2.replace("á", "a");
+            nameText2 = nameText2.replace("é", "e");
+            nameText2 = nameText2.replace("í", "i");
+            nameText2 = nameText2.replace("ó", "o");
+            nameText2 = nameText2.replace("ú", "u");
+            nameText2 = nameText2.replace("ü", "u");
+            nameText2 = nameText2.replace("ñ", "n");
+            nameText2 = nameText2.replace("-", "");
             resID = res.getIdentifier(nameText2 , "drawable", context.getPackageName());
             holder.icon.setImageResource(resID);
         }
