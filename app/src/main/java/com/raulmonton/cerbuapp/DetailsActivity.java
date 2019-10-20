@@ -6,13 +6,18 @@ import androidx.core.content.ContextCompat;
 
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.database.SQLException;
 import android.graphics.Color;
+import android.graphics.Rect;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.MotionEvent;
+import android.view.ScaleGestureDetector;
 import android.view.View;
 import android.view.animation.BounceInterpolator;
 import android.widget.ImageView;
@@ -31,6 +36,20 @@ public class DetailsActivity extends AppCompatActivity {
     private CoordinatorLayout coordinatorLayout;
     private LinearLayout rootLayout;
 
+    private ScaleGestureDetector mScaleGestureDetector;
+    private float mScaleFactor = 1.0f;
+    private ImageView detailedImage;
+
+    // Where the finger first  touches the screen
+    private float startX = 0f;
+    private float startY = 0f;
+
+    // How much to translate the canvas
+    private float dx = 0f;
+    private float dy = 0f;
+    private float prevDx = 0f;
+    private float prevDy = 0f;
+
     @Override
     public void onBackPressed() {
         if (changedFlag){
@@ -42,6 +61,26 @@ public class DetailsActivity extends AppCompatActivity {
             setResult(RESULT_CANCELED, new Intent());
         }
         finish();
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent motionEvent) {
+
+        if(motionEvent.getAction() != MotionEvent.ACTION_UP){
+            mScaleGestureDetector.onTouchEvent(motionEvent);
+        }
+        if(motionEvent.getAction() == MotionEvent.ACTION_UP || motionEvent.getAction() == MotionEvent.ACTION_CANCEL){
+            mScaleFactor = 1.0f;
+            ObjectAnimator animX = ObjectAnimator.ofFloat(detailedImage, "scaleX", mScaleFactor, 1.0f);
+            ObjectAnimator animY = ObjectAnimator.ofFloat(detailedImage, "scaleY", mScaleFactor, 1.0f);
+            AnimatorSet animSetXY = new AnimatorSet();
+            animSetXY.playTogether(animX, animY);
+            animSetXY.setDuration(300);
+            animSetXY.setInterpolator(new BounceInterpolator());
+            animSetXY.start();
+        }
+
+        return true;
     }
 
     @Override
@@ -142,7 +181,9 @@ public class DetailsActivity extends AppCompatActivity {
             }
         });
 
-        ImageView myImage = findViewById(R.id.detailedImageView);
+        detailedImage = findViewById(R.id.detailedImageView);
+
+        mScaleGestureDetector = new ScaleGestureDetector(this, new ScaleListener());
 
         Resources res = getResources();
 
@@ -173,22 +214,22 @@ public class DetailsActivity extends AppCompatActivity {
 
         int resID = res.getIdentifier(nameTextHRes , "drawable", getPackageName());
 
-        myImage.setImageResource(resID);
+        detailedImage.setImageResource(resID);
 
         if (resID == 0){
             resID = res.getIdentifier(nameTextHRes2 , "drawable", getPackageName());
-            myImage.setImageResource(resID);
+            detailedImage.setImageResource(resID);
         }
         if (resID == 0){
             resID = res.getIdentifier(nameText , "drawable", getPackageName());
-            myImage.setImageResource(resID);
+            detailedImage.setImageResource(resID);
         }
         if (resID == 0){
             resID = res.getIdentifier(nameText2 , "drawable", getPackageName());
-            myImage.setImageResource(resID);
+            detailedImage.setImageResource(resID);
         }
         if (resID == 0) {
-            myImage.setImageResource(R.drawable.nohres);
+            detailedImage.setImageResource(R.drawable.nohres);
         }
 
         if (rowData.getName().equals("Raúl") && rowData.getSurname_1().equals("Montón")){
@@ -199,4 +240,22 @@ public class DetailsActivity extends AppCompatActivity {
             getWindow().setStatusBarColor(ContextCompat.getColor(getApplicationContext(), R.color.colorRaulBackground));
         }
     }
+
+    private class ScaleListener extends ScaleGestureDetector.SimpleOnScaleGestureListener {
+        @Override
+        public boolean onScale(ScaleGestureDetector scaleGestureDetector){
+            mScaleFactor *= scaleGestureDetector.getScaleFactor();
+            mScaleFactor = Math.max(1.0f, Math.min(mScaleFactor, 10.0f));
+            detailedImage.setScaleX(mScaleFactor);
+            detailedImage.setScaleY(mScaleFactor);
+
+            float focusX = scaleGestureDetector.getFocusX();
+            float focusY = scaleGestureDetector.getFocusY();
+
+            detailedImage.setPivotX(focusX);  // default is to pivot at view center
+            detailedImage.setPivotY(focusY);  // default is to pivot at view center
+            return true;
+        }
+    }
+
 }
