@@ -45,10 +45,63 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/comedorTextView"
+                android:id="@+id/comedorTitleTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Comedor" />
+                android:fontWeight="700"
+                android:paddingLeft="18dp"
+                android:paddingTop="12dp"
+                android:text="Comedor"
+                android:textColor="@color/colorLabelPrimary"
+                android:textSize="28dp" />
+
+            <ProgressBar
+                android:id="@+id/comedorProgressbar"
+                style="@style/CustomProgressbarStyle"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_marginStart="18dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="18dp"
+                android:progress="25"
+                android:theme="@style/CustomProgressbarStyle"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/progressBar3" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingStart="18dp"
+                android:paddingEnd="18dp">
+
+                <TextView
+                    android:id="@+id/comedorTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="10"
+                    android:gravity="end"
+                    android:paddingEnd="4dp"
+                    android:text="Lleno o casi lleno"
+                    android:textAlignment="textEnd" />
+
+                <Button
+                    android:id="@+id/button3"
+                    style="?android:attr/buttonStyleSmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="35dp"
+                    android:layout_weight="0.5"
+                    android:paddingLeft="0dp"
+                    android:paddingTop="0dp"
+                    android:paddingRight="0dp"
+                    android:paddingBottom="0dp"
+                    android:text="Info"
+                    app:cornerRadius="20dp"
+                    app:iconPadding="0dp" />
+
+            </LinearLayout>
+
 
         </LinearLayout>
 
