@@ -24,6 +24,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ShareActionProvider;
 
+import java.util.Calendar;
+import java.util.TimeZone;
+
 public class MainActivity extends AppCompatActivity {
 
     public static final String MyPREFERENCES = "AppPreferences";
@@ -57,9 +60,20 @@ public class MainActivity extends AppCompatActivity {
 
         editor.apply();
 
-
         final ImageView orlaImageView = findViewById(R.id.orlaImageView);
         final CardView cardView = findViewById(R.id.cardView);
+
+        Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
+        if (calendar.get(Calendar.MONTH) == Calendar.DECEMBER){
+            if (calendar.get(Calendar.DAY_OF_MONTH) > 23){
+                orlaImageView.setImageResource(R.drawable.orlabackground_christmas);
+            }
+        }else if (calendar.get(Calendar.MONTH) == Calendar.JANUARY){
+            if (calendar.get(Calendar.DAY_OF_MONTH) < 7){
+                orlaImageView.setImageResource(R.drawable.orlabackground_christmas);
+            }
+        }
+
         orlaImageView.setClickable(true);
         orlaImageView.setOnClickListener(new View.OnClickListener() {
 
@@ -101,6 +115,15 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent barcodeIntent = new Intent(MainActivity.this, BarcodeActivity.class);
                 startActivity(barcodeIntent);
+            }
+        });
+
+        LinearLayout capacityLayout = findViewById(R.id.capacityLayout);
+        capacityLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent capacityIntent = new Intent(MainActivity.this, CapacityActivity.class);
+                startActivity(capacityIntent);
             }
         });
 

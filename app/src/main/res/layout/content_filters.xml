@@ -29,7 +29,8 @@
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="8dp">
+                android:layout_margin="8dp"
+                app:cardCornerRadius="8dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -39,11 +40,11 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:orientation="horizontal"
                         android:paddingStart="12dp"
                         android:paddingTop="12dp"
                         android:paddingEnd="12dp"
-                        android:paddingBottom="4dp"
-                        android:orientation="horizontal">
+                        android:paddingBottom="4dp">
 
                         <ImageView
                             android:layout_width="wrap_content"
@@ -63,11 +64,11 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:orientation="horizontal"
                         android:paddingStart="12dp"
                         android:paddingTop="4dp"
                         android:paddingEnd="12dp"
-                        android:paddingBottom="12dp"
-                        android:orientation="horizontal">
+                        android:paddingBottom="12dp">
 
                         <ImageView
                             android:layout_width="wrap_content"
@@ -98,7 +99,8 @@
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="8dp">
+                android:layout_margin="8dp"
+                app:cardCornerRadius="8dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -150,7 +152,8 @@
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="8dp">
+                android:layout_margin="8dp"
+                app:cardCornerRadius="8dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"

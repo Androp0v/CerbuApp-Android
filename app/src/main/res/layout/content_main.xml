@@ -186,6 +186,43 @@ tools:showIn="@layout/activity_main">
             android:background="@color/colorSeparator" />
 
         <LinearLayout
+            android:id="@+id/capacityLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true"
+            android:orientation="horizontal"
+            android:paddingStart="48dp"
+            android:paddingTop="10dp"
+            android:paddingEnd="48dp"
+            android:paddingBottom="10dp">
+
+            <ImageView
+                android:id="@+id/capacityImageView"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:scaleType="centerCrop"
+                app:srcCompat="@drawable/ic_capacity" />
+
+            <TextView
+                android:id="@+id/capacityTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:paddingStart="20dp"
+                android:text="Aforos"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginStart="88dp"
+            android:layout_marginEnd="48dp"
+            android:background="@color/colorSeparator" />
+
+        <LinearLayout
             android:id="@+id/magazineLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

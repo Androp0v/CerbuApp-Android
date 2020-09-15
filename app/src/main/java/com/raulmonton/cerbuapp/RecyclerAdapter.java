@@ -2,8 +2,8 @@ package com.raulmonton.cerbuapp;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.content.res.Resources;
-import android.database.SQLException;
+import android.graphics.drawable.ColorDrawable;
+import android.os.AsyncTask;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,18 +15,16 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
-import java.io.IOException;
-import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.raulmonton.cerbuapp.LoadImageAsync;
 
 import static com.raulmonton.cerbuapp.MainActivity.MyPREFERENCES;
 
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyViewHolder> implements Filterable {
     private Context context;
     private List<Data> List;
-    private DatabaseHelper databaseHelper;
     private List<Data> FilteredList;
     private OnRowListener myOnRowListener;
 
@@ -48,6 +46,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
         public TextView career;
         public ImageView attributes;
         public ImageView icon;
+        public LoadImageAsync localTask;
 
         OnRowListener myOnRowListener;
 
@@ -57,6 +56,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
             career = itemView.findViewById(R.id.career);
             attributes = itemView.findViewById(R.id.attributes);
             icon = itemView.findViewById(R.id.detailedImageView);
+            localTask = null;
             this.myOnRowListener = myOnRowListener;
 
             itemView.setOnClickListener(this);
@@ -67,10 +67,9 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
             myOnRowListener.onRowClick(getAdapterPosition());
         }
     }
-    public RecyclerAdapter(Context context, ArrayList<Data> List, DatabaseHelper dbhelper, OnRowListener myOnRowListener){
+    public RecyclerAdapter(Context context, ArrayList<Data> List, OnRowListener myOnRowListener){
         this.context = context;
         this.List = List;
-        this.databaseHelper = dbhelper;
         this.FilteredList = List;
         this.myOnRowListener = myOnRowListener;
     }
@@ -92,6 +91,18 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
     public void onBindViewHolder(@NonNull MyViewHolder holder, final int position) {
 
         Data rowData = FilteredList.get(position);
+
+        //Async handling of setting icon photos
+        try{
+            holder.localTask.cancel(true);
+        } catch (NullPointerException e){
+            //Pass
+        }
+        holder.icon.setImageDrawable(new ColorDrawable(0xFFFFFFFF));
+        holder.localTask = new LoadImageAsync(holder.icon, context);
+        holder.localTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, rowData);
+
+        //Other ViewHolder rebinding...
         String displayName = rowData.getName() + " " + rowData.getSurname_1() + " " + rowData.getSurname_2();
         holder.name.setText(displayName);
 
@@ -117,11 +128,11 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
 
         }
 
-
-        Resources res = context.getResources();
+        /*Resources res = context.getResources();
         String nameText = rowData.getName() + rowData.getSurname_1();
 
         nameText = nameText.replace(" ","");
+        nameText = nameText.replace("-", "");
         nameText = nameText.toLowerCase();
         nameText = nameText.replace("á", "a");
         nameText = nameText.replace("é", "e");
@@ -130,7 +141,6 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
         nameText = nameText.replace("ú", "u");
         nameText = nameText.replace("ü", "u");
         nameText = nameText.replace("ñ", "n");
-        nameText = nameText.replace("-", "");
 
         int resID = res.getIdentifier(nameText , "drawable", context.getPackageName());
         holder.icon.setImageResource(resID);
@@ -138,6 +148,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
         if (resID == 0){
             String nameText2 = rowData.getName() + rowData.getSurname_1() + rowData.getSurname_2();
             nameText2 = nameText2.replace(" ","");
+            nameText2 = nameText2.replace("-", "");
             nameText2 = nameText2.toLowerCase();
             nameText2 = nameText2.replace("á", "a");
             nameText2 = nameText2.replace("é", "e");
@@ -146,13 +157,12 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
             nameText2 = nameText2.replace("ú", "u");
             nameText2 = nameText2.replace("ü", "u");
             nameText2 = nameText2.replace("ñ", "n");
-            nameText2 = nameText2.replace("-", "");
             resID = res.getIdentifier(nameText2 , "drawable", context.getPackageName());
             holder.icon.setImageResource(resID);
         }
         if (resID == 0) {
-            holder.icon.setImageResource(R.drawable.nohres);
-        }
+            holder.icon.setImageResource(R.drawable.no);
+        }*/
     }
 
     public Data getItem(int position) {
@@ -203,10 +213,29 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
 
             for (int i = 0; i < List.size(); i++){
 
-                filterableName = List.get(i).getName().toLowerCase();
-                filterableSurname_1 = List.get(i).getSurname_1().toLowerCase();
-                filterableSurname_2 = List.get(i).getSurname_2().toLowerCase();
-                filterableCareer = List.get(i).getCareer().toLowerCase();
+                try{
+                    filterableName = List.get(i).getName().toLowerCase();
+                }catch (Exception e){
+                    filterableName = "";
+                }
+
+                try{
+                    filterableSurname_1 = List.get(i).getSurname_1().toLowerCase();
+                }catch (Exception e){
+                    filterableSurname_1 = "";
+                }
+
+                try{
+                    filterableSurname_2 = List.get(i).getSurname_2().toLowerCase();
+                }catch (Exception e){
+                    filterableSurname_2 = "";
+                }
+
+                try{
+                    filterableCareer = List.get(i).getCareer().toLowerCase();
+                }catch (Exception e){
+                    filterableCareer = "";
+                }
 
                 try{
                     filterableBeca = List.get(i).getBeca().toLowerCase();
