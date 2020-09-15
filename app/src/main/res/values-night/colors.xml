@@ -8,4 +8,8 @@
     <color name="colorSeparator">#313131</color>
     <color name="colorLabelPrimary">#FFFFFF</color>
     <color name="colorRaulBackground">#090A0C</color>
+    <color name="progressbarGREEN">#30D158</color>
+    <color name="progressbarYELLOW">#FFD60A</color>
+    <color name="progressbarORANGE">#FF9F0A</color>
+    <color name="progressbarRED">#FF453A</color>
 </resources>
