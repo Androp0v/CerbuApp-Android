@@ -8,6 +8,8 @@ import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.animation.Animation;
+import android.view.animation.Transformation;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -26,6 +28,10 @@ public class CapacityActivity extends AppCompatActivity {
     private double comedorFractionNumber = 0.0;
     private double salaDeLecturaFractionNumber = 0.0;
     private double bibliotecaFractionNumber = 0.0;
+
+    private double comedorFractionNumberOld = 0.0;
+    private double salaDeLecturaFractionNumberOld = 0.0;
+    private double bibliotecaFractionNumberOld = 0.0;
 
     // UI elements
     private ProgressBar comedorProgressbar;
@@ -80,21 +86,62 @@ public class CapacityActivity extends AppCompatActivity {
 
     }
 
+    private static class ProgressBarAnimation extends Animation {
+        private ProgressBar progressBar;
+        private float from;
+        private float  to;
+
+        public ProgressBarAnimation(ProgressBar progressBar, float from, float to) {
+            super();
+            this.progressBar = progressBar;
+            this.from = from;
+            this.to = to;
+        }
+
+        @Override
+        protected void applyTransformation(float interpolatedTime, Transformation t) {
+            super.applyTransformation(interpolatedTime, t);
+            float value = from + (to - from) * interpolatedTime;
+            progressBar.setProgress((int) value);
+        }
+
+    }
+
     private void animateProgressBars(){
         // Set initial progressbar progress
         comedorProgressbar.setProgress((int) (comedorFractionNumber*100));
         salaDeLecturaProgressbar.setProgress((int) (salaDeLecturaFractionNumber*100));
         bibliotecaProgressbar.setProgress((int) (bibliotecaFractionNumber*100));
 
-        // Set initial progressbar colors
+        // Set progressbar colors
         comedorProgressbar.setProgressTintList(ColorStateList.valueOf(getProgressBarColor(comedorFractionNumber)));
         salaDeLecturaProgressbar.setProgressTintList(ColorStateList.valueOf(getProgressBarColor(salaDeLecturaFractionNumber)));
         bibliotecaProgressbar.setProgressTintList(ColorStateList.valueOf(getProgressBarColor(bibliotecaFractionNumber)));
 
-        // Set initial descriptions
+        // Set descriptions
         comedorDescription.setText(getDescriptionString(comedorFractionNumber));
         salaDeLecturaDescription.setText(getDescriptionString(salaDeLecturaFractionNumber));
         bibliotecaDescription.setText(getDescriptionString(bibliotecaFractionNumber));
+
+        // Progressbar animation
+        ProgressBarAnimation anim;
+        anim = new ProgressBarAnimation(comedorProgressbar,
+                (int)(comedorFractionNumberOld*100),
+                (int)(comedorFractionNumber*100));
+        anim.setDuration((long) (1000*(Math.abs(comedorFractionNumber - comedorFractionNumberOld))));
+        comedorProgressbar.startAnimation(anim);
+
+        anim = new ProgressBarAnimation(salaDeLecturaProgressbar,
+                (int)(salaDeLecturaFractionNumberOld*100),
+                (int)(salaDeLecturaFractionNumber*100));
+        anim.setDuration((long) (1000*(Math.abs(salaDeLecturaFractionNumber - salaDeLecturaFractionNumberOld))));
+        salaDeLecturaProgressbar.startAnimation(anim);
+
+        anim = new ProgressBarAnimation(bibliotecaProgressbar,
+                (int)(bibliotecaFractionNumberOld*100),
+                (int)(bibliotecaFractionNumber*100));
+        anim.setDuration((long) (1000*(Math.abs(bibliotecaFractionNumber - bibliotecaFractionNumberOld))));
+        bibliotecaProgressbar.startAnimation(anim);
     }
 
     @Override
@@ -121,6 +168,7 @@ public class CapacityActivity extends AppCompatActivity {
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("Capacities/Count");
 
         databaseReference.limitToFirst(10).addValueEventListener(new ValueEventListener() {
+
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
