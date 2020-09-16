@@ -3,16 +3,28 @@ package com.raulmonton.cerbuapp;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
 
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.Transformation;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -41,6 +53,8 @@ public class CapacityActivity extends AppCompatActivity {
     private TextView comedorDescription;
     private TextView salaDeLecturaDescription;
     private TextView bibliotecaDescription;
+
+    private FloatingActionButton qrScanButton;
 
     private int getProgressBarColor(Double fractionNumber){
         if (fractionNumber < 0.3){
@@ -142,6 +156,27 @@ public class CapacityActivity extends AppCompatActivity {
                 (int)(bibliotecaFractionNumber*100));
         anim.setDuration((long) (1000*(Math.abs(bibliotecaFractionNumber - bibliotecaFractionNumberOld))));
         bibliotecaProgressbar.startAnimation(anim);
+
+        // Save new fraction numbers
+        comedorFractionNumberOld = comedorFractionNumber;
+        salaDeLecturaFractionNumberOld = salaDeLecturaFractionNumber;
+        bibliotecaFractionNumberOld = bibliotecaFractionNumber;
+    }
+
+    public void showQRDialog(Activity activity){
+
+        final QRScanSheet dialog = new QRScanSheet(activity);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setCancelable(true);
+        dialog.setContentView(R.layout.bottom_sheet_qrscan);
+
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        lp.copyFrom(dialog.getWindow().getAttributes());
+        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+        lp.height = WindowManager.LayoutParams.MATCH_PARENT;
+        dialog.show();
+        dialog.getWindow().setAttributes(lp);
+
     }
 
     @Override
@@ -161,8 +196,21 @@ public class CapacityActivity extends AppCompatActivity {
         salaDeLecturaDescription = findViewById(R.id.salaDeLecturaTextView);
         bibliotecaDescription = findViewById(R.id.bibliotecaTextView);
 
-        // Initial UI
+        qrScanButton = findViewById(R.id.qrScanFAB);
+
+        // Initial progressbar UI
         animateProgressBars();
+
+        // Setup FAB
+
+        qrScanButton.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v)
+                    {
+                        showQRDialog(CapacityActivity.this);
+                    }
+                });
 
         // Observe for changes in the database
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("Capacities/Count");
