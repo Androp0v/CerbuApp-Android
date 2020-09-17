@@ -21,9 +21,11 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.Transformation;
+import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -44,6 +46,10 @@ public class CapacityActivity extends AppCompatActivity {
     private double comedorFractionNumberOld = 0.0;
     private double salaDeLecturaFractionNumberOld = 0.0;
     private double bibliotecaFractionNumberOld = 0.0;
+
+    private int comedorMaxCapacity = 0;
+    private int salaDeLecturaMaxCapacity = 0;
+    private int bibliotecaMaxCapacity = 0;
 
     // UI elements
     private ProgressBar comedorProgressbar;
@@ -100,7 +106,7 @@ public class CapacityActivity extends AppCompatActivity {
 
     }
 
-    private static class ProgressBarAnimation extends Animation {
+    static class ProgressBarAnimation extends Animation {
         private ProgressBar progressBar;
         private float from;
         private float  to;
@@ -161,6 +167,16 @@ public class CapacityActivity extends AppCompatActivity {
         comedorFractionNumberOld = comedorFractionNumber;
         salaDeLecturaFractionNumberOld = salaDeLecturaFractionNumber;
         bibliotecaFractionNumberOld = bibliotecaFractionNumber;
+
+        // Setup info buttons
+        Button comedorButton = findViewById(R.id.comedorInfo);
+        setUpDetailsButton(comedorButton,"Comedor");
+
+        Button salaDeLecturaButton = findViewById(R.id.salaDeLecturaInfo);
+        setUpDetailsButton(salaDeLecturaButton,"Sala de Lectura");
+
+        Button bibliotecaButton = findViewById(R.id.bibliotecaInfo);
+        setUpDetailsButton(bibliotecaButton,"Biblioteca");
     }
 
     public void showQRDialog(Activity activity){
@@ -177,6 +193,40 @@ public class CapacityActivity extends AppCompatActivity {
         dialog.show();
         dialog.getWindow().setAttributes(lp);
 
+    }
+
+    private void setUpDetailsButton(Button infoButton, final String roomName){
+
+        final double fractionNumber;
+        final int maxCapacity;
+
+        switch (roomName){
+            case "Comedor":
+                fractionNumber = comedorFractionNumber;
+                maxCapacity = comedorMaxCapacity;
+                break;
+            case "Sala de Lectura":
+                fractionNumber = salaDeLecturaFractionNumber;
+                maxCapacity = salaDeLecturaMaxCapacity;
+                break;
+            case "Biblioteca":
+                fractionNumber = bibliotecaFractionNumber;
+                maxCapacity = bibliotecaMaxCapacity;
+                break;
+            default:
+                fractionNumber = -1;
+                maxCapacity = -1;
+        }
+
+        infoButton.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v)
+                    {
+                        CapacityDetails bottomSheetFragment = new CapacityDetails(fractionNumber,maxCapacity,roomName);
+                        bottomSheetFragment.show(getSupportFragmentManager(), bottomSheetFragment.getTag());
+                    }
+                });
     }
 
     @Override
@@ -225,6 +275,7 @@ public class CapacityActivity extends AppCompatActivity {
                         if ((room != null ? room.Max : -1) == -1){
                             comedorFractionNumber = -1;
                         }else{
+                            comedorMaxCapacity = room.Max;
                             comedorFractionNumber = ((float) room.Current)/((float) room.Max);
                         }
                     }else if (Objects.equals(postSnapshot.getKey(), "SalaDeLectura")){
@@ -232,6 +283,7 @@ public class CapacityActivity extends AppCompatActivity {
                         if ((room != null ? room.Max : -1) == -1){
                             salaDeLecturaFractionNumber = -1;
                         }else{
+                            salaDeLecturaMaxCapacity = room.Max;
                             salaDeLecturaFractionNumber = ((float) room.Current)/((float) room.Max);
                         }
                     }else if (Objects.equals(postSnapshot.getKey(), "Biblioteca")){
@@ -239,6 +291,7 @@ public class CapacityActivity extends AppCompatActivity {
                         if ((room != null ? room.Max : -1) == -1){
                             bibliotecaFractionNumber = -1;
                         }else{
+                            bibliotecaMaxCapacity = room.Max;
                             bibliotecaFractionNumber = ((float) room.Current)/((float) room.Max);
                         }
                     }
@@ -253,6 +306,7 @@ public class CapacityActivity extends AppCompatActivity {
                 // ...
             }
         });
+
 
 
     }

@@ -89,7 +89,7 @@
                     android:textAlignment="textEnd" />
 
                 <Button
-                    android:id="@+id/button4"
+                    android:id="@+id/comedorInfo"
                     style="?android:attr/buttonStyleSmall"
                     android:layout_width="wrap_content"
                     android:layout_height="35dp"
@@ -147,7 +147,7 @@
                     android:textAlignment="textEnd" />
 
                 <Button
-                    android:id="@+id/button3"
+                    android:id="@+id/salaDeLecturaInfo"
                     style="?android:attr/buttonStyleSmall"
                     android:layout_width="wrap_content"
                     android:layout_height="35dp"
@@ -205,7 +205,7 @@
                     android:textAlignment="textEnd" />
 
                 <Button
-                    android:id="@+id/button5"
+                    android:id="@+id/bibliotecaInfo"
                     style="?android:attr/buttonStyleSmall"
                     android:layout_width="wrap_content"
                     android:layout_height="35dp"
