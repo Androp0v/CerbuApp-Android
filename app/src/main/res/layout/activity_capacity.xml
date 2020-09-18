@@ -46,16 +46,53 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/comedorTitleTextView"
+            <LinearLayout
+                android:id="@+id/linearLayout2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontWeight="700"
-                android:paddingLeft="18dp"
-                android:paddingTop="12dp"
-                android:text="Comedor"
-                android:textColor="@color/colorLabelPrimary"
-                android:textSize="28dp" />
+                android:layout_marginBottom="-18dp"
+                android:gravity="bottom"
+                android:orientation="horizontal"
+                android:paddingTop="18dp">
+
+                <TextView
+                    android:id="@+id/comedorTitleTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontWeight="700"
+                    android:paddingLeft="18dp"
+                    android:paddingTop="12dp"
+                    android:paddingRight="12dp"
+                    android:text="Comedor"
+                    android:textColor="@color/colorLabelPrimary"
+                    android:textSize="28dp"
+                    tools:layout_conversion_absoluteHeight="50dp"
+                    tools:layout_conversion_absoluteWidth="146dp"
+                    tools:layout_editor_absoluteX="0dp"
+                    tools:layout_editor_absoluteY="56dp" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/comedorChip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:text="Estás aquí"
+                    app:checkedIconVisible="false"
+                    app:chipIcon="@drawable/ic_location_pin"
+                    app:closeIconVisible="true"
+                    tools:layout_conversion_absoluteHeight="48dp"
+                    tools:layout_conversion_absoluteWidth="115dp" />
+
+                <TextView
+                    android:id="@+id/padding"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:layout_conversion_absoluteHeight="56dp"
+                    tools:layout_conversion_absoluteWidth="151dp"
+                    tools:layout_editor_absoluteX="260dp"
+                    tools:layout_editor_absoluteY="56dp" />
+
+            </LinearLayout>
 
             <ProgressBar
                 android:id="@+id/comedorProgressbar"
@@ -63,7 +100,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
                 android:layout_marginStart="18dp"
-                android:layout_marginTop="4dp"
                 android:layout_marginEnd="18dp"
                 android:progress="25"
                 android:theme="@style/CustomProgressbarStyle"
@@ -104,16 +140,44 @@
 
             </LinearLayout>
 
-            <TextView
-                android:id="@+id/salaDeLecturaTitleTextView"
+            <LinearLayout
+                android:id="@+id/linearLayout3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontWeight="700"
-                android:paddingLeft="18dp"
-                android:paddingTop="12dp"
-                android:text="Sala de Lectura"
-                android:textColor="@color/colorLabelPrimary"
-                android:textSize="28dp" />
+                android:layout_marginBottom="-22dp"
+                android:gravity="bottom"
+                android:orientation="horizontal"
+                android:paddingTop="18dp">
+
+                <TextView
+                    android:id="@+id/salaDeLecturaTitleTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontWeight="700"
+                    android:paddingLeft="18dp"
+                    android:paddingTop="12dp"
+                    android:paddingRight="12dp"
+                    android:text="Sala de Lectura"
+                    android:textColor="@color/colorLabelPrimary"
+                    android:textSize="28dp"
+                    tools:layout_conversion_absoluteHeight="50dp"
+                    tools:layout_conversion_absoluteWidth="146dp"
+                    tools:layout_editor_absoluteX="0dp"
+                    tools:layout_editor_absoluteY="56dp" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/salaDeLecturaChip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:text="Estás aquí"
+                    app:checkedIconVisible="false"
+                    app:chipIcon="@drawable/ic_location_pin"
+                    app:closeIconVisible="true"
+                    tools:layout_conversion_absoluteHeight="48dp"
+                    tools:layout_conversion_absoluteWidth="115dp" />
+
+            </LinearLayout>
 
             <ProgressBar
                 android:id="@+id/salaDeLecturaProgressbar"
@@ -162,16 +226,45 @@
 
             </LinearLayout>
 
-            <TextView
-                android:id="@+id/bibliotecaTitleTextView"
+            <LinearLayout
+                android:id="@+id/linearLayout4"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontWeight="700"
-                android:paddingLeft="18dp"
-                android:paddingTop="12dp"
-                android:text="Biblioteca"
-                android:textColor="@color/colorLabelPrimary"
-                android:textSize="28dp" />
+                android:layout_marginBottom="-22dp"
+                android:gravity="bottom"
+                android:orientation="horizontal"
+                android:paddingTop="18dp">
+
+                <TextView
+                    android:id="@+id/bibliotecaTitleTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontWeight="700"
+                    android:paddingLeft="18dp"
+                    android:paddingTop="12dp"
+                    android:paddingRight="12dp"
+                    android:text="Biblioteca"
+                    android:textColor="@color/colorLabelPrimary"
+                    android:textSize="28dp"
+                    tools:layout_conversion_absoluteHeight="50dp"
+                    tools:layout_conversion_absoluteWidth="146dp"
+                    tools:layout_editor_absoluteX="0dp"
+                    tools:layout_editor_absoluteY="56dp" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/bibliotecaChip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:text="Estás aquí"
+                    app:checkedIconVisible="false"
+                    app:chipIcon="@drawable/ic_location_pin"
+                    app:closeIconVisible="true"
+                    tools:layout_conversion_absoluteHeight="48dp"
+                    tools:layout_conversion_absoluteWidth="115dp" />
+
+            </LinearLayout>
+
 
             <ProgressBar
                 android:id="@+id/bibliotecaProgressbar"

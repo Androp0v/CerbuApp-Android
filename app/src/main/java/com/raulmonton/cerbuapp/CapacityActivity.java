@@ -26,6 +26,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.google.android.material.chip.Chip;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -61,6 +62,10 @@ public class CapacityActivity extends AppCompatActivity {
     private TextView bibliotecaDescription;
 
     private FloatingActionButton qrScanButton;
+
+    private Chip comedorChip;
+    private Chip salaDeLecturaChip;
+    private Chip bibliotecaChip;
 
     private int getProgressBarColor(Double fractionNumber){
         if (fractionNumber < 0.3){
@@ -247,6 +252,15 @@ public class CapacityActivity extends AppCompatActivity {
         bibliotecaDescription = findViewById(R.id.bibliotecaTextView);
 
         qrScanButton = findViewById(R.id.qrScanFAB);
+
+        comedorChip = findViewById(R.id.comedorChip);
+        salaDeLecturaChip = findViewById(R.id.salaDeLecturaChip);
+        bibliotecaChip = findViewById(R.id.bibliotecaChip);
+
+        // Make chips invisible by default
+        comedorChip.setVisibility(View.INVISIBLE);
+        salaDeLecturaChip.setVisibility(View.INVISIBLE);
+        bibliotecaChip.setVisibility(View.INVISIBLE);
 
         // Initial progressbar UI
         animateProgressBars();
