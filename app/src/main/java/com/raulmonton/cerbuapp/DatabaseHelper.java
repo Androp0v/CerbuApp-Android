@@ -229,6 +229,47 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         return Datas;
     }
 
+    public ArrayList<Data> getMaxPromData(int promotion) {
+        ArrayList<Data> Datas = new ArrayList<>();
+
+        SharedPreferences preferences = myContext.getSharedPreferences(MyPREFERENCES, MODE_PRIVATE);
+        boolean nameFirstSetting = preferences.getBoolean("nameFirst", true);
+
+        String selectQuery;
+
+        if (nameFirstSetting){
+            selectQuery = "SELECT  * FROM " + table_name + " WHERE " + column_promotions + " >= " + promotion + " ORDER BY " + column_names + " COLLATE UNICODE";
+        }else{
+            selectQuery = "SELECT  * FROM " + table_name + " WHERE " + column_promotions + " >= " + promotion + " ORDER BY " + column_surnames_1 + " COLLATE UNICODE";
+        }
+
+        Cursor cursor = myDataBase.rawQuery(selectQuery, null);
+
+        // looping through all rows and adding to list
+        if (cursor.moveToFirst()) {
+            do {
+                Data data = new Data();
+                data.setId(cursor.getInt(cursor.getColumnIndex(column_id)));
+                data.setName(cursor.getString(cursor.getColumnIndex(column_names)));
+                data.setSurname_1(cursor.getString(cursor.getColumnIndex(column_surnames_1)));
+                data.setSurname_2(cursor.getString(cursor.getColumnIndex(column_surnames_2)));
+                data.setCareer(cursor.getString(cursor.getColumnIndex(column_careers)));
+                data.setPromotion(cursor.getInt(cursor.getColumnIndex(column_promotions)));
+                data.setRoom(cursor.getString(cursor.getColumnIndex(column_rooms)));
+                data.setBeca(cursor.getString(cursor.getColumnIndex(column_becas)));
+                data.setLiked(cursor.getInt(cursor.getColumnIndex(column_likes)));
+                data.setFloor(cursor.getInt(cursor.getColumnIndex(column_floors)));
+                data.setGender(cursor.getInt(cursor.getColumnIndex(column_genders)));
+
+                Datas.add(data);
+            } while (cursor.moveToNext());
+        }
+        // close db connection
+        cursor.close();
+        // return notes list
+        return Datas;
+    }
+
 
     public void setLikedOnDatabase(int id, int liked) {
 

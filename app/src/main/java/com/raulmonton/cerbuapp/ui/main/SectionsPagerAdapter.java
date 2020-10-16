@@ -63,6 +63,8 @@ public class SectionsPagerAdapter extends FragmentStatePagerAdapter{
 
         if (position == 0) {
             Datas = databaseHelper.getAllData();
+        } else if (position == TAB_TITLES.length - 1) {
+            Datas = databaseHelper.getMaxPromData(TAB_TITLES.length - 1);
         } else {
             Datas = databaseHelper.getPromData(position);
         }
