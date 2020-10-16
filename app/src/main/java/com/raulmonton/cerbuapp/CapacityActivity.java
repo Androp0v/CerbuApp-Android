@@ -3,6 +3,8 @@ package com.raulmonton.cerbuapp;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 
@@ -10,8 +12,11 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -37,8 +42,11 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.Objects;
 
 import static com.raulmonton.cerbuapp.R.id.comedorProgressbar;
+import static android.Manifest.permission.CAMERA;
 
 public class CapacityActivity extends AppCompatActivity {
+
+    private static final int PERMISSION_REQUEST_CODE = 200;
 
     private double comedorFractionNumber = 0.0;
     private double salaDeLecturaFractionNumber = 0.0;
@@ -234,6 +242,40 @@ public class CapacityActivity extends AppCompatActivity {
                 });
     }
 
+    private boolean checkPermission() {
+        int result = ContextCompat.checkSelfPermission(getApplicationContext(), CAMERA);
+        return result == PackageManager.PERMISSION_GRANTED;
+    }
+
+    private void requestPermission() {
+        ActivityCompat.requestPermissions(this, new String[]{CAMERA}, PERMISSION_REQUEST_CODE);
+    }
+
+    private void showMessageOKCancel(String message, DialogInterface.OnClickListener okListener) {
+        new AlertDialog.Builder(CapacityActivity.this)
+                .setMessage(message)
+                .setPositiveButton("OK", okListener)
+                .setNegativeButton("Cancel", null)
+                .create()
+                .show();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (grantResults[0] == PackageManager.PERMISSION_DENIED) {
+            if (shouldShowRequestPermissionRationale(CAMERA)) {
+                showMessageOKCancel("Necesitas aceptar los permisos de la cámara para poder escanear los códigos QR.",
+                    new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            requestPermissions(new String[]{CAMERA}, PERMISSION_REQUEST_CODE);
+                        }
+                    });
+            }
+        }
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -275,6 +317,11 @@ public class CapacityActivity extends AppCompatActivity {
                         showQRDialog(CapacityActivity.this);
                     }
                 });
+
+        // Ask for permission to access camera for QR code scanning
+        if (!checkPermission()){
+            requestPermission();
+        }
 
         // Observe for changes in the database
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("Capacities/Count");
