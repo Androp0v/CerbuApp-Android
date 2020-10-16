@@ -194,6 +194,12 @@ public class CapacityActivity extends AppCompatActivity {
 
     public void showQRDialog(Activity activity){
 
+        // Ask for permission to access camera for QR code scanning
+        if (!checkPermission()){
+            requestPermission();
+        }
+
+        // Show QR scanning interface
         final QRScanSheet dialog = new QRScanSheet(activity);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setCancelable(true);
@@ -317,11 +323,6 @@ public class CapacityActivity extends AppCompatActivity {
                         showQRDialog(CapacityActivity.this);
                     }
                 });
-
-        // Ask for permission to access camera for QR code scanning
-        if (!checkPermission()){
-            requestPermission();
-        }
 
         // Observe for changes in the database
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("Capacities/Count");
