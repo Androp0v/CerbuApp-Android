@@ -2,6 +2,7 @@ package com.raulmonton.cerbuapp;
 
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -16,6 +17,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
 
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -31,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
 
     public static final String MyPREFERENCES = "AppPreferences";
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,28 +78,31 @@ public class MainActivity extends AppCompatActivity {
         }
 
         orlaImageView.setClickable(true);
-        orlaImageView.setOnClickListener(new View.OnClickListener() {
-
-            public void onClick(View V) {
-
-                Intent intent = new Intent(V.getContext(), TabActivity.class);
-                startActivityForResult(intent, 0);
-
-                /*ObjectAnimator animX = ObjectAnimator.ofFloat(cardView, "scaleX", 1.0f, 0.98f);
-                ObjectAnimator animY = ObjectAnimator.ofFloat(cardView, "scaleY", 1.0f, 0.98f);
-                AnimatorSet animSetXY = new AnimatorSet();
-                animSetXY.playTogether(animX, animY);
-                animSetXY.setDuration(125);
-                animSetXY.setInterpolator(new BounceInterpolator());
-                animSetXY.start();
-
-                animX = ObjectAnimator.ofFloat(cardView, "scaleX", 0.98f, 1.0f);
-                animY = ObjectAnimator.ofFloat(cardView, "scaleY", 0.98f, 1.0f);
-                animSetXY = new AnimatorSet();
-                animSetXY.playTogether(animX, animY);
-                animSetXY.setDuration(125);
-                animSetXY.setInterpolator(new BounceInterpolator());
-                animSetXY.start();*/
+        orlaImageView.setOnTouchListener(new View.OnTouchListener(){
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
+                    ObjectAnimator animX = ObjectAnimator.ofFloat(cardView, "scaleX", 1.0f, 0.98f);
+                    ObjectAnimator animY = ObjectAnimator.ofFloat(cardView, "scaleY", 1.0f, 0.98f);
+                    AnimatorSet animSetXY = new AnimatorSet();
+                    animSetXY.playTogether(animX, animY);
+                    animSetXY.setDuration(125);
+                    animSetXY.setInterpolator(new BounceInterpolator());
+                    animSetXY.start();
+                } else if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
+                    Intent intent = new Intent(view.getContext(), TabActivity.class);
+                    startActivityForResult(intent, 0);
+                    ObjectAnimator animX = ObjectAnimator.ofFloat(cardView, "scaleX", 1.0f, 0.98f);
+                    ObjectAnimator animY = ObjectAnimator.ofFloat(cardView, "scaleY", 1.0f, 0.98f);
+                    AnimatorSet animSetXY = new AnimatorSet();
+                    animX = ObjectAnimator.ofFloat(cardView, "scaleX", 0.98f, 1.0f);
+                    animY = ObjectAnimator.ofFloat(cardView, "scaleY", 0.98f, 1.0f);
+                    animSetXY.playTogether(animX, animY);
+                    animSetXY.setDuration(125);
+                    animSetXY.setInterpolator(new BounceInterpolator());
+                    animSetXY.start();
+                }
+                return false;
             }
         });
 
