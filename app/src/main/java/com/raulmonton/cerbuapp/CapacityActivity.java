@@ -41,37 +41,37 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.Objects;
 
-import static com.raulmonton.cerbuapp.R.id.comedorProgressbar;
+import static com.raulmonton.cerbuapp.R.id.salaPolivalenteProgressbar;
 import static android.Manifest.permission.CAMERA;
 
 public class CapacityActivity extends AppCompatActivity {
 
     private static final int PERMISSION_REQUEST_CODE = 200;
 
-    private double comedorFractionNumber = 0.0;
+    private double salaPolivalenteFractionNumber = 0.0;
     private double salaDeLecturaFractionNumber = 0.0;
     private double bibliotecaFractionNumber = 0.0;
 
-    private double comedorFractionNumberOld = 0.0;
+    private double salaPolivalenteFractionNumberOld = 0.0;
     private double salaDeLecturaFractionNumberOld = 0.0;
     private double bibliotecaFractionNumberOld = 0.0;
 
-    private int comedorMaxCapacity = 0;
+    private int salaPolivalenteMaxCapacity = 0;
     private int salaDeLecturaMaxCapacity = 0;
     private int bibliotecaMaxCapacity = 0;
 
     // UI elements
-    private ProgressBar comedorProgressbar;
+    private ProgressBar salaPolivalenteProgressbar;
     private ProgressBar salaDeLecturaProgressbar;
     private ProgressBar bibliotecaProgressbar;
 
-    private TextView comedorDescription;
+    private TextView salaPolivalenteDescription;
     private TextView salaDeLecturaDescription;
     private TextView bibliotecaDescription;
 
     private FloatingActionButton qrScanButton;
 
-    private Chip comedorChip;
+    private Chip salaPolivalenteChip;
     private Chip salaDeLecturaChip;
     private Chip bibliotecaChip;
 
@@ -142,27 +142,27 @@ public class CapacityActivity extends AppCompatActivity {
 
     private void animateProgressBars(){
         // Set initial progressbar progress
-        comedorProgressbar.setProgress((int) (comedorFractionNumber*100));
+        salaPolivalenteProgressbar.setProgress((int) (salaPolivalenteFractionNumber*100));
         salaDeLecturaProgressbar.setProgress((int) (salaDeLecturaFractionNumber*100));
         bibliotecaProgressbar.setProgress((int) (bibliotecaFractionNumber*100));
 
         // Set progressbar colors
-        comedorProgressbar.setProgressTintList(ColorStateList.valueOf(getProgressBarColor(comedorFractionNumber)));
+        salaPolivalenteProgressbar.setProgressTintList(ColorStateList.valueOf(getProgressBarColor(salaPolivalenteFractionNumber)));
         salaDeLecturaProgressbar.setProgressTintList(ColorStateList.valueOf(getProgressBarColor(salaDeLecturaFractionNumber)));
         bibliotecaProgressbar.setProgressTintList(ColorStateList.valueOf(getProgressBarColor(bibliotecaFractionNumber)));
 
         // Set descriptions
-        comedorDescription.setText(getDescriptionString(comedorFractionNumber));
+        salaPolivalenteDescription.setText(getDescriptionString(salaPolivalenteFractionNumber));
         salaDeLecturaDescription.setText(getDescriptionString(salaDeLecturaFractionNumber));
         bibliotecaDescription.setText(getDescriptionString(bibliotecaFractionNumber));
 
         // Progressbar animation
         ProgressBarAnimation anim;
-        anim = new ProgressBarAnimation(comedorProgressbar,
-                (int)(comedorFractionNumberOld*100),
-                (int)(comedorFractionNumber*100));
-        anim.setDuration((long) (1000*(Math.abs(comedorFractionNumber - comedorFractionNumberOld))));
-        comedorProgressbar.startAnimation(anim);
+        anim = new ProgressBarAnimation(salaPolivalenteProgressbar,
+                (int)(salaPolivalenteFractionNumberOld*100),
+                (int)(salaPolivalenteFractionNumber*100));
+        anim.setDuration((long) (1000*(Math.abs(salaPolivalenteFractionNumber - salaPolivalenteFractionNumberOld))));
+        salaPolivalenteProgressbar.startAnimation(anim);
 
         anim = new ProgressBarAnimation(salaDeLecturaProgressbar,
                 (int)(salaDeLecturaFractionNumberOld*100),
@@ -177,13 +177,13 @@ public class CapacityActivity extends AppCompatActivity {
         bibliotecaProgressbar.startAnimation(anim);
 
         // Save new fraction numbers
-        comedorFractionNumberOld = comedorFractionNumber;
+        salaPolivalenteFractionNumberOld = salaPolivalenteFractionNumber;
         salaDeLecturaFractionNumberOld = salaDeLecturaFractionNumber;
         bibliotecaFractionNumberOld = bibliotecaFractionNumber;
 
         // Setup info buttons
-        Button comedorButton = findViewById(R.id.comedorInfo);
-        setUpDetailsButton(comedorButton,"Comedor");
+        Button salaPolivalenteButton = findViewById(R.id.salaPolivalenteInfo);
+        setUpDetailsButton(salaPolivalenteButton,"Sala Polivalente");
 
         Button salaDeLecturaButton = findViewById(R.id.salaDeLecturaInfo);
         setUpDetailsButton(salaDeLecturaButton,"Sala de Lectura");
@@ -220,9 +220,9 @@ public class CapacityActivity extends AppCompatActivity {
         final int maxCapacity;
 
         switch (roomName){
-            case "Comedor":
-                fractionNumber = comedorFractionNumber;
-                maxCapacity = comedorMaxCapacity;
+            case "Sala Polivalente":
+                fractionNumber = salaPolivalenteFractionNumber;
+                maxCapacity = salaPolivalenteMaxCapacity;
                 break;
             case "Sala de Lectura":
                 fractionNumber = salaDeLecturaFractionNumber;
@@ -291,22 +291,22 @@ public class CapacityActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         // UI elements
-        comedorProgressbar = findViewById(R.id.comedorProgressbar);
+        salaPolivalenteProgressbar = findViewById(R.id.salaPolivalenteProgressbar);
         salaDeLecturaProgressbar = findViewById(R.id.salaDeLecturaProgressbar);
         bibliotecaProgressbar = findViewById(R.id.bibliotecaProgressbar);
 
-        comedorDescription = findViewById(R.id.comedorTextView);
+        salaPolivalenteDescription = findViewById(R.id.salaPolivalenteTextView);
         salaDeLecturaDescription = findViewById(R.id.salaDeLecturaTextView);
         bibliotecaDescription = findViewById(R.id.bibliotecaTextView);
 
         qrScanButton = findViewById(R.id.qrScanFAB);
 
-        comedorChip = findViewById(R.id.comedorChip);
+        salaPolivalenteChip = findViewById(R.id.salaPolivalenteChip);
         salaDeLecturaChip = findViewById(R.id.salaDeLecturaChip);
         bibliotecaChip = findViewById(R.id.bibliotecaChip);
 
         // Make chips invisible by default
-        comedorChip.setVisibility(View.INVISIBLE);
+        salaPolivalenteChip.setVisibility(View.INVISIBLE);
         salaDeLecturaChip.setVisibility(View.INVISIBLE);
         bibliotecaChip.setVisibility(View.INVISIBLE);
 
@@ -332,13 +332,17 @@ public class CapacityActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
-                    if (Objects.equals(postSnapshot.getKey(), "Comedor")){
+
+                    if (Objects.equals(postSnapshot.getKey(), "SalaPolivalente")){
                         Room room = postSnapshot.getValue(Room.class);
+                        Log.e("SALA POLIVALENTE", String.valueOf(room.Max));
                         if ((room != null ? room.Max : -1) == -1){
-                            comedorFractionNumber = -1;
+                            salaPolivalenteFractionNumber = -1;
                         }else{
-                            comedorMaxCapacity = room.Max;
-                            comedorFractionNumber = ((float) room.Current)/((float) room.Max);
+                            Log.e("SALA POLIVALENTE", "NOT NULL");
+                            salaPolivalenteMaxCapacity = room.Max;
+                            salaPolivalenteFractionNumber = ((float) room.Current)/((float) room.Max);
+                            Log.e("SALA POLIVALENTE", String.valueOf(salaPolivalenteFractionNumber));
                         }
                     }else if (Objects.equals(postSnapshot.getKey(), "SalaDeLectura")){
                         Room room = postSnapshot.getValue(Room.class);

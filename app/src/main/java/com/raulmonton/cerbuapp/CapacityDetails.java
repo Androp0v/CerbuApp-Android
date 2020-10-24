@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.StyleSpan;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,7 +24,7 @@ public class CapacityDetails extends BottomSheetDialogFragment {
 
     ProgressBar progressBar;
 
-    String comedorTimeout = "20 minutos";
+    String salaPolivalenteTimeout = "3 horas";
     String salaDeLecturaTimeout = "6 horas";
     String bibliotecaTimeout = "6 horas";
 
@@ -86,8 +87,8 @@ public class CapacityDetails extends BottomSheetDialogFragment {
         String baseString = "Número aproximado. Las entradas aquí caducan automáticamente después de ";
         StyleSpan boldSpan = new StyleSpan(Typeface.BOLD);
         switch(roomName) {
-            case "Comedor":
-                boldString = new SpannableString(baseString + comedorTimeout + ".");
+            case "Sala Polivalente":
+                boldString = new SpannableString(baseString + salaPolivalenteTimeout + ".");
                 break;
             case "Sala de Lectura":
                 boldString = new SpannableString(baseString + salaDeLecturaTimeout + ".");
@@ -102,6 +103,7 @@ public class CapacityDetails extends BottomSheetDialogFragment {
         description.setText(boldString);
 
         // Animate progressbar
+        Log.e("FRACTION NUMBER", String.valueOf(fractionNumber));
         animateProgressBar();
 
         return rootView;
