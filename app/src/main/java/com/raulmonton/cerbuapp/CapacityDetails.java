@@ -24,9 +24,10 @@ public class CapacityDetails extends BottomSheetDialogFragment {
 
     ProgressBar progressBar;
 
-    String salaPolivalenteTimeout = "3 horas";
+    String salaPolivalenteTimeout = "6 horas";
     String salaDeLecturaTimeout = "6 horas";
     String bibliotecaTimeout = "6 horas";
+    String gimnasioTimeout = "3 horas";
 
     private int getProgressBarColor(Double fractionNumber){
         if (fractionNumber < 0.3){
@@ -95,6 +96,9 @@ public class CapacityDetails extends BottomSheetDialogFragment {
                 break;
             case "Biblioteca":
                 boldString = new SpannableString(baseString + bibliotecaTimeout + ".");
+                break;
+            case "Gimnasio":
+                boldString = new SpannableString(baseString + gimnasioTimeout + ".");
                 break;
             default:
                 boldString = new SpannableString("?? minutos");

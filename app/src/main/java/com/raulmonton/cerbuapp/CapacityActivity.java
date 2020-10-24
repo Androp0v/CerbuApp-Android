@@ -51,29 +51,35 @@ public class CapacityActivity extends AppCompatActivity {
     private double salaPolivalenteFractionNumber = 0.0;
     private double salaDeLecturaFractionNumber = 0.0;
     private double bibliotecaFractionNumber = 0.0;
+    private double gimnasioFractionNumber = 0.0;
 
     private double salaPolivalenteFractionNumberOld = 0.0;
     private double salaDeLecturaFractionNumberOld = 0.0;
     private double bibliotecaFractionNumberOld = 0.0;
+    private double gimnasioFractionNumberOld = 0.0;
 
     private int salaPolivalenteMaxCapacity = 0;
     private int salaDeLecturaMaxCapacity = 0;
     private int bibliotecaMaxCapacity = 0;
+    private int gimnasioMaxCapacity = 0;
 
     // UI elements
     private ProgressBar salaPolivalenteProgressbar;
     private ProgressBar salaDeLecturaProgressbar;
     private ProgressBar bibliotecaProgressbar;
+    private ProgressBar gimnasioProgressbar;
 
     private TextView salaPolivalenteDescription;
     private TextView salaDeLecturaDescription;
     private TextView bibliotecaDescription;
+    private TextView gimnasioDescription;
 
     private FloatingActionButton qrScanButton;
 
     private Chip salaPolivalenteChip;
     private Chip salaDeLecturaChip;
     private Chip bibliotecaChip;
+    private Chip gimnasioChip;
 
     private int getProgressBarColor(Double fractionNumber){
         if (fractionNumber < 0.3){
@@ -145,16 +151,19 @@ public class CapacityActivity extends AppCompatActivity {
         salaPolivalenteProgressbar.setProgress((int) (salaPolivalenteFractionNumber*100));
         salaDeLecturaProgressbar.setProgress((int) (salaDeLecturaFractionNumber*100));
         bibliotecaProgressbar.setProgress((int) (bibliotecaFractionNumber*100));
+        gimnasioProgressbar.setProgress((int) (gimnasioFractionNumber*100));
 
         // Set progressbar colors
         salaPolivalenteProgressbar.setProgressTintList(ColorStateList.valueOf(getProgressBarColor(salaPolivalenteFractionNumber)));
         salaDeLecturaProgressbar.setProgressTintList(ColorStateList.valueOf(getProgressBarColor(salaDeLecturaFractionNumber)));
         bibliotecaProgressbar.setProgressTintList(ColorStateList.valueOf(getProgressBarColor(bibliotecaFractionNumber)));
+        gimnasioProgressbar.setProgressTintList(ColorStateList.valueOf(getProgressBarColor(gimnasioFractionNumber)));
 
         // Set descriptions
         salaPolivalenteDescription.setText(getDescriptionString(salaPolivalenteFractionNumber));
         salaDeLecturaDescription.setText(getDescriptionString(salaDeLecturaFractionNumber));
         bibliotecaDescription.setText(getDescriptionString(bibliotecaFractionNumber));
+        gimnasioDescription.setText(getDescriptionString(gimnasioFractionNumber));
 
         // Progressbar animation
         ProgressBarAnimation anim;
@@ -176,10 +185,17 @@ public class CapacityActivity extends AppCompatActivity {
         anim.setDuration((long) (1000*(Math.abs(bibliotecaFractionNumber - bibliotecaFractionNumberOld))));
         bibliotecaProgressbar.startAnimation(anim);
 
+        anim = new ProgressBarAnimation(gimnasioProgressbar,
+                (int)(gimnasioFractionNumberOld*100),
+                (int)(gimnasioFractionNumber*100));
+        anim.setDuration((long) (1000*(Math.abs(gimnasioFractionNumber - gimnasioFractionNumberOld))));
+        gimnasioProgressbar.startAnimation(anim);
+
         // Save new fraction numbers
         salaPolivalenteFractionNumberOld = salaPolivalenteFractionNumber;
         salaDeLecturaFractionNumberOld = salaDeLecturaFractionNumber;
         bibliotecaFractionNumberOld = bibliotecaFractionNumber;
+        gimnasioFractionNumberOld = gimnasioFractionNumber;
 
         // Setup info buttons
         Button salaPolivalenteButton = findViewById(R.id.salaPolivalenteInfo);
@@ -190,6 +206,9 @@ public class CapacityActivity extends AppCompatActivity {
 
         Button bibliotecaButton = findViewById(R.id.bibliotecaInfo);
         setUpDetailsButton(bibliotecaButton,"Biblioteca");
+
+        Button gimnasioButton = findViewById(R.id.gimnasioInfo);
+        setUpDetailsButton(gimnasioButton,"Gimnasio");
     }
 
     public void showQRDialog(Activity activity){
@@ -231,6 +250,10 @@ public class CapacityActivity extends AppCompatActivity {
             case "Biblioteca":
                 fractionNumber = bibliotecaFractionNumber;
                 maxCapacity = bibliotecaMaxCapacity;
+                break;
+            case "Gimnasio":
+                fractionNumber = gimnasioFractionNumber;
+                maxCapacity = gimnasioMaxCapacity;
                 break;
             default:
                 fractionNumber = -1;
@@ -294,21 +317,25 @@ public class CapacityActivity extends AppCompatActivity {
         salaPolivalenteProgressbar = findViewById(R.id.salaPolivalenteProgressbar);
         salaDeLecturaProgressbar = findViewById(R.id.salaDeLecturaProgressbar);
         bibliotecaProgressbar = findViewById(R.id.bibliotecaProgressbar);
+        gimnasioProgressbar = findViewById(R.id.gimnasioProgressbar);
 
         salaPolivalenteDescription = findViewById(R.id.salaPolivalenteTextView);
         salaDeLecturaDescription = findViewById(R.id.salaDeLecturaTextView);
         bibliotecaDescription = findViewById(R.id.bibliotecaTextView);
+        gimnasioDescription = findViewById(R.id.gimnasioTextView);
 
         qrScanButton = findViewById(R.id.qrScanFAB);
 
         salaPolivalenteChip = findViewById(R.id.salaPolivalenteChip);
         salaDeLecturaChip = findViewById(R.id.salaDeLecturaChip);
         bibliotecaChip = findViewById(R.id.bibliotecaChip);
+        gimnasioChip = findViewById(R.id.gimnasioChip);
 
         // Make chips invisible by default
         salaPolivalenteChip.setVisibility(View.INVISIBLE);
         salaDeLecturaChip.setVisibility(View.INVISIBLE);
         bibliotecaChip.setVisibility(View.INVISIBLE);
+        gimnasioChip.setVisibility(View.INVISIBLE);
 
         // Initial progressbar UI
         animateProgressBars();
@@ -359,6 +386,14 @@ public class CapacityActivity extends AppCompatActivity {
                         }else{
                             bibliotecaMaxCapacity = room.Max;
                             bibliotecaFractionNumber = ((float) room.Current)/((float) room.Max);
+                        }
+                    }else if (Objects.equals(postSnapshot.getKey(), "Gimnasio")){
+                        Room room = postSnapshot.getValue(Room.class);
+                        if ((room != null ? room.Max : -1) == -1){
+                            gimnasioFractionNumber = -1;
+                        }else{
+                            gimnasioMaxCapacity = room.Max;
+                            gimnasioFractionNumber = ((float) room.Current)/((float) room.Max);
                         }
                     }
                 }
