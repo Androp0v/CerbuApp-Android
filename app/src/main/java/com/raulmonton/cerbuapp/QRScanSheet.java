@@ -1,6 +1,7 @@
 package com.raulmonton.cerbuapp;
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.pm.PackageManager;
@@ -26,6 +27,8 @@ import com.google.android.gms.vision.Detector;
 import com.google.android.gms.vision.barcode.Barcode;
 import com.google.android.gms.vision.barcode.BarcodeDetector;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.io.IOException;
 
@@ -35,6 +38,8 @@ public class QRScanSheet extends Dialog {
     private CameraSource cameraSource;
     private Context localContext;
     private static final int REQUEST_CAMERA_PERMISSION = 201;
+
+    public CapacityActivity capacityActivity;
 
     public QRScanSheet(@NonNull Context context) {
         super(context);
@@ -46,61 +51,69 @@ public class QRScanSheet extends Dialog {
         super.onCreate(savedInstanceState);
         final SurfaceView qrView = findViewById(R.id.surfaceView);
 
-        barcodeDetector = new BarcodeDetector.Builder(localContext)
-                .setBarcodeFormats(Barcode.QR_CODE)
-                .build();
-
-        cameraSource = new CameraSource.Builder(localContext, barcodeDetector)
-                .setRequestedPreviewSize(1920, 1080)
-                .setAutoFocusEnabled(true) //you should add this feature
-                .build();
-
-        // Setup barcodeDetector processor to process detected QR codes
-
-        barcodeDetector.setProcessor(new Detector.Processor<Barcode>() {
+        qrView.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
             @Override
-            public void release() {
-                Toast.makeText(localContext.getApplicationContext(), "To prevent memory leaks barcode scanner has been stopped", Toast.LENGTH_SHORT).show();
-            }
+            public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
+                qrView.removeOnLayoutChangeListener(this);
+                barcodeDetector = new BarcodeDetector.Builder(localContext)
+                        .setBarcodeFormats(Barcode.QR_CODE)
+                        .build();
 
-            @Override
-            public void receiveDetections(Detector.Detections<Barcode> detections) {
-                final SparseArray<Barcode> barcodes = detections.getDetectedItems();
-                if (barcodes.size() != 0) {
-                    dismiss();
-                }
-            }
-        });
+                cameraSource = new CameraSource.Builder(localContext, barcodeDetector)
+                        .setRequestedPreviewSize(qrView.getWidth(), qrView.getHeight())
+                        .setAutoFocusEnabled(true) //you should add this feature
+                        .build();
 
-        // Setup SurfaceView qrView to display camera frames
+                // Setup barcodeDetector processor to process detected QR codes
 
-        qrView.getHolder().addCallback(new SurfaceHolder.Callback() {
-            @Override
-            public void surfaceCreated(SurfaceHolder holder) {
-                try {
-                    if (ActivityCompat.checkSelfPermission(localContext, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
-                        cameraSource.start(qrView.getHolder());
-                    } else {
-                        ActivityCompat.requestPermissions(null, new
-                                String[]{Manifest.permission.CAMERA}, REQUEST_CAMERA_PERMISSION);
+                barcodeDetector.setProcessor(new Detector.Processor<Barcode>() {
+                    @Override
+                    public void release() {
+                        Toast.makeText(localContext.getApplicationContext(), "To prevent memory leaks barcode scanner has been stopped", Toast.LENGTH_SHORT).show();
                     }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+
+                    @Override
+                    public void receiveDetections(Detector.Detections<Barcode> detections) {
+                        final SparseArray<Barcode> barcodes = detections.getDetectedItems();
+                        if (barcodes.size() != 0) {
+                            capacityActivity.handleQRDialogResult(barcodes.valueAt(0).displayValue);
+                            dismiss();
+                        }
+                    }
+                });
+
+                // Setup SurfaceView qrView to display camera frames
+
+                qrView.getHolder().addCallback(new SurfaceHolder.Callback() {
+                    @Override
+                    public void surfaceCreated(SurfaceHolder holder) {
+                        try {
+                            if (ActivityCompat.checkSelfPermission(localContext, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
+                                cameraSource.start(qrView.getHolder());
+                            } else {
+                                ActivityCompat.requestPermissions(null, new
+                                        String[]{Manifest.permission.CAMERA}, REQUEST_CAMERA_PERMISSION);
+                            }
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    @Override
+                    public void surfaceChanged(@NonNull SurfaceHolder surfaceHolder, int i, int i1, int i2) {
+
+                    }
+
+                    @Override
+                    public void surfaceDestroyed(@NonNull SurfaceHolder surfaceHolder) {
+                        cameraSource.stop();
+                    }
+
+                });
             }
-
-            @Override
-            public void surfaceChanged(@NonNull SurfaceHolder surfaceHolder, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void surfaceDestroyed(@NonNull SurfaceHolder surfaceHolder) {
-                cameraSource.stop();
-            }
-
         });
     }
+
 
     @Override
     public void onBackPressed() {

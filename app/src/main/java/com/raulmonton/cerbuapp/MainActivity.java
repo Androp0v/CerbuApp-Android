@@ -33,6 +33,10 @@ public class MainActivity extends AppCompatActivity {
 
     public static final String MyPREFERENCES = "AppPreferences";
 
+    private String randomString() {
+        return "randomString";
+    }
+
     @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +64,11 @@ public class MainActivity extends AppCompatActivity {
         editor.putBoolean("200s", true);
         editor.putBoolean("300s", true);
         editor.putBoolean("400s", true);
+
+        // Generate userID if it doesn't exist
+        if (!(preferences.contains("userID"))){
+            editor.putString("userID", randomString());
+        }
 
         editor.apply();
 

@@ -48,6 +48,12 @@ public class CapacityActivity extends AppCompatActivity {
 
     private static final int PERMISSION_REQUEST_CODE = 200;
 
+    private static final String SALA_POLIVALENTE_QR = "gNc98aMN";
+    private static final String SALA_DE_LECTURA_QR = "tHWL45Pg";
+    private static final String BIBLIOTECA_QR = "gFJtN3HS";
+    private static final String GIMNASIO_QR = "ATPi0bjz";
+    private static final String OUT_QR = "SVOWE1Kd";
+
     private double salaPolivalenteFractionNumber = 0.0;
     private double salaDeLecturaFractionNumber = 0.0;
     private double bibliotecaFractionNumber = 0.0;
@@ -62,6 +68,9 @@ public class CapacityActivity extends AppCompatActivity {
     private int salaDeLecturaMaxCapacity = 0;
     private int bibliotecaMaxCapacity = 0;
     private int gimnasioMaxCapacity = 0;
+
+    // Database
+    private DatabaseReference checkInDatabase;
 
     // UI elements
     private ProgressBar salaPolivalenteProgressbar;
@@ -211,26 +220,53 @@ public class CapacityActivity extends AppCompatActivity {
         setUpDetailsButton(gimnasioButton,"Gimnasio");
     }
 
-    public void showQRDialog(Activity activity){
+    public void showQRDialog(CapacityActivity activity){
 
         // Ask for permission to access camera for QR code scanning
         if (!checkPermission()){
             requestPermission();
+        }else{
+            // Show QR scanning interface
+            final QRScanSheet dialog = new QRScanSheet(activity);
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            dialog.setCancelable(true);
+            dialog.capacityActivity = activity;
+            dialog.setContentView(R.layout.bottom_sheet_qrscan);
+
+            WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+            lp.copyFrom(dialog.getWindow().getAttributes());
+            lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+            lp.height = WindowManager.LayoutParams.MATCH_PARENT;
+            dialog.show();
+            dialog.getWindow().setAttributes(lp);
         }
 
-        // Show QR scanning interface
-        final QRScanSheet dialog = new QRScanSheet(activity);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setCancelable(true);
-        dialog.setContentView(R.layout.bottom_sheet_qrscan);
+    }
 
-        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
-        lp.copyFrom(dialog.getWindow().getAttributes());
-        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
-        lp.height = WindowManager.LayoutParams.MATCH_PARENT;
-        dialog.show();
-        dialog.getWindow().setAttributes(lp);
+    public void handleQRDialogResult(String qrCode){
+        Log.e("QR_CODE", qrCode);
 
+        //checkInDatabase.child()
+
+        switch (qrCode) {
+            case SALA_POLIVALENTE_QR:
+                Log.e("QR_RESULT", "Sala Polivalente");
+                break;
+            case SALA_DE_LECTURA_QR:
+                Log.e("QR_RESULT", "Sala de lectura");
+                break;
+            case BIBLIOTECA_QR:
+                Log.e("QR_RESULT", "Biblioteca");
+                break;
+            case GIMNASIO_QR:
+                Log.e("QR_RESULT", "Gimnasio");
+                break;
+            case OUT_QR:
+                Log.e("QR_RESULT", "Salir");
+                break;
+            default:
+                break;
+        }
     }
 
     private void setUpDetailsButton(Button infoButton, final String roomName){
@@ -302,6 +338,8 @@ public class CapacityActivity extends AppCompatActivity {
                         }
                     });
             }
+        } else if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            showQRDialog(CapacityActivity.this);
         }
     }
 
@@ -312,6 +350,9 @@ public class CapacityActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        // Set Firebase RealtimeDatabase reference
+        checkInDatabase = FirebaseDatabase.getInstance().getReference().child("Capacities/Check-ins");
 
         // UI elements
         salaPolivalenteProgressbar = findViewById(R.id.salaPolivalenteProgressbar);

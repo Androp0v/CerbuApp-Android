@@ -29,6 +29,8 @@ public class CapacityDetails extends BottomSheetDialogFragment {
     String bibliotecaTimeout = "6 horas";
     String gimnasioTimeout = "3 horas";
 
+    
+
     private int getProgressBarColor(Double fractionNumber){
         if (fractionNumber < 0.3){
             return getResources().getColor(R.color.progressbarGREEN, this.getContext().getTheme());
