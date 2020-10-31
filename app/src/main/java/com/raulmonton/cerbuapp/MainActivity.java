@@ -59,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences preferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
 
+        // Clear filters
         editor.putBoolean("FiltersActive", false);
 
         editor.putBoolean("adjuntos", false);
@@ -78,8 +79,10 @@ public class MainActivity extends AppCompatActivity {
             editor.putString("userID", randomString(16));
         }
 
+        // Save preference changes
         editor.apply();
 
+        // UI setup
         final ImageView orlaImageView = findViewById(R.id.orlaImageView);
         final CardView cardView = findViewById(R.id.cardView);
 
