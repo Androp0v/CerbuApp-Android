@@ -108,12 +108,41 @@
 
         </androidx.cardview.widget.CardView>
 
-        <TextView
-            android:id="@+id/textView7"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:text="2019 © Raúl Montón Pinillos"/>
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:orientation="horizontal"></LinearLayout>
+
+            <TextView
+                android:id="@+id/copyrightLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0"
+                android:gravity="center_horizontal"
+                android:text="2020 © " />
+
+            <TextView
+                android:id="@+id/authorLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0"
+                android:gravity="center_horizontal"
+                android:text="Raúl Montón Pinillos"
+                android:textColor="@android:color/holo_blue_dark" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:orientation="horizontal"></LinearLayout>
+
+        </LinearLayout>
 
     </LinearLayout>
 

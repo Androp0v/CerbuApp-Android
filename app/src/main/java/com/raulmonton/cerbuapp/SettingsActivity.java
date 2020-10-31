@@ -19,6 +19,7 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Switch;
+import android.widget.TextView;
 
 import static com.raulmonton.cerbuapp.MainActivity.MyPREFERENCES;
 
@@ -37,6 +38,7 @@ public class SettingsActivity extends AppCompatActivity {
         final Switch notifsSwitch = findViewById(R.id.notifSwitch);
         final ImageView lockImage = findViewById(R.id.lockImageView);
         final ImageView lockImageNotifs = findViewById(R.id.lockNotifImageView);
+        final TextView authorLabel = findViewById(R.id.authorLabel);
 
         final SharedPreferences preferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
 
@@ -46,26 +48,12 @@ public class SettingsActivity extends AppCompatActivity {
         boolean roomSwitchSavedState = preferences.getBoolean("showRooms", false);
         boolean notifsSwitchSavedState = preferences.getBoolean("showNotifs", false);
 
-        if (switchSavedState){
-            orderSwitch.setChecked(false);
-        }
-        else {
-            orderSwitch.setChecked(true);
-        }
+        // Locks for certain features
+        orderSwitch.setChecked(!switchSavedState);
 
-        if (roomSwitchSavedState){
-            roomSwitch.setChecked(true);
-        }
-        else {
-            roomSwitch.setChecked(false);
-        }
+        roomSwitch.setChecked(roomSwitchSavedState);
 
-        if (notifsSwitchSavedState){
-            notifsSwitch.setChecked(true);
-        }
-        else {
-            notifsSwitch.setChecked(false);
-        }
+        notifsSwitch.setChecked(notifsSwitchSavedState);
 
         if (becaUnlocked){
             roomSwitch.setEnabled(true);
@@ -87,23 +75,19 @@ public class SettingsActivity extends AppCompatActivity {
             lockImageNotifs.setImageResource(R.drawable.ic_lock);
         }
 
+        // Listen for changes in switches
+
         orderSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean bChecked) {
 
+                SharedPreferences.Editor editor = preferences.edit();
                 if (bChecked) {
-
-                    SharedPreferences.Editor editor = preferences.edit();
                     editor.putBoolean("nameFirst",false);
-                    editor.apply();
-
                 } else {
-
-                    SharedPreferences.Editor editor = preferences.edit();
                     editor.putBoolean("nameFirst",true);
-                    editor.apply();
-
                 }
+                editor.apply();
             }
         });
 
@@ -146,6 +130,8 @@ public class SettingsActivity extends AppCompatActivity {
                 }
             }
         });
+
+        // Clickable lock images
 
         lockImage.setClickable(true);
         lockImage.setOnClickListener(new View.OnClickListener() {
@@ -222,6 +208,31 @@ public class SettingsActivity extends AppCompatActivity {
 
                     builder.show();
                 }
+            }
+        });
+
+        // Clickable author name
+        authorLabel.setClickable(true);
+        authorLabel.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), DetailsActivity.class);
+                Data authorData = new Data(
+                        0,
+                        "Raúl",
+                        "Montón",
+                        "Pinillos",
+                        "Física",
+                        6,
+                        "Ex-colegial",
+                        "Asociación de Antiguos Colegiales (2019-2020)",
+                        0,
+                        400,
+                        0
+                );
+                intent.putExtra("itemData", authorData);
+                startActivityForResult(intent, 0);
             }
         });
 
