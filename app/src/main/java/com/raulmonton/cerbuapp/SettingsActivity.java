@@ -231,6 +231,14 @@ public class SettingsActivity extends AppCompatActivity {
                         400,
                         0
                 );
+                DatabaseHelper databaseHelper = new DatabaseHelper(getApplicationContext());
+                databaseHelper.openDataBase();
+
+                // Add author to database if not already present
+                if (!databaseHelper.isAuthorPresent()) {
+                    databaseHelper.addAuthor();
+                }
+
                 intent.putExtra("itemData", authorData);
                 startActivityForResult(intent, 0);
             }

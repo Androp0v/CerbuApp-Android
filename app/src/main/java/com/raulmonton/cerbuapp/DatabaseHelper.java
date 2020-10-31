@@ -1,5 +1,6 @@
 package com.raulmonton.cerbuapp;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -270,9 +271,33 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         return Datas;
     }
 
+    public void addAuthor() {
+        ContentValues initialValues = new ContentValues();
+        initialValues.put("names", "Raúl");
+        initialValues.put("surnames_1", "Montón");
+        initialValues.put("surnames_2", "Pinillos");
+        initialValues.put("careers", "Física");
+        initialValues.put("rooms", "Ex-colegial");
+        initialValues.put("becas", "Asociación de Antiguos Colegiales (2019-2020)");
+        initialValues.put("floors", "300");
+        initialValues.put("promotions", "6");
+        initialValues.put("gender", "0");
+
+        myDataBase.insert(table_name, null, initialValues);
+    }
+
+    public Boolean isAuthorPresent() {
+        String selectQuery = "SELECT * FROM " + table_name + " WHERE names = 'Raúl' AND surnames_1 = 'Montón' AND surnames_2 = 'Pinillos' ";
+        Cursor cursor = myDataBase.rawQuery(selectQuery, null);
+
+        if (cursor.getCount() == 0) {
+            return false;
+        } else {
+            return true;
+        }
+    }
 
     public void setLikedOnDatabase(int id, int liked) {
-
         String selectQuery = "UPDATE " + table_name + " SET " + column_likes + " = " + liked + " WHERE " + column_id + " = " + id;
         myDataBase.execSQL(selectQuery);
     }
