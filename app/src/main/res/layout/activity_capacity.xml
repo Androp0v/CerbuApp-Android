@@ -41,365 +41,374 @@
 
         </com.google.android.material.appbar.AppBarLayout>
 
-        <LinearLayout
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
-            <LinearLayout
-                android:id="@+id/linearLayout2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="-18dp"
-                android:gravity="bottom"
-                android:orientation="horizontal"
-                android:paddingTop="18dp">
-
-                <TextView
-                    android:id="@+id/salaPolivalenteTitleTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontWeight="700"
-                    android:paddingLeft="18dp"
-                    android:paddingTop="12dp"
-                    android:paddingRight="12dp"
-                    android:text="Sala Polivalente"
-                    android:textColor="@color/colorLabelPrimary"
-                    android:textSize="28dp"
-                    tools:layout_conversion_absoluteHeight="50dp"
-                    tools:layout_conversion_absoluteWidth="146dp"
-                    tools:layout_editor_absoluteX="0dp"
-                    tools:layout_editor_absoluteY="56dp" />
-
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/salaPolivalenteChip"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
-                    android:text="Estás aquí"
-                    app:checkedIconVisible="false"
-                    app:chipIcon="@drawable/ic_location_pin"
-                    app:closeIconVisible="true"
-                    tools:layout_conversion_absoluteHeight="48dp"
-                    tools:layout_conversion_absoluteWidth="115dp" />
-
-                <TextView
-                    android:id="@+id/padding"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    tools:layout_conversion_absoluteHeight="56dp"
-                    tools:layout_conversion_absoluteWidth="151dp"
-                    tools:layout_editor_absoluteX="260dp"
-                    tools:layout_editor_absoluteY="56dp" />
-
-            </LinearLayout>
-
-            <ProgressBar
-                android:id="@+id/salaPolivalenteProgressbar"
-                style="@style/CustomProgressbarStyle"
-                android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:layout_marginStart="18dp"
-                android:layout_marginEnd="18dp"
-                android:progress="25"
-                android:theme="@style/CustomProgressbarStyle"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/progressBar3" />
+            android:layout_height="match_parent">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:paddingStart="18dp"
-                android:paddingEnd="18dp">
+                android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/salaPolivalenteTextView"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:id="@+id/linearLayout2"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="10"
-                    android:gravity="end"
-                    android:paddingEnd="4dp"
-                    android:text="Lleno o casi lleno"
-                    android:textAlignment="textEnd" />
+                    android:layout_marginBottom="-18dp"
+                    android:gravity="bottom"
+                    android:orientation="horizontal"
+                    android:paddingTop="18dp">
 
-                <Button
-                    android:id="@+id/salaPolivalenteInfo"
-                    style="?android:attr/buttonStyleSmall"
-                    android:layout_width="wrap_content"
-                    android:layout_height="35dp"
-                    android:layout_weight="0.5"
-                    android:paddingLeft="0dp"
-                    android:paddingTop="0dp"
-                    android:paddingRight="0dp"
-                    android:paddingBottom="0dp"
-                    android:text="Info"
-                    app:cornerRadius="20dp"
-                    app:iconPadding="0dp" />
+                    <TextView
+                        android:id="@+id/salaPolivalenteTitleTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontWeight="700"
+                        android:paddingLeft="18dp"
+                        android:paddingTop="12dp"
+                        android:paddingRight="12dp"
+                        android:text="Sala Polivalente"
+                        android:textColor="@color/colorLabelPrimary"
+                        android:textSize="28dp"
+                        tools:layout_conversion_absoluteHeight="50dp"
+                        tools:layout_conversion_absoluteWidth="146dp"
+                        tools:layout_editor_absoluteX="0dp"
+                        tools:layout_editor_absoluteY="56dp" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/salaPolivalenteChip"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
+                        android:text="Estás aquí"
+                        app:checkedIconVisible="false"
+                        app:chipIcon="@drawable/ic_location_pin"
+                        app:closeIconVisible="true"
+                        tools:layout_conversion_absoluteHeight="48dp"
+                        tools:layout_conversion_absoluteWidth="115dp" />
+
+                    <TextView
+                        android:id="@+id/padding"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        tools:layout_conversion_absoluteHeight="56dp"
+                        tools:layout_conversion_absoluteWidth="151dp"
+                        tools:layout_editor_absoluteX="260dp"
+                        tools:layout_editor_absoluteY="56dp" />
+
+                </LinearLayout>
+
+                <ProgressBar
+                    android:id="@+id/salaPolivalenteProgressbar"
+                    style="@style/CustomProgressbarStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_marginStart="18dp"
+                    android:layout_marginEnd="18dp"
+                    android:progress="25"
+                    android:theme="@style/CustomProgressbarStyle"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/progressBar3" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingStart="18dp"
+                    android:paddingEnd="18dp">
+
+                    <Button
+                        android:id="@+id/salaPolivalenteInfo"
+                        style="?android:attr/buttonStyleSmall"
+                        android:layout_width="wrap_content"
+                        android:layout_height="35dp"
+                        android:layout_weight="0.5"
+                        android:paddingLeft="0dp"
+                        android:paddingTop="0dp"
+                        android:paddingRight="0dp"
+                        android:paddingBottom="0dp"
+                        android:text="Info"
+                        app:cornerRadius="20dp"
+                        app:iconPadding="0dp" />
+
+                    <TextView
+                        android:id="@+id/salaPolivalenteTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="10"
+                        android:gravity="start"
+                        android:paddingStart="4dp"
+                        android:paddingEnd="4dp"
+                        android:text="Lleno o casi lleno"
+                        android:textAlignment="textEnd" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/linearLayout5"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="-22dp"
+                    android:gravity="bottom"
+                    android:orientation="horizontal"
+                    android:paddingTop="18dp">
+
+                    <TextView
+                        android:id="@+id/bibliotecaTitleTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontWeight="700"
+                        android:paddingLeft="18dp"
+                        android:paddingTop="12dp"
+                        android:paddingRight="12dp"
+                        android:text="Biblioteca"
+                        android:textColor="@color/colorLabelPrimary"
+                        android:textSize="28dp"
+                        tools:layout_conversion_absoluteHeight="50dp"
+                        tools:layout_conversion_absoluteWidth="146dp"
+                        tools:layout_editor_absoluteX="0dp"
+                        tools:layout_editor_absoluteY="56dp" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/bibliotecaChip"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
+                        android:text="Estás aquí"
+                        app:checkedIconVisible="false"
+                        app:chipIcon="@drawable/ic_location_pin"
+                        app:closeIconVisible="true"
+                        tools:layout_conversion_absoluteHeight="48dp"
+                        tools:layout_conversion_absoluteWidth="115dp" />
+
+                </LinearLayout>
+
+                <ProgressBar
+                    android:id="@+id/bibliotecaProgressbar"
+                    style="@style/CustomProgressbarStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_marginStart="18dp"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginEnd="18dp"
+                    android:progress="25"
+                    android:theme="@style/CustomProgressbarStyle"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/progressBar3" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingStart="18dp"
+                    android:paddingEnd="18dp">
+
+                    <Button
+                        android:id="@+id/bibliotecaInfo"
+                        style="?android:attr/buttonStyleSmall"
+                        android:layout_width="wrap_content"
+                        android:layout_height="35dp"
+                        android:layout_weight="0.5"
+                        android:paddingLeft="0dp"
+                        android:paddingTop="0dp"
+                        android:paddingRight="0dp"
+                        android:paddingBottom="0dp"
+                        android:text="Info"
+                        app:cornerRadius="20dp"
+                        app:iconPadding="0dp" />
+
+                    <TextView
+                        android:id="@+id/bibliotecaTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="10"
+                        android:gravity="start"
+                        android:paddingStart="4dp"
+                        android:paddingEnd="4dp"
+                        android:text="Lleno o casi lleno"
+                        android:textAlignment="textEnd" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/linearLayout3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="-22dp"
+                    android:gravity="bottom"
+                    android:orientation="horizontal"
+                    android:paddingTop="18dp">
+
+                    <TextView
+                        android:id="@+id/salaDeLecturaTitleTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontWeight="700"
+                        android:paddingLeft="18dp"
+                        android:paddingTop="12dp"
+                        android:paddingRight="12dp"
+                        android:text="Sala de Lectura"
+                        android:textColor="@color/colorLabelPrimary"
+                        android:textSize="28dp"
+                        tools:layout_conversion_absoluteHeight="50dp"
+                        tools:layout_conversion_absoluteWidth="146dp"
+                        tools:layout_editor_absoluteX="0dp"
+                        tools:layout_editor_absoluteY="56dp" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/salaDeLecturaChip"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
+                        android:text="Estás aquí"
+                        app:checkedIconVisible="false"
+                        app:chipIcon="@drawable/ic_location_pin"
+                        app:closeIconVisible="true"
+                        tools:layout_conversion_absoluteHeight="48dp"
+                        tools:layout_conversion_absoluteWidth="115dp" />
+
+                </LinearLayout>
+
+                <ProgressBar
+                    android:id="@+id/salaDeLecturaProgressbar"
+                    style="@style/CustomProgressbarStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_marginStart="18dp"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginEnd="18dp"
+                    android:progress="25"
+                    android:theme="@style/CustomProgressbarStyle"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/progressBar3" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingStart="18dp"
+                    android:paddingEnd="18dp">
+
+                    <Button
+                        android:id="@+id/salaDeLecturaInfo"
+                        style="?android:attr/buttonStyleSmall"
+                        android:layout_width="wrap_content"
+                        android:layout_height="35dp"
+                        android:layout_weight="0.5"
+                        android:paddingLeft="0dp"
+                        android:paddingTop="0dp"
+                        android:paddingRight="0dp"
+                        android:paddingBottom="0dp"
+                        android:text="Info"
+                        app:cornerRadius="20dp"
+                        app:iconPadding="0dp" />
+
+                    <TextView
+                        android:id="@+id/salaDeLecturaTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="10"
+                        android:gravity="start"
+                        android:paddingStart="4dp"
+                        android:paddingEnd="4dp"
+                        android:text="Lleno o casi lleno"
+                        android:textAlignment="textEnd" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/linearLayout4"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="-22dp"
+                    android:gravity="bottom"
+                    android:orientation="horizontal"
+                    android:paddingTop="18dp">
+
+                    <TextView
+                        android:id="@+id/gimnasioTitleTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontWeight="700"
+                        android:paddingLeft="18dp"
+                        android:paddingTop="12dp"
+                        android:paddingRight="12dp"
+                        android:text="Gimnasio"
+                        android:textColor="@color/colorLabelPrimary"
+                        android:textSize="28dp"
+                        tools:layout_conversion_absoluteHeight="50dp"
+                        tools:layout_conversion_absoluteWidth="146dp"
+                        tools:layout_editor_absoluteX="0dp"
+                        tools:layout_editor_absoluteY="56dp" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/gimnasioChip"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
+                        android:text="Estás aquí"
+                        app:checkedIconVisible="false"
+                        app:chipIcon="@drawable/ic_location_pin"
+                        app:closeIconVisible="true"
+                        tools:layout_conversion_absoluteHeight="48dp"
+                        tools:layout_conversion_absoluteWidth="115dp" />
+
+                </LinearLayout>
+
+                <ProgressBar
+                    android:id="@+id/gimnasioProgressbar"
+                    style="@style/CustomProgressbarStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_marginStart="18dp"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginEnd="18dp"
+                    android:progress="25"
+                    android:theme="@style/CustomProgressbarStyle"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/progressBar3" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingStart="18dp"
+                    android:paddingEnd="18dp">
+
+                    <Button
+                        android:id="@+id/gimnasioInfo"
+                        style="?android:attr/buttonStyleSmall"
+                        android:layout_width="wrap_content"
+                        android:layout_height="35dp"
+                        android:layout_weight="0.5"
+                        android:paddingLeft="0dp"
+                        android:paddingTop="0dp"
+                        android:paddingRight="0dp"
+                        android:paddingBottom="0dp"
+                        android:text="Info"
+                        app:cornerRadius="20dp"
+                        app:iconPadding="0dp" />
+
+                    <TextView
+                        android:id="@+id/gimnasioTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="10"
+                        android:gravity="start"
+                        android:paddingStart="4dp"
+                        android:paddingEnd="4dp"
+                        android:text="Lleno o casi lleno"
+                        android:textAlignment="textEnd" />
+
+                </LinearLayout>
+
 
             </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/linearLayout5"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="-22dp"
-                android:gravity="bottom"
-                android:orientation="horizontal"
-                android:paddingTop="18dp">
-
-                <TextView
-                    android:id="@+id/bibliotecaTitleTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontWeight="700"
-                    android:paddingLeft="18dp"
-                    android:paddingTop="12dp"
-                    android:paddingRight="12dp"
-                    android:text="Biblioteca"
-                    android:textColor="@color/colorLabelPrimary"
-                    android:textSize="28dp"
-                    tools:layout_conversion_absoluteHeight="50dp"
-                    tools:layout_conversion_absoluteWidth="146dp"
-                    tools:layout_editor_absoluteX="0dp"
-                    tools:layout_editor_absoluteY="56dp" />
-
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/bibliotecaChip"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
-                    android:text="Estás aquí"
-                    app:checkedIconVisible="false"
-                    app:chipIcon="@drawable/ic_location_pin"
-                    app:closeIconVisible="true"
-                    tools:layout_conversion_absoluteHeight="48dp"
-                    tools:layout_conversion_absoluteWidth="115dp" />
-
-            </LinearLayout>
-
-            <ProgressBar
-                android:id="@+id/bibliotecaProgressbar"
-                style="@style/CustomProgressbarStyle"
-                android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:layout_marginStart="18dp"
-                android:layout_marginTop="4dp"
-                android:layout_marginEnd="18dp"
-                android:progress="25"
-                android:theme="@style/CustomProgressbarStyle"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/progressBar3" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:paddingStart="18dp"
-                android:paddingEnd="18dp">
-
-                <TextView
-                    android:id="@+id/bibliotecaTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="10"
-                    android:gravity="end"
-                    android:paddingEnd="4dp"
-                    android:text="Lleno o casi lleno"
-                    android:textAlignment="textEnd" />
-
-                <Button
-                    android:id="@+id/bibliotecaInfo"
-                    style="?android:attr/buttonStyleSmall"
-                    android:layout_width="wrap_content"
-                    android:layout_height="35dp"
-                    android:layout_weight="0.5"
-                    android:paddingLeft="0dp"
-                    android:paddingTop="0dp"
-                    android:paddingRight="0dp"
-                    android:paddingBottom="0dp"
-                    android:text="Info"
-                    app:cornerRadius="20dp"
-                    app:iconPadding="0dp" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/linearLayout3"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="-22dp"
-                android:gravity="bottom"
-                android:orientation="horizontal"
-                android:paddingTop="18dp">
-
-                <TextView
-                    android:id="@+id/salaDeLecturaTitleTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontWeight="700"
-                    android:paddingLeft="18dp"
-                    android:paddingTop="12dp"
-                    android:paddingRight="12dp"
-                    android:text="Sala de Lectura"
-                    android:textColor="@color/colorLabelPrimary"
-                    android:textSize="28dp"
-                    tools:layout_conversion_absoluteHeight="50dp"
-                    tools:layout_conversion_absoluteWidth="146dp"
-                    tools:layout_editor_absoluteX="0dp"
-                    tools:layout_editor_absoluteY="56dp" />
-
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/salaDeLecturaChip"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
-                    android:text="Estás aquí"
-                    app:checkedIconVisible="false"
-                    app:chipIcon="@drawable/ic_location_pin"
-                    app:closeIconVisible="true"
-                    tools:layout_conversion_absoluteHeight="48dp"
-                    tools:layout_conversion_absoluteWidth="115dp" />
-
-            </LinearLayout>
-
-            <ProgressBar
-                android:id="@+id/salaDeLecturaProgressbar"
-                style="@style/CustomProgressbarStyle"
-                android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:layout_marginStart="18dp"
-                android:layout_marginTop="4dp"
-                android:layout_marginEnd="18dp"
-                android:progress="25"
-                android:theme="@style/CustomProgressbarStyle"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/progressBar3" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:paddingStart="18dp"
-                android:paddingEnd="18dp">
-
-                <TextView
-                    android:id="@+id/salaDeLecturaTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="10"
-                    android:gravity="end"
-                    android:paddingEnd="4dp"
-                    android:text="Lleno o casi lleno"
-                    android:textAlignment="textEnd" />
-
-                <Button
-                    android:id="@+id/salaDeLecturaInfo"
-                    style="?android:attr/buttonStyleSmall"
-                    android:layout_width="wrap_content"
-                    android:layout_height="35dp"
-                    android:layout_weight="0.5"
-                    android:paddingLeft="0dp"
-                    android:paddingTop="0dp"
-                    android:paddingRight="0dp"
-                    android:paddingBottom="0dp"
-                    android:text="Info"
-                    app:cornerRadius="20dp"
-                    app:iconPadding="0dp" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/linearLayout4"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="-22dp"
-                android:gravity="bottom"
-                android:orientation="horizontal"
-                android:paddingTop="18dp">
-
-                <TextView
-                    android:id="@+id/gimnasioTitleTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontWeight="700"
-                    android:paddingLeft="18dp"
-                    android:paddingTop="12dp"
-                    android:paddingRight="12dp"
-                    android:text="Gimnasio"
-                    android:textColor="@color/colorLabelPrimary"
-                    android:textSize="28dp"
-                    tools:layout_conversion_absoluteHeight="50dp"
-                    tools:layout_conversion_absoluteWidth="146dp"
-                    tools:layout_editor_absoluteX="0dp"
-                    tools:layout_editor_absoluteY="56dp" />
-
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/gimnasioChip"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
-                    android:text="Estás aquí"
-                    app:checkedIconVisible="false"
-                    app:chipIcon="@drawable/ic_location_pin"
-                    app:closeIconVisible="true"
-                    tools:layout_conversion_absoluteHeight="48dp"
-                    tools:layout_conversion_absoluteWidth="115dp" />
-
-            </LinearLayout>
-
-            <ProgressBar
-                android:id="@+id/gimnasioProgressbar"
-                style="@style/CustomProgressbarStyle"
-                android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:layout_marginStart="18dp"
-                android:layout_marginTop="4dp"
-                android:layout_marginEnd="18dp"
-                android:progress="25"
-                android:theme="@style/CustomProgressbarStyle"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/progressBar3" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:paddingStart="18dp"
-                android:paddingEnd="18dp">
-
-                <TextView
-                    android:id="@+id/gimnasioTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="10"
-                    android:gravity="end"
-                    android:paddingEnd="4dp"
-                    android:text="Lleno o casi lleno"
-                    android:textAlignment="textEnd" />
-
-                <Button
-                    android:id="@+id/gimnasioInfo"
-                    style="?android:attr/buttonStyleSmall"
-                    android:layout_width="wrap_content"
-                    android:layout_height="35dp"
-                    android:layout_weight="0.5"
-                    android:paddingLeft="0dp"
-                    android:paddingTop="0dp"
-                    android:paddingRight="0dp"
-                    android:paddingBottom="0dp"
-                    android:text="Info"
-                    app:cornerRadius="20dp"
-                    app:iconPadding="0dp" />
-
-            </LinearLayout>
-
-
-        </LinearLayout>
+        </ScrollView>
 
     </LinearLayout>
 
