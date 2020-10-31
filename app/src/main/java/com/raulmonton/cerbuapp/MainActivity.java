@@ -27,14 +27,22 @@ import android.widget.LinearLayout;
 import android.widget.ShareActionProvider;
 
 import java.util.Calendar;
+import java.util.Random;
 import java.util.TimeZone;
 
 public class MainActivity extends AppCompatActivity {
 
     public static final String MyPREFERENCES = "AppPreferences";
 
-    private String randomString() {
-        return "randomString";
+    private String randomString(int length) {
+        int leftLimit = 48; // numeral '0'
+        int rightLimit = 122; // letter 'z'
+        Random random = new Random();
+        return random.ints(leftLimit, rightLimit + 1)
+                .filter(i -> ((i <= 57) || (i >= 65)) && ((i <= 90) || (i >= 97)))
+                .limit(length)
+                .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
+                .toString();
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -67,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Generate userID if it doesn't exist
         if (!(preferences.contains("userID"))){
-            editor.putString("userID", randomString());
+            editor.putString("userID", randomString(16));
         }
 
         editor.apply();
