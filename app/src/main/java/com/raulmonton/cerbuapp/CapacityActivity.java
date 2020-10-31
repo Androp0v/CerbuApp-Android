@@ -104,7 +104,12 @@ public class CapacityActivity extends AppCompatActivity {
         }
     }
 
-    private String getDescriptionString(Double fractionNumber){
+    private String getDescriptionString(Double fractionNumber, int maxCapacity){
+
+        if (maxCapacity == 0){
+            return "Ocupación desconocida";
+        }
+
         if (fractionNumber < 0.3){
             return "Vacío o casi vacío";
         }else if (fractionNumber >= 0.3 && fractionNumber < 0.6){
@@ -169,10 +174,10 @@ public class CapacityActivity extends AppCompatActivity {
         gimnasioProgressbar.setProgressTintList(ColorStateList.valueOf(getProgressBarColor(gimnasioFractionNumber)));
 
         // Set descriptions
-        salaPolivalenteDescription.setText(getDescriptionString(salaPolivalenteFractionNumber));
-        salaDeLecturaDescription.setText(getDescriptionString(salaDeLecturaFractionNumber));
-        bibliotecaDescription.setText(getDescriptionString(bibliotecaFractionNumber));
-        gimnasioDescription.setText(getDescriptionString(gimnasioFractionNumber));
+        salaPolivalenteDescription.setText(getDescriptionString(salaPolivalenteFractionNumber, salaPolivalenteMaxCapacity));
+        salaDeLecturaDescription.setText(getDescriptionString(salaDeLecturaFractionNumber, salaDeLecturaMaxCapacity));
+        bibliotecaDescription.setText(getDescriptionString(bibliotecaFractionNumber, bibliotecaMaxCapacity));
+        gimnasioDescription.setText(getDescriptionString(gimnasioFractionNumber, gimnasioMaxCapacity));
 
         // Progressbar animation
         ProgressBarAnimation anim;
