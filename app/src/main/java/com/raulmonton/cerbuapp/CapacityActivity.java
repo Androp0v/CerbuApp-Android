@@ -13,6 +13,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
@@ -41,6 +42,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.Objects;
 
+import static com.raulmonton.cerbuapp.MainActivity.MyPREFERENCES;
 import static com.raulmonton.cerbuapp.R.id.salaPolivalenteProgressbar;
 import static android.Manifest.permission.CAMERA;
 
@@ -249,29 +251,68 @@ public class CapacityActivity extends AppCompatActivity {
     }
 
     public void handleQRDialogResult(String qrCode){
-        Log.e("QR_CODE", qrCode);
 
-        //checkInDatabase.child()
+        SharedPreferences preferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+        String userID = preferences.getString("userID","userID_DEFAULT");
+        String QRString = new String();
+
+        Log.e("userID", userID);
 
         switch (qrCode) {
             case SALA_POLIVALENTE_QR:
                 Log.e("QR_RESULT", "Sala Polivalente");
+                QRString = "SalaPolivalente";
+                salaPolivalenteChip.setVisibility(View.INVISIBLE);
                 break;
             case SALA_DE_LECTURA_QR:
                 Log.e("QR_RESULT", "Sala de lectura");
+                QRString = "SalaDeLectura";
+                salaDeLecturaChip.setVisibility(View.INVISIBLE);
                 break;
             case BIBLIOTECA_QR:
                 Log.e("QR_RESULT", "Biblioteca");
+                QRString = "Biblioteca";
+                bibliotecaChip.setVisibility(View.INVISIBLE);
                 break;
             case GIMNASIO_QR:
                 Log.e("QR_RESULT", "Gimnasio");
+                QRString = "Gimnasio";
+                gimnasioChip.setVisibility(View.INVISIBLE);
                 break;
             case OUT_QR:
                 Log.e("QR_RESULT", "Salir");
+                QRString = "Out";
                 break;
             default:
                 break;
         }
+
+        String finalQRString = QRString;
+        Double finalEpoch = (double) (System.currentTimeMillis() / (double) 1000);
+        checkInDatabase.child(userID).addListenerForSingleValueEvent(new ValueEventListener() {
+
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                // Check if user exists
+                if (snapshot.getValue() == null){
+                    // If user doesn't exist, add it
+                    Log.e("snapshot", "NOT EXIST");
+                    checkInDatabase.child(userID + "/Room").setValue(finalQRString);
+                    checkInDatabase.child(userID + "/Time").setValue(finalEpoch);
+                } else {
+                    // If user exists, update it
+                    Log.e("snapshot", "EXISTS");
+                    checkInDatabase.child(userID + "/Room").setValue(finalQRString);
+                    checkInDatabase.child(userID + "/Time").setValue(finalEpoch);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.e("error","database error");
+
+            }
+        });
     }
 
     private void setUpDetailsButton(Button infoButton, final String roomName){
@@ -357,7 +398,38 @@ public class CapacityActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         // Set Firebase RealtimeDatabase reference
-        checkInDatabase = FirebaseDatabase.getInstance().getReference().child("Capacities/Check-ins");
+        checkInDatabase = FirebaseDatabase.getInstance().getReference().child("Capacities/Check-ins/");
+        SharedPreferences preferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+        String userID = preferences.getString("userID","userID_DEFAULT");
+        checkInDatabase.child(userID).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot != null){
+                    String currentRoom = snapshot.child("Room").getValue().toString();
+                    switch (currentRoom){
+                        case "SalaPolivalente":
+                            salaPolivalenteChip.setVisibility(View.VISIBLE);
+                            break;
+                        case "SalaDeLectura":
+                            salaDeLecturaChip.setVisibility(View.VISIBLE);
+                            break;
+                        case "Biblioteca":
+                            bibliotecaChip.setVisibility(View.VISIBLE);
+                            break;
+                        case "Gimnasio":
+                            gimnasioChip.setVisibility(View.VISIBLE);
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
 
         // UI elements
         salaPolivalenteProgressbar = findViewById(R.id.salaPolivalenteProgressbar);
@@ -445,6 +517,7 @@ public class CapacityActivity extends AppCompatActivity {
                 }
                 animateProgressBars();
             }
+
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
