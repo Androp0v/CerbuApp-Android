@@ -8,249 +8,292 @@ app:layout_behavior="@string/appbar_scrolling_view_behavior"
 tools:context=".MainActivity"
 tools:showIn="@layout/activity_main">
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        tools:layout_editor_absoluteX="8dp"
-        tools:layout_editor_absoluteY="8dp">
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp">
-
-            <androidx.cardview.widget.CardView
-                android:id="@+id/cardView"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginEnd="20dp"
-                app:cardCornerRadius="24dp"
-                app:layout_constraintDimensionRatio="H,1920:1273"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-
-                <RelativeLayout
-                    android:id="@+id/relativelayout"
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent">
-
-                    <ImageView
-                        android:id="@+id/orlaImageView"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:contentDescription="@string/content_des_orlabackground"
-                        android:scaleType="centerCrop"
-                        app:srcCompat="@drawable/orlabackground" />
-
-                    <TextView
-                        android:id="@+id/orlaTextView"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignLeft="@id/orlaImageView"
-                        android:layout_alignTop="@id/orlaImageView"
-                        android:layout_alignRight="@id/orlaImageView"
-                        android:layout_alignBottom="@id/orlaImageView"
-                        android:gravity="top|left"
-                        android:paddingStart="22dp"
-                        android:paddingTop="12dp"
-                        android:paddingRight="12dp"
-                        android:paddingBottom="12dp"
-                        android:text="Orla colegial"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                        android:textColor="#FFFFFF"
-                        android:textSize="34dp"
-                        android:textStyle="bold" />
-
-                </RelativeLayout>
-
-            </androidx.cardview.widget.CardView>
-
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
+        android:layout_height="match_parent">
 
         <LinearLayout
-            android:id="@+id/boletinLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="?attr/selectableItemBackground"
-            android:clickable="true"
-            android:focusable="true"
-            android:orientation="horizontal"
-            android:paddingStart="48dp"
-            android:paddingTop="10dp"
-            android:paddingEnd="48dp"
-            android:paddingBottom="10dp">
+            android:orientation="vertical"
+            android:paddingBottom="32dp"
+            tools:layout_editor_absoluteX="8dp"
+            tools:layout_editor_absoluteY="8dp">
 
-            <ImageView
-                android:id="@+id/boletinImageView"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_gravity="center_vertical"
-                android:scaleType="centerCrop"
-                app:srcCompat="@drawable/ic_boletin" />
-
-            <TextView
-                android:id="@+id/boletinTextView"
-                android:layout_width="wrap_content"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:paddingStart="20dp"
-                android:text="Boletín semanal"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
-        </LinearLayout>
+                android:layout_marginBottom="8dp">
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:layout_marginStart="88dp"
-            android:layout_marginEnd="48dp"
-            android:background="@color/colorSeparator" />
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cardView"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginEnd="20dp"
+                    app:cardCornerRadius="24dp"
+                    app:layout_constraintDimensionRatio="H,1920:1273"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
 
-        <LinearLayout
-            android:id="@+id/menuLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="?attr/selectableItemBackground"
-            android:clickable="true"
-            android:focusable="true"
-            android:orientation="horizontal"
-            android:paddingStart="48dp"
-            android:paddingTop="10dp"
-            android:paddingEnd="48dp"
-            android:paddingBottom="10dp">
+                    <RelativeLayout
+                        android:id="@+id/relativelayout"
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent">
 
-            <ImageView
-                android:id="@+id/menuImageView"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:scaleType="centerCrop"
-                app:srcCompat="@drawable/ic_menu" />
+                        <ImageView
+                            android:id="@+id/orlaImageView"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:contentDescription="@string/content_des_orlabackground"
+                            android:scaleType="centerCrop"
+                            app:srcCompat="@drawable/orlabackground" />
 
-            <TextView
-                android:id="@+id/menuTextView"
-                android:layout_width="wrap_content"
+                        <TextView
+                            android:id="@+id/orlaTextView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignLeft="@id/orlaImageView"
+                            android:layout_alignTop="@id/orlaImageView"
+                            android:layout_alignRight="@id/orlaImageView"
+                            android:layout_alignBottom="@id/orlaImageView"
+                            android:gravity="top|left"
+                            android:paddingStart="22dp"
+                            android:paddingTop="12dp"
+                            android:paddingRight="12dp"
+                            android:paddingBottom="12dp"
+                            android:text="Orla colegial"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                            android:textColor="#FFFFFF"
+                            android:textSize="34dp"
+                            android:textStyle="bold" />
+
+                    </RelativeLayout>
+
+                </androidx.cardview.widget.CardView>
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            <LinearLayout
+                android:id="@+id/boletinLayout"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:paddingStart="20dp"
-                android:text="Menú de comedor"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
-        </LinearLayout>
+                android:background="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true"
+                android:orientation="horizontal"
+                android:paddingStart="48dp"
+                android:paddingTop="10dp"
+                android:paddingEnd="48dp"
+                android:paddingBottom="10dp">
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:layout_marginStart="88dp"
-            android:layout_marginEnd="48dp"
-            android:background="@color/colorSeparator" />
+                <ImageView
+                    android:id="@+id/boletinImageView"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="center_vertical"
+                    android:scaleType="centerCrop"
+                    app:srcCompat="@drawable/ic_boletin" />
 
-        <LinearLayout
-            android:id="@+id/barcodeLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="?attr/selectableItemBackground"
-            android:clickable="true"
-            android:focusable="true"
-            android:orientation="horizontal"
-            android:paddingStart="48dp"
-            android:paddingTop="10dp"
-            android:paddingEnd="48dp"
-            android:paddingBottom="10dp">
+                <TextView
+                    android:id="@+id/boletinTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:paddingStart="20dp"
+                    android:text="Boletín semanal"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+            </LinearLayout>
 
-            <ImageView
-                android:id="@+id/barcodeImageView"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:scaleType="centerCrop"
-                app:srcCompat="@drawable/ic_barcode" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginStart="88dp"
+                android:layout_marginEnd="48dp"
+                android:background="@color/colorSeparator" />
 
-            <TextView
-                android:id="@+id/barcodeTextView"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:id="@+id/menuLayout"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:paddingStart="20dp"
-                android:text="Pase de comidas"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
-        </LinearLayout>
+                android:background="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true"
+                android:orientation="horizontal"
+                android:paddingStart="48dp"
+                android:paddingTop="10dp"
+                android:paddingEnd="48dp"
+                android:paddingBottom="10dp">
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:layout_marginStart="88dp"
-            android:layout_marginEnd="48dp"
-            android:background="@color/colorSeparator" />
+                <ImageView
+                    android:id="@+id/menuImageView"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:scaleType="centerCrop"
+                    app:srcCompat="@drawable/ic_menu" />
 
-        <LinearLayout
-            android:id="@+id/magazineLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="?attr/selectableItemBackground"
-            android:clickable="true"
-            android:focusable="true"
-            android:orientation="horizontal"
-            android:paddingStart="48dp"
-            android:paddingTop="10dp"
-            android:paddingEnd="48dp"
-            android:paddingBottom="10dp">
+                <TextView
+                    android:id="@+id/menuTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:paddingStart="20dp"
+                    android:text="Menú de comedor"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+            </LinearLayout>
 
-            <ImageView
-                android:id="@+id/revistaImageView"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:scaleType="centerCrop"
-                app:srcCompat="@drawable/ic_magazine" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginStart="88dp"
+                android:layout_marginEnd="48dp"
+                android:background="@color/colorSeparator" />
 
-            <TextView
-                android:id="@+id/revistaTextView"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:id="@+id/barcodeLayout"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:paddingStart="20dp"
-                android:text="Revista Patio Interior"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
-        </LinearLayout>
+                android:background="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true"
+                android:orientation="horizontal"
+                android:paddingStart="48dp"
+                android:paddingTop="10dp"
+                android:paddingEnd="48dp"
+                android:paddingBottom="10dp">
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:layout_marginStart="88dp"
-            android:layout_marginEnd="48dp"
-            android:background="@color/colorSeparator" />
+                <ImageView
+                    android:id="@+id/barcodeImageView"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:scaleType="centerCrop"
+                    app:srcCompat="@drawable/ic_barcode" />
 
-        <LinearLayout
-            android:id="@+id/notificationLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="?attr/selectableItemBackground"
-            android:clickable="true"
-            android:focusable="true"
-            android:orientation="horizontal"
-            android:paddingStart="48dp"
-            android:paddingTop="10dp"
-            android:paddingEnd="48dp"
-            android:paddingBottom="10dp">
+                <TextView
+                    android:id="@+id/barcodeTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:paddingStart="20dp"
+                    android:text="Pase de comidas"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+            </LinearLayout>
 
-            <ImageView
-                android:id="@+id/avisosImageView"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:scaleType="centerCrop"
-                app:srcCompat="@drawable/ic_warning" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginStart="88dp"
+                android:layout_marginEnd="48dp"
+                android:background="@color/colorSeparator" />
 
-            <TextView
-                android:id="@+id/avisosTextView"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:id="@+id/capacityLayout"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:paddingStart="20dp"
-                android:text="Avisos"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
-        </LinearLayout>
+                android:background="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true"
+                android:orientation="horizontal"
+                android:paddingStart="48dp"
+                android:paddingTop="10dp"
+                android:paddingEnd="48dp"
+                android:paddingBottom="10dp">
 
-    </LinearLayout>
-    </androidx.constraintlayout.widget.ConstraintLayout>
+                <ImageView
+                    android:id="@+id/capacityImageView"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:scaleType="centerCrop"
+                    app:srcCompat="@drawable/ic_capacity" />
+
+                <TextView
+                    android:id="@+id/capacityTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:paddingStart="20dp"
+                    android:text="Aforos"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginStart="88dp"
+                android:layout_marginEnd="48dp"
+                android:background="@color/colorSeparator" />
+
+            <LinearLayout
+                android:id="@+id/magazineLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true"
+                android:orientation="horizontal"
+                android:paddingStart="48dp"
+                android:paddingTop="10dp"
+                android:paddingEnd="48dp"
+                android:paddingBottom="10dp">
+
+                <ImageView
+                    android:id="@+id/revistaImageView"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:scaleType="centerCrop"
+                    app:srcCompat="@drawable/ic_magazine" />
+
+                <TextView
+                    android:id="@+id/revistaTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:paddingStart="20dp"
+                    android:text="Revista Patio Interior"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginStart="88dp"
+                android:layout_marginEnd="48dp"
+                android:background="@color/colorSeparator" />
+
+            <LinearLayout
+                android:id="@+id/notificationLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true"
+                android:orientation="horizontal"
+                android:paddingStart="48dp"
+                android:paddingTop="10dp"
+                android:paddingEnd="48dp"
+                android:paddingBottom="10dp">
+
+                <ImageView
+                    android:id="@+id/avisosImageView"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:scaleType="centerCrop"
+                    app:srcCompat="@drawable/ic_warning" />
+
+                <TextView
+                    android:id="@+id/avisosTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:paddingStart="20dp"
+                    android:text="Avisos"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

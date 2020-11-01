@@ -9,6 +9,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="#FFFFFF"
         android:orientation="vertical">
 
         <com.google.android.material.appbar.AppBarLayout
@@ -32,6 +33,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:background="#FFFFFF"
                 android:orientation="vertical">
 
                 <View
@@ -51,12 +53,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:adjustViewBounds="true"
-                    android:scaleType="fitCenter"/>
+                    android:scaleType="fitCenter" />
 
             </LinearLayout>
 
         </ScrollView>
-
 
 
     </LinearLayout>

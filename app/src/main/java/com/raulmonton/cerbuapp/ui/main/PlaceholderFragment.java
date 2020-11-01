@@ -81,8 +81,11 @@ public class PlaceholderFragment extends Fragment implements RecyclerAdapter.OnR
 
         recyclerView = root.findViewById(R.id.recyclerView);
 
-        adapter = new RecyclerAdapter(getContext(), DataList, databaseHelper, this);
+        adapter = new RecyclerAdapter(getContext(), DataList, this);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
+
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setDrawingCacheEnabled(true);
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);

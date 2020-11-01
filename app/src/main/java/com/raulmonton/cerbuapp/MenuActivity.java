@@ -12,12 +12,15 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.ParcelFileDescriptor;
 import android.util.Log;
+import android.view.MotionEvent;
+import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ImageView;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 
@@ -29,11 +32,13 @@ public class MenuActivity extends AppCompatActivity {
     private PdfRenderer mPdfRenderer;
     private PdfRenderer.Page mPdfPage;
 
+    private Integer globalPageNumber = 0;
+
     private class loadImageAsync extends AsyncTask {
 
         @Override
         protected Boolean doInBackground(Object[] objects) {
-            LoadImageFromWebOperations((String) objects[0]);
+            LoadImageFromWebOperations((String) objects[0], (Integer) objects[1]);
             return true;
         }
 
@@ -45,7 +50,7 @@ public class MenuActivity extends AppCompatActivity {
 
     }
 
-    void LoadImageFromWebOperations(String url) {
+    void LoadImageFromWebOperations(String url, Integer pageNumber) {
         try {
             InputStream inputStream = (InputStream) new URL(url).getContent();
             FileOutputStream output;
@@ -67,7 +72,17 @@ public class MenuActivity extends AppCompatActivity {
                             ParcelFileDescriptor.MODE_READ_ONLY);
             mPdfRenderer = new PdfRenderer(fileDescriptor);
 
-            mPdfPage = mPdfRenderer.openPage(0);
+            if (pageNumber < 0){
+                pageNumber = 0;
+                globalPageNumber = pageNumber;
+            }else{
+                if (pageNumber > mPdfRenderer.getPageCount() - 1){
+                    pageNumber = mPdfRenderer.getPageCount() - 1;
+                    globalPageNumber = pageNumber;
+                }
+            }
+
+            mPdfPage = mPdfRenderer.openPage(pageNumber);
 
             Bitmap bitmap = Bitmap.createBitmap(mPdfPage.getWidth(),
                     mPdfPage.getHeight(),
@@ -86,7 +101,7 @@ public class MenuActivity extends AppCompatActivity {
         }
     }
 
-    @SuppressLint("SetJavaScriptEnabled")
+    @SuppressLint({"SetJavaScriptEnabled","ClickableViewAccessibility"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -96,6 +111,21 @@ public class MenuActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         menuContent = findViewById(R.id.menuContent);
-        new loadImageAsync().execute("https://cerbuna.unizar.es/sites/cerbuna.unizar.es/files/users/temporales/menus_de_oct_-nov.pdf");
+        new loadImageAsync().execute("https://cerbuna.unizar.es/sites/cerbuna.unizar.es/files/users/temporales/menu.pdf",0);
+
+        menuContent.setOnTouchListener(new View.OnTouchListener() {
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_DOWN){
+                    if (event.getX() > menuContent.getWidth()/2){
+                        globalPageNumber += 1;
+                        new loadImageAsync().execute("https://cerbuna.unizar.es/sites/cerbuna.unizar.es/files/users/temporales/menu.pdf", globalPageNumber);
+                    }else{
+                        globalPageNumber -= 1;
+                        new loadImageAsync().execute("https://cerbuna.unizar.es/sites/cerbuna.unizar.es/files/users/temporales/menu.pdf", globalPageNumber);
+                    }
+                }
+                return false;
+            }
+        });
     }
 }

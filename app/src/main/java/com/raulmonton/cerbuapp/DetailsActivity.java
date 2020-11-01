@@ -40,16 +40,6 @@ public class DetailsActivity extends AppCompatActivity {
     private float mScaleFactor = 1.0f;
     private ImageView detailedImage;
 
-    // Where the finger first  touches the screen
-    private float startX = 0f;
-    private float startY = 0f;
-
-    // How much to translate the canvas
-    private float dx = 0f;
-    private float dy = 0f;
-    private float prevDx = 0f;
-    private float prevDy = 0f;
-
     @Override
     public void onBackPressed() {
         if (changedFlag){
@@ -70,14 +60,17 @@ public class DetailsActivity extends AppCompatActivity {
             mScaleGestureDetector.onTouchEvent(motionEvent);
         }
         if(motionEvent.getAction() == MotionEvent.ACTION_UP || motionEvent.getAction() == MotionEvent.ACTION_CANCEL){
-            mScaleFactor = 1.0f;
+
             ObjectAnimator animX = ObjectAnimator.ofFloat(detailedImage, "scaleX", mScaleFactor, 1.0f);
             ObjectAnimator animY = ObjectAnimator.ofFloat(detailedImage, "scaleY", mScaleFactor, 1.0f);
+
             AnimatorSet animSetXY = new AnimatorSet();
             animSetXY.playTogether(animX, animY);
-            animSetXY.setDuration(300);
-            animSetXY.setInterpolator(new BounceInterpolator());
+            animSetXY.setDuration(200);
             animSetXY.start();
+
+            mScaleFactor = 1.0f;
+
         }
 
         return true;
@@ -236,6 +229,7 @@ public class DetailsActivity extends AppCompatActivity {
             rootLayout.setBackgroundColor(Color.BLACK);
             nameTextView.setTextColor(Color.WHITE);
             careerTextView.setTextColor(Color.WHITE);
+            roomTextView.setText("Habitación: " + rowData.getRoom());
             roomTextView.setTextColor(Color.WHITE);
             getWindow().setStatusBarColor(ContextCompat.getColor(getApplicationContext(), R.color.colorRaulBackground));
         }
@@ -244,16 +238,22 @@ public class DetailsActivity extends AppCompatActivity {
     private class ScaleListener extends ScaleGestureDetector.SimpleOnScaleGestureListener {
         @Override
         public boolean onScale(ScaleGestureDetector scaleGestureDetector){
-            mScaleFactor *= scaleGestureDetector.getScaleFactor();
-            mScaleFactor = Math.max(1.0f, Math.min(mScaleFactor, 10.0f));
-            detailedImage.setScaleX(mScaleFactor);
-            detailedImage.setScaleY(mScaleFactor);
+            Log.e("MyTAG",String.valueOf(scaleGestureDetector.getFocusY()));
+            Log.e("MyTAG", String.valueOf(detailedImage.getBottom()));
 
             float focusX = scaleGestureDetector.getFocusX();
             float focusY = scaleGestureDetector.getFocusY();
 
-            detailedImage.setPivotX(focusX);  // default is to pivot at view center
-            detailedImage.setPivotY(focusY);  // default is to pivot at view center
+            if (focusY < detailedImage.getBottom()){
+                mScaleFactor *= scaleGestureDetector.getScaleFactor();
+                mScaleFactor = Math.max(1.0f, Math.min(mScaleFactor, 10.0f));
+                detailedImage.setScaleX(mScaleFactor);
+                detailedImage.setScaleY(mScaleFactor);
+
+                detailedImage.setPivotX(focusX);  // default is to pivot at view center
+                detailedImage.setPivotY(focusY);  // default is to pivot at view center
+            }
+
             return true;
         }
     }

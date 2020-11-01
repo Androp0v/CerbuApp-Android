@@ -5,6 +5,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.drawable.AnimationDrawable;
 import android.graphics.pdf.PdfRenderer;
 import android.os.AsyncTask;
@@ -99,7 +100,7 @@ public class BoletinActivity extends AppCompatActivity {
         boletinAnimation = (AnimationDrawable) boletinTop.getDrawable();
         boletinAnimation.start();
 
-        new loadImageAsync().execute("https://drive.google.com/uc?id=1raUqZ-P8zY1DiKIGwCvN8K65NFnaJk8Y");
+        new loadImageAsync().execute("https://drive.google.com/uc?id=1mqVm0maDENVejJuqvybHHOEgotN7wMNU");
 
     }
 }

@@ -74,8 +74,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="-8dp"
                     android:adjustViewBounds="true"
-                    android:background="#FFFFFF"
-                    android:backgroundTint="#FFFFFF"
                     android:padding="0dp"
                     android:scaleType="fitCenter"
                     app:srcCompat="@drawable/ic_stripfood" />
@@ -99,6 +97,7 @@
                     android:layout_marginEnd="24dp"
                     android:layout_marginBottom="24dp"
                     android:background="#FFFFFF"
+                    android:backgroundTint="#FFFFFF"
                     app:cardCornerRadius="5dp">
 
                     <ImageView
@@ -108,6 +107,7 @@
                         android:layout_gravity="center_horizontal|center_vertical"
                         android:layout_marginTop="3dp"
                         android:adjustViewBounds="true"
+                        android:background="#FFFFFF"
                         android:foregroundGravity="center_vertical|center"
                         android:padding="2dp"
                         android:scaleType="fitCenter"
