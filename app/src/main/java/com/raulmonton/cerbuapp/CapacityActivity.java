@@ -30,6 +30,7 @@ import android.view.animation.Transformation;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.chip.Chip;
@@ -91,6 +92,12 @@ public class CapacityActivity extends AppCompatActivity {
     private Chip salaDeLecturaChip;
     private Chip bibliotecaChip;
     private Chip gimnasioChip;
+
+    // Local deltas
+    private float salaPolivalenteLocalUpdate = 0;
+    private float salaDeLecturaLocalUpdate = 0;
+    private float bibliotecaLocalUpdate = 0;
+    private float gimnasioLocalUpdate = 0;
 
     private int getProgressBarColor(Double fractionNumber){
         if (fractionNumber < 0.3){
@@ -164,10 +171,10 @@ public class CapacityActivity extends AppCompatActivity {
 
     private void animateProgressBars(){
         // Set initial progressbar progress
-        salaPolivalenteProgressbar.setProgress((int) (salaPolivalenteFractionNumber*100));
-        salaDeLecturaProgressbar.setProgress((int) (salaDeLecturaFractionNumber*100));
-        bibliotecaProgressbar.setProgress((int) (bibliotecaFractionNumber*100));
-        gimnasioProgressbar.setProgress((int) (gimnasioFractionNumber*100));
+        salaPolivalenteProgressbar.setProgress((int) (salaPolivalenteFractionNumber*100 + salaPolivalenteLocalUpdate/salaPolivalenteMaxCapacity*100));
+        salaDeLecturaProgressbar.setProgress((int) (salaDeLecturaFractionNumber*100 + salaDeLecturaLocalUpdate/salaDeLecturaMaxCapacity*100));
+        bibliotecaProgressbar.setProgress((int) (bibliotecaFractionNumber*100 + bibliotecaLocalUpdate/bibliotecaMaxCapacity*100));
+        gimnasioProgressbar.setProgress((int) (gimnasioFractionNumber*100 + gimnasioLocalUpdate/gimnasioMaxCapacity*100));
 
         // Set progressbar colors
         salaPolivalenteProgressbar.setProgressTintList(ColorStateList.valueOf(getProgressBarColor(salaPolivalenteFractionNumber)));
@@ -250,58 +257,108 @@ public class CapacityActivity extends AppCompatActivity {
 
     }
 
+    private void deleteLocalUpdates(){
+        salaPolivalenteLocalUpdate = 0;
+        salaDeLecturaLocalUpdate = 0;
+        bibliotecaLocalUpdate = 0;
+        gimnasioLocalUpdate = 0;
+    }
+
+    private void exitAllRooms(){
+        // Make all location chips invisible
+        salaPolivalenteChip.setVisibility(View.INVISIBLE);
+        salaDeLecturaChip.setVisibility(View.INVISIBLE);
+        bibliotecaChip.setVisibility(View.INVISIBLE);
+        gimnasioChip.setVisibility(View.INVISIBLE);
+
+        // Retrieve userID from preferences
+        SharedPreferences preferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+        String userID = preferences.getString("userID","userID_DEFAULT");
+
+        // Show action in toast message
+        Toast.makeText(getApplicationContext(), "Saliendo", (int) 1.0).show();
+
+        // Delete the check-in from the database
+        checkInDatabase.child(userID).setValue(null);
+
+        // Set a negative local update in the current room just left
+        if (salaPolivalenteLocalUpdate == 1) { salaPolivalenteLocalUpdate = -1; }
+        if (salaDeLecturaLocalUpdate == 1) { salaDeLecturaLocalUpdate = -1; }
+        if (bibliotecaLocalUpdate == 1) { bibliotecaLocalUpdate = -1; }
+        if (gimnasioLocalUpdate == 1) { gimnasioLocalUpdate = -1; }
+
+        //Animate the change
+        animateProgressBars();
+    }
+
     public void handleQRDialogResult(String qrCode){
 
         SharedPreferences preferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
         String userID = preferences.getString("userID","userID_DEFAULT");
         String QRString = new String();
 
-        Log.e("userID", userID);
+        // Make all location chips invisible
+        salaPolivalenteChip.setVisibility(View.INVISIBLE);
+        salaDeLecturaChip.setVisibility(View.INVISIBLE);
+        bibliotecaChip.setVisibility(View.INVISIBLE);
+        gimnasioChip.setVisibility(View.INVISIBLE);
 
+        // Make visible only the current location
         switch (qrCode) {
             case SALA_POLIVALENTE_QR:
-                Log.e("QR_RESULT", "Sala Polivalente");
                 QRString = "SalaPolivalente";
-                salaPolivalenteChip.setVisibility(View.INVISIBLE);
+                salaPolivalenteChip.setVisibility(View.VISIBLE);
+                deleteLocalUpdates();
+                salaPolivalenteLocalUpdate = 1;
+                Toast.makeText(getApplicationContext(), "Entrando a la Sala Polivalente", (int) 1.0).show();
                 break;
             case SALA_DE_LECTURA_QR:
-                Log.e("QR_RESULT", "Sala de lectura");
                 QRString = "SalaDeLectura";
-                salaDeLecturaChip.setVisibility(View.INVISIBLE);
+                salaDeLecturaChip.setVisibility(View.VISIBLE);
+                deleteLocalUpdates();
+                salaDeLecturaLocalUpdate = 1;
+                Toast.makeText(getApplicationContext(), "Entrando a la Sala de Lectura", (int) 1.0).show();
                 break;
             case BIBLIOTECA_QR:
-                Log.e("QR_RESULT", "Biblioteca");
                 QRString = "Biblioteca";
-                bibliotecaChip.setVisibility(View.INVISIBLE);
+                bibliotecaChip.setVisibility(View.VISIBLE);
+                deleteLocalUpdates();
+                bibliotecaLocalUpdate = 1;
+                Toast.makeText(getApplicationContext(), "Entrando a la Biblioteca", (int) 1.0).show();
                 break;
             case GIMNASIO_QR:
-                Log.e("QR_RESULT", "Gimnasio");
                 QRString = "Gimnasio";
-                gimnasioChip.setVisibility(View.INVISIBLE);
+                gimnasioChip.setVisibility(View.VISIBLE);
+                deleteLocalUpdates();
+                gimnasioLocalUpdate = 1;
+                Toast.makeText(getApplicationContext(), "Entrando al Gimnasio", (int) 1.0).show();
                 break;
             case OUT_QR:
-                Log.e("QR_RESULT", "Salir");
-                QRString = "Out";
-                break;
+                exitAllRooms();
+                return;
             default:
-                break;
+                // Gracefully ignore unknown QR codes and exit function
+                Toast errorToast = Toast.makeText(getApplicationContext(), "Error leyendo el QR", (int) 1.0);
+                errorToast.getView().setBackgroundColor(Color.rgb(255,59,48));
+                errorToast.show();
+                return;
         }
 
+        // Prepare data to be uploaded to the database
         String finalQRString = QRString;
         Double finalEpoch = (double) (System.currentTimeMillis() / (double) 1000);
-        checkInDatabase.child(userID).addListenerForSingleValueEvent(new ValueEventListener() {
 
+        // Update the database check-in
+        checkInDatabase.child(userID).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 // Check if user exists
                 if (snapshot.getValue() == null){
                     // If user doesn't exist, add it
-                    Log.e("snapshot", "NOT EXIST");
                     checkInDatabase.child(userID + "/Room").setValue(finalQRString);
                     checkInDatabase.child(userID + "/Time").setValue(finalEpoch);
                 } else {
                     // If user exists, update it
-                    Log.e("snapshot", "EXISTS");
                     checkInDatabase.child(userID + "/Room").setValue(finalQRString);
                     checkInDatabase.child(userID + "/Time").setValue(finalEpoch);
                 }
@@ -309,10 +366,15 @@ public class CapacityActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Log.e("error","database error");
-
+                // Gracefully ignore unknown QR codes and exit function
+                Toast errorToast = Toast.makeText(getApplicationContext(), "Sin conexión", (int) 1.0);
+                errorToast.getView().setBackgroundColor(Color.rgb(255,59,48));
+                errorToast.show();
             }
         });
+
+        // Animate local changes
+        animateProgressBars();
     }
 
     private void setUpDetailsButton(Button infoButton, final String roomName){
@@ -401,10 +463,12 @@ public class CapacityActivity extends AppCompatActivity {
         checkInDatabase = FirebaseDatabase.getInstance().getReference().child("Capacities/Check-ins/");
         SharedPreferences preferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
         String userID = preferences.getString("userID","userID_DEFAULT");
+
+        // Retrieve the user check-in ONLY, not the whole check-in database
         checkInDatabase.child(userID).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot != null){
+                if (snapshot.getValue() != null){
                     String currentRoom = snapshot.child("Room").getValue().toString();
                     switch (currentRoom){
                         case "SalaPolivalente":
@@ -469,6 +533,32 @@ public class CapacityActivity extends AppCompatActivity {
                     }
                 });
 
+        // Setup actions for close buttons in chips
+        salaPolivalenteChip.setOnCloseIconClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                exitAllRooms();
+            }
+        });
+        salaDeLecturaChip.setOnCloseIconClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                exitAllRooms();
+            }
+        });
+        bibliotecaChip.setOnCloseIconClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                exitAllRooms();
+            }
+        });
+        gimnasioChip.setOnCloseIconClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                exitAllRooms();
+            }
+        });
+
         // Observe for changes in the database
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("Capacities/Count");
 
@@ -480,14 +570,11 @@ public class CapacityActivity extends AppCompatActivity {
 
                     if (Objects.equals(postSnapshot.getKey(), "SalaPolivalente")){
                         Room room = postSnapshot.getValue(Room.class);
-                        Log.e("SALA POLIVALENTE", String.valueOf(room.Max));
                         if ((room != null ? room.Max : -1) == -1){
                             salaPolivalenteFractionNumber = -1;
                         }else{
-                            Log.e("SALA POLIVALENTE", "NOT NULL");
                             salaPolivalenteMaxCapacity = room.Max;
                             salaPolivalenteFractionNumber = ((float) room.Current)/((float) room.Max);
-                            Log.e("SALA POLIVALENTE", String.valueOf(salaPolivalenteFractionNumber));
                         }
                     }else if (Objects.equals(postSnapshot.getKey(), "SalaDeLectura")){
                         Room room = postSnapshot.getValue(Room.class);
