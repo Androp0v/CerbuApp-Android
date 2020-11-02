@@ -5,24 +5,21 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import androidx.fragment.app.FragmentActivity;
-import androidx.fragment.app.FragmentManager;
 
-import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.HandlerThread;
+import android.os.Looper;
+import android.os.Message;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.Animation;
@@ -32,7 +29,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.DataSnapshot;
@@ -44,7 +40,6 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.Objects;
 
 import static com.raulmonton.cerbuapp.MainActivity.MyPREFERENCES;
-import static com.raulmonton.cerbuapp.R.id.salaPolivalenteProgressbar;
 import static android.Manifest.permission.CAMERA;
 
 public class CapacityActivity extends AppCompatActivity {
@@ -57,6 +52,11 @@ public class CapacityActivity extends AppCompatActivity {
     private static final String GIMNASIO_QR = "ATPi0bjz";
     private static final String OUT_QR = "SVOWE1Kd";
 
+    // Handler thread to update the UI
+    HandlerThread handlerThread;
+    Handler mainHandler;
+
+    // Other variables
     private double salaPolivalenteFractionNumber = 0.0;
     private double salaDeLecturaFractionNumber = 0.0;
     private double bibliotecaFractionNumber = 0.0;
@@ -266,17 +266,27 @@ public class CapacityActivity extends AppCompatActivity {
 
     private void exitAllRooms(){
         // Make all location chips invisible
-        salaPolivalenteChip.setVisibility(View.INVISIBLE);
-        salaDeLecturaChip.setVisibility(View.INVISIBLE);
-        bibliotecaChip.setVisibility(View.INVISIBLE);
-        gimnasioChip.setVisibility(View.INVISIBLE);
+        CapacityActivity.this.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                salaPolivalenteChip.setVisibility(View.INVISIBLE);
+                salaDeLecturaChip.setVisibility(View.INVISIBLE);
+                bibliotecaChip.setVisibility(View.INVISIBLE);
+                gimnasioChip.setVisibility(View.INVISIBLE);
+            }
+        });
 
         // Retrieve userID from preferences
         SharedPreferences preferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
         String userID = preferences.getString("userID","userID_DEFAULT");
 
         // Show action in toast message
-        Toast.makeText(getApplicationContext(), "Saliendo", (int) 1.0).show();
+        CapacityActivity.this.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(getApplicationContext(), "Saliendo", Toast.LENGTH_SHORT).show();
+            }
+        });
 
         // Delete the check-in from the database
         checkInDatabase.child(userID).setValue(null);
@@ -288,50 +298,95 @@ public class CapacityActivity extends AppCompatActivity {
         if (gimnasioLocalUpdate == 1) { gimnasioLocalUpdate = -1; }
 
         //Animate the change
-        animateProgressBars();
+        CapacityActivity.this.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                animateProgressBars();
+            }
+        });
     }
 
     public void handleQRDialogResult(String qrCode){
 
         SharedPreferences preferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
         String userID = preferences.getString("userID","userID_DEFAULT");
-        String QRString = new String();
+        String QRString;
 
         // Make all location chips invisible
-        salaPolivalenteChip.setVisibility(View.INVISIBLE);
-        salaDeLecturaChip.setVisibility(View.INVISIBLE);
-        bibliotecaChip.setVisibility(View.INVISIBLE);
-        gimnasioChip.setVisibility(View.INVISIBLE);
+        CapacityActivity.this.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                salaPolivalenteChip.setVisibility(View.INVISIBLE);
+                salaDeLecturaChip.setVisibility(View.INVISIBLE);
+                bibliotecaChip.setVisibility(View.INVISIBLE);
+                gimnasioChip.setVisibility(View.INVISIBLE);
+            }
+        });
+
+        // Create Runnable to update UI
+        Runnable updateChip;
 
         // Make visible only the current location
         switch (qrCode) {
             case SALA_POLIVALENTE_QR:
                 QRString = "SalaPolivalente";
-                salaPolivalenteChip.setVisibility(View.VISIBLE);
+
+                updateChip = new Runnable() {
+                    @Override
+                    public void run() {
+                        salaPolivalenteChip.setVisibility(View.VISIBLE);
+                        Toast.makeText(getApplicationContext(), "Entrando a la Sala Polivalente", Toast.LENGTH_SHORT).show();
+                    }
+                };
+                CapacityActivity.this.runOnUiThread(updateChip);
+
                 deleteLocalUpdates();
                 salaPolivalenteLocalUpdate = 1;
-                Toast.makeText(getApplicationContext(), "Entrando a la Sala Polivalente", (int) 1.0).show();
                 break;
             case SALA_DE_LECTURA_QR:
                 QRString = "SalaDeLectura";
-                salaDeLecturaChip.setVisibility(View.VISIBLE);
+
+                updateChip = new Runnable() {
+                    @Override
+                    public void run() {
+                        salaDeLecturaChip.setVisibility(View.VISIBLE);
+                        Toast.makeText(getApplicationContext(), "Entrando a la Sala de Lectura", Toast.LENGTH_SHORT).show();
+                    }
+                };
+                CapacityActivity.this.runOnUiThread(updateChip);
+
                 deleteLocalUpdates();
                 salaDeLecturaLocalUpdate = 1;
-                Toast.makeText(getApplicationContext(), "Entrando a la Sala de Lectura", (int) 1.0).show();
                 break;
             case BIBLIOTECA_QR:
                 QRString = "Biblioteca";
-                bibliotecaChip.setVisibility(View.VISIBLE);
+
+                updateChip = new Runnable() {
+                    @Override
+                    public void run() {
+                        bibliotecaChip.setVisibility(View.VISIBLE);
+                        Toast.makeText(getApplicationContext(), "Entrando a la Biblioteca", Toast.LENGTH_SHORT).show();
+                    }
+                };
+                CapacityActivity.this.runOnUiThread(updateChip);
+
                 deleteLocalUpdates();
                 bibliotecaLocalUpdate = 1;
-                Toast.makeText(getApplicationContext(), "Entrando a la Biblioteca", (int) 1.0).show();
                 break;
             case GIMNASIO_QR:
                 QRString = "Gimnasio";
-                gimnasioChip.setVisibility(View.VISIBLE);
+
+                updateChip = new Runnable() {
+                    @Override
+                    public void run() {
+                        gimnasioChip.setVisibility(View.VISIBLE);
+                        Toast.makeText(getApplicationContext(), "Entrando al Gimnasio", Toast.LENGTH_SHORT).show();
+                    }
+                };
+                CapacityActivity.this.runOnUiThread(updateChip);
+
                 deleteLocalUpdates();
                 gimnasioLocalUpdate = 1;
-                Toast.makeText(getApplicationContext(), "Entrando al Gimnasio", (int) 1.0).show();
                 break;
             case OUT_QR:
                 exitAllRooms();
@@ -374,7 +429,12 @@ public class CapacityActivity extends AppCompatActivity {
         });
 
         // Animate local changes
-        animateProgressBars();
+        CapacityActivity.this.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                animateProgressBars();
+            }
+        });
     }
 
     private void setUpDetailsButton(Button infoButton, final String roomName){
@@ -494,6 +554,13 @@ public class CapacityActivity extends AppCompatActivity {
 
             }
         });
+
+        // Get a handler that can be used to post to the main thread
+        //mainHandler = new Handler(Looper.getMainLooper());
+        handlerThread = new HandlerThread("ChipUpdater");
+        handlerThread.start();
+        Looper looper = handlerThread.getLooper();
+        mainHandler = new Handler(looper);
 
         // UI elements
         salaPolivalenteProgressbar = findViewById(R.id.salaPolivalenteProgressbar);
