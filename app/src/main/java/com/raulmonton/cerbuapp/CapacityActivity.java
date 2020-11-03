@@ -5,24 +5,22 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import androidx.fragment.app.FragmentActivity;
-import androidx.fragment.app.FragmentManager;
 
-import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
+import android.os.Debug;
+import android.os.Handler;
+import android.os.HandlerThread;
+import android.os.Looper;
+import android.os.Message;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.Animation;
@@ -30,8 +28,8 @@ import android.view.animation.Transformation;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.DataSnapshot;
@@ -43,7 +41,6 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.Objects;
 
 import static com.raulmonton.cerbuapp.MainActivity.MyPREFERENCES;
-import static com.raulmonton.cerbuapp.R.id.salaPolivalenteProgressbar;
 import static android.Manifest.permission.CAMERA;
 
 public class CapacityActivity extends AppCompatActivity {
@@ -56,6 +53,14 @@ public class CapacityActivity extends AppCompatActivity {
     private static final String GIMNASIO_QR = "ATPi0bjz";
     private static final String OUT_QR = "SVOWE1Kd";
 
+    // Current room
+    String currentRoom;
+
+    // Handler thread to update the UI
+    HandlerThread handlerThread;
+    Handler mainHandler;
+
+    // Other variables
     private double salaPolivalenteFractionNumber = 0.0;
     private double salaDeLecturaFractionNumber = 0.0;
     private double bibliotecaFractionNumber = 0.0;
@@ -91,6 +96,12 @@ public class CapacityActivity extends AppCompatActivity {
     private Chip salaDeLecturaChip;
     private Chip bibliotecaChip;
     private Chip gimnasioChip;
+
+    // Local deltas
+    private float salaPolivalenteLocalUpdate = 0;
+    private float salaDeLecturaLocalUpdate = 0;
+    private float bibliotecaLocalUpdate = 0;
+    private float gimnasioLocalUpdate = 0;
 
     private int getProgressBarColor(Double fractionNumber){
         if (fractionNumber < 0.3){
@@ -163,7 +174,7 @@ public class CapacityActivity extends AppCompatActivity {
     }
 
     private void animateProgressBars(){
-        // Set initial progressbar progress
+        // Set initial progressbar progress (TO-DO: This may not do anything)
         salaPolivalenteProgressbar.setProgress((int) (salaPolivalenteFractionNumber*100));
         salaDeLecturaProgressbar.setProgress((int) (salaDeLecturaFractionNumber*100));
         bibliotecaProgressbar.setProgress((int) (bibliotecaFractionNumber*100));
@@ -183,27 +194,52 @@ public class CapacityActivity extends AppCompatActivity {
 
         // Progressbar animation
         ProgressBarAnimation anim;
-        anim = new ProgressBarAnimation(salaPolivalenteProgressbar,
-                (int)(salaPolivalenteFractionNumberOld*100),
-                (int)(salaPolivalenteFractionNumber*100));
+
+        if (salaPolivalenteMaxCapacity != 0){
+            anim = new ProgressBarAnimation(salaPolivalenteProgressbar,
+                    (int)(salaPolivalenteFractionNumberOld*100),
+                    (int)(salaPolivalenteFractionNumber*100 + salaPolivalenteLocalUpdate/salaPolivalenteMaxCapacity*100));
+        } else {
+            anim = new ProgressBarAnimation(salaPolivalenteProgressbar,
+                    (int)(salaPolivalenteFractionNumberOld*100),
+                    (int)(salaPolivalenteFractionNumber*100));
+        }
         anim.setDuration((long) (1000*(Math.abs(salaPolivalenteFractionNumber - salaPolivalenteFractionNumberOld))));
         salaPolivalenteProgressbar.startAnimation(anim);
 
-        anim = new ProgressBarAnimation(salaDeLecturaProgressbar,
-                (int)(salaDeLecturaFractionNumberOld*100),
-                (int)(salaDeLecturaFractionNumber*100));
+        if (salaDeLecturaMaxCapacity != 0){
+            anim = new ProgressBarAnimation(salaDeLecturaProgressbar,
+                    (int)(salaDeLecturaFractionNumberOld*100),
+                    (int)(salaDeLecturaFractionNumber*100 + salaDeLecturaLocalUpdate/salaDeLecturaMaxCapacity*100));
+        } else {
+            anim = new ProgressBarAnimation(salaDeLecturaProgressbar,
+                    (int)(salaDeLecturaFractionNumberOld*100),
+                    (int)(salaDeLecturaFractionNumber*100));
+        }
         anim.setDuration((long) (1000*(Math.abs(salaDeLecturaFractionNumber - salaDeLecturaFractionNumberOld))));
         salaDeLecturaProgressbar.startAnimation(anim);
 
-        anim = new ProgressBarAnimation(bibliotecaProgressbar,
-                (int)(bibliotecaFractionNumberOld*100),
-                (int)(bibliotecaFractionNumber*100));
+        if (bibliotecaMaxCapacity != 0){
+            anim = new ProgressBarAnimation(bibliotecaProgressbar,
+                    (int)(bibliotecaFractionNumberOld*100),
+                    (int)(bibliotecaFractionNumber*100 + bibliotecaLocalUpdate/bibliotecaMaxCapacity*100));
+        } else {
+            anim = new ProgressBarAnimation(bibliotecaProgressbar,
+                    (int)(bibliotecaFractionNumberOld*100),
+                    (int)(bibliotecaFractionNumber*100));
+        }
         anim.setDuration((long) (1000*(Math.abs(bibliotecaFractionNumber - bibliotecaFractionNumberOld))));
         bibliotecaProgressbar.startAnimation(anim);
 
-        anim = new ProgressBarAnimation(gimnasioProgressbar,
-                (int)(gimnasioFractionNumberOld*100),
-                (int)(gimnasioFractionNumber*100));
+        if (gimnasioMaxCapacity != 0){
+            anim = new ProgressBarAnimation(gimnasioProgressbar,
+                    (int)(gimnasioFractionNumberOld*100),
+                    (int)(gimnasioFractionNumber*100 + gimnasioLocalUpdate/gimnasioMaxCapacity*100));
+        } else {
+            anim = new ProgressBarAnimation(gimnasioProgressbar,
+                    (int)(gimnasioFractionNumberOld*100),
+                    (int)(gimnasioFractionNumber*100));
+        }
         anim.setDuration((long) (1000*(Math.abs(gimnasioFractionNumber - gimnasioFractionNumberOld))));
         gimnasioProgressbar.startAnimation(anim);
 
@@ -250,58 +286,189 @@ public class CapacityActivity extends AppCompatActivity {
 
     }
 
+    private void deleteLocalUpdates(){
+        salaPolivalenteLocalUpdate = 0;
+        salaDeLecturaLocalUpdate = 0;
+        bibliotecaLocalUpdate = 0;
+        gimnasioLocalUpdate = 0;
+    }
+
+    private void exitAllRooms(){
+
+        currentRoom = "None";
+
+        // Make all location chips invisible
+        CapacityActivity.this.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                salaPolivalenteChip.setVisibility(View.INVISIBLE);
+                salaDeLecturaChip.setVisibility(View.INVISIBLE);
+                bibliotecaChip.setVisibility(View.INVISIBLE);
+                gimnasioChip.setVisibility(View.INVISIBLE);
+            }
+        });
+
+        // Retrieve userID from preferences
+        SharedPreferences preferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+        String userID = preferences.getString("userID","userID_DEFAULT");
+
+        // Show action in toast message
+        CapacityActivity.this.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(getApplicationContext(), "Saliendo", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        // Delete the check-in from the database
+        checkInDatabase.child(userID).setValue(null);
+
+        // Set a negative local update in the current room just left
+        if (salaPolivalenteLocalUpdate == 1) { salaPolivalenteLocalUpdate = -1; }
+        if (salaDeLecturaLocalUpdate == 1) { salaDeLecturaLocalUpdate = -1; }
+        if (bibliotecaLocalUpdate == 1) { bibliotecaLocalUpdate = -1; }
+        if (gimnasioLocalUpdate == 1) { gimnasioLocalUpdate = -1; }
+
+        //Animate the change
+        CapacityActivity.this.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                animateProgressBars();
+            }
+        });
+    }
+
     public void handleQRDialogResult(String qrCode){
 
         SharedPreferences preferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
         String userID = preferences.getString("userID","userID_DEFAULT");
-        String QRString = new String();
+        String QRString;
 
-        Log.e("userID", userID);
-
-        switch (qrCode) {
-            case SALA_POLIVALENTE_QR:
-                Log.e("QR_RESULT", "Sala Polivalente");
-                QRString = "SalaPolivalente";
+        // Make all location chips invisible
+        CapacityActivity.this.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
                 salaPolivalenteChip.setVisibility(View.INVISIBLE);
-                break;
-            case SALA_DE_LECTURA_QR:
-                Log.e("QR_RESULT", "Sala de lectura");
-                QRString = "SalaDeLectura";
                 salaDeLecturaChip.setVisibility(View.INVISIBLE);
-                break;
-            case BIBLIOTECA_QR:
-                Log.e("QR_RESULT", "Biblioteca");
-                QRString = "Biblioteca";
                 bibliotecaChip.setVisibility(View.INVISIBLE);
-                break;
-            case GIMNASIO_QR:
-                Log.e("QR_RESULT", "Gimnasio");
-                QRString = "Gimnasio";
                 gimnasioChip.setVisibility(View.INVISIBLE);
-                break;
-            case OUT_QR:
-                Log.e("QR_RESULT", "Salir");
-                QRString = "Out";
-                break;
-            default:
-                break;
+            }
+        });
+
+        // Create Runnable to update UI
+        Runnable updateChip;
+
+        // Delete local updates
+        deleteLocalUpdates();
+
+        // Exit last current room
+        if (currentRoom != null){
+            switch (currentRoom){
+                case "SalaPolivalente":
+                    salaPolivalenteLocalUpdate = -1;
+                    break;
+                case "SalaDeLectura":
+                    salaDeLecturaLocalUpdate = -1;
+                    break;
+                case "Biblioteca":
+                    bibliotecaLocalUpdate = -1;
+                    break;
+                case "Gimnasio":
+                    gimnasioLocalUpdate = -1;
+                    break;
+                default:
+                    break;
+            }
         }
 
+        // Make visible only the current location
+        switch (qrCode) {
+            case SALA_POLIVALENTE_QR:
+                QRString = "SalaPolivalente";
+                currentRoom = "SalaPolivalente";
+
+                updateChip = new Runnable() {
+                    @Override
+                    public void run() {
+                        salaPolivalenteChip.setVisibility(View.VISIBLE);
+                        Toast.makeText(getApplicationContext(), "Entrando a la Sala Polivalente", Toast.LENGTH_SHORT).show();
+                    }
+                };
+                CapacityActivity.this.runOnUiThread(updateChip);
+
+                salaPolivalenteLocalUpdate = 1;
+                break;
+            case SALA_DE_LECTURA_QR:
+                QRString = "SalaDeLectura";
+                currentRoom = "SalaDeLectura";
+
+                updateChip = new Runnable() {
+                    @Override
+                    public void run() {
+                        salaDeLecturaChip.setVisibility(View.VISIBLE);
+                        Toast.makeText(getApplicationContext(), "Entrando a la Sala de Lectura", Toast.LENGTH_SHORT).show();
+                    }
+                };
+                CapacityActivity.this.runOnUiThread(updateChip);
+
+                salaDeLecturaLocalUpdate = 1;
+                break;
+            case BIBLIOTECA_QR:
+                QRString = "Biblioteca";
+                currentRoom = "Biblioteca";
+
+                updateChip = new Runnable() {
+                    @Override
+                    public void run() {
+                        bibliotecaChip.setVisibility(View.VISIBLE);
+                        Toast.makeText(getApplicationContext(), "Entrando a la Biblioteca", Toast.LENGTH_SHORT).show();
+                    }
+                };
+                CapacityActivity.this.runOnUiThread(updateChip);
+
+                bibliotecaLocalUpdate = 1;
+                break;
+            case GIMNASIO_QR:
+                QRString = "Gimnasio";
+                currentRoom = "Gimnasio";
+
+                updateChip = new Runnable() {
+                    @Override
+                    public void run() {
+                        gimnasioChip.setVisibility(View.VISIBLE);
+                        Toast.makeText(getApplicationContext(), "Entrando al Gimnasio", Toast.LENGTH_SHORT).show();
+                    }
+                };
+                CapacityActivity.this.runOnUiThread(updateChip);
+
+                gimnasioLocalUpdate = 1;
+                break;
+            case OUT_QR:
+                exitAllRooms();
+                return;
+            default:
+                // Gracefully ignore unknown QR codes and exit function
+                Toast errorToast = Toast.makeText(getApplicationContext(), "Error leyendo el QR", (int) 1.0);
+                errorToast.getView().setBackgroundColor(Color.rgb(255,59,48));
+                errorToast.show();
+                return;
+        }
+
+        // Prepare data to be uploaded to the database
         String finalQRString = QRString;
         Double finalEpoch = (double) (System.currentTimeMillis() / (double) 1000);
-        checkInDatabase.child(userID).addListenerForSingleValueEvent(new ValueEventListener() {
 
+        // Update the database check-in
+        checkInDatabase.child(userID).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 // Check if user exists
                 if (snapshot.getValue() == null){
                     // If user doesn't exist, add it
-                    Log.e("snapshot", "NOT EXIST");
                     checkInDatabase.child(userID + "/Room").setValue(finalQRString);
                     checkInDatabase.child(userID + "/Time").setValue(finalEpoch);
                 } else {
                     // If user exists, update it
-                    Log.e("snapshot", "EXISTS");
                     checkInDatabase.child(userID + "/Room").setValue(finalQRString);
                     checkInDatabase.child(userID + "/Time").setValue(finalEpoch);
                 }
@@ -309,10 +476,21 @@ public class CapacityActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Log.e("error","database error");
-
+                // Gracefully ignore unknown QR codes and exit function
+                Toast errorToast = Toast.makeText(getApplicationContext(), "Sin conexión", (int) 1.0);
+                errorToast.getView().setBackgroundColor(Color.rgb(255,59,48));
+                errorToast.show();
             }
         });
+
+        // Animate local changes
+        CapacityActivity.this.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                animateProgressBars();
+            }
+        });
+
     }
 
     private void setUpDetailsButton(Button infoButton, final String roomName){
@@ -401,11 +579,13 @@ public class CapacityActivity extends AppCompatActivity {
         checkInDatabase = FirebaseDatabase.getInstance().getReference().child("Capacities/Check-ins/");
         SharedPreferences preferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
         String userID = preferences.getString("userID","userID_DEFAULT");
+
+        // Retrieve the user check-in ONLY, not the whole check-in database
         checkInDatabase.child(userID).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot != null){
-                    String currentRoom = snapshot.child("Room").getValue().toString();
+                if (snapshot.getValue() != null){
+                    currentRoom = snapshot.child("Room").getValue().toString();
                     switch (currentRoom){
                         case "SalaPolivalente":
                             salaPolivalenteChip.setVisibility(View.VISIBLE);
@@ -430,6 +610,13 @@ public class CapacityActivity extends AppCompatActivity {
 
             }
         });
+
+        // Get a handler that can be used to post to the main thread
+        //mainHandler = new Handler(Looper.getMainLooper());
+        handlerThread = new HandlerThread("ChipUpdater");
+        handlerThread.start();
+        Looper looper = handlerThread.getLooper();
+        mainHandler = new Handler(looper);
 
         // UI elements
         salaPolivalenteProgressbar = findViewById(R.id.salaPolivalenteProgressbar);
@@ -469,6 +656,32 @@ public class CapacityActivity extends AppCompatActivity {
                     }
                 });
 
+        // Setup actions for close buttons in chips
+        salaPolivalenteChip.setOnCloseIconClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                exitAllRooms();
+            }
+        });
+        salaDeLecturaChip.setOnCloseIconClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                exitAllRooms();
+            }
+        });
+        bibliotecaChip.setOnCloseIconClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                exitAllRooms();
+            }
+        });
+        gimnasioChip.setOnCloseIconClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                exitAllRooms();
+            }
+        });
+
         // Observe for changes in the database
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("Capacities/Count");
 
@@ -476,18 +689,15 @@ public class CapacityActivity extends AppCompatActivity {
 
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                deleteLocalUpdates();
                 for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
-
                     if (Objects.equals(postSnapshot.getKey(), "SalaPolivalente")){
                         Room room = postSnapshot.getValue(Room.class);
-                        Log.e("SALA POLIVALENTE", String.valueOf(room.Max));
                         if ((room != null ? room.Max : -1) == -1){
                             salaPolivalenteFractionNumber = -1;
                         }else{
-                            Log.e("SALA POLIVALENTE", "NOT NULL");
                             salaPolivalenteMaxCapacity = room.Max;
                             salaPolivalenteFractionNumber = ((float) room.Current)/((float) room.Max);
-                            Log.e("SALA POLIVALENTE", String.valueOf(salaPolivalenteFractionNumber));
                         }
                     }else if (Objects.equals(postSnapshot.getKey(), "SalaDeLectura")){
                         Room room = postSnapshot.getValue(Room.class);
@@ -526,8 +736,6 @@ public class CapacityActivity extends AppCompatActivity {
                 // ...
             }
         });
-
-
 
     }
 }
