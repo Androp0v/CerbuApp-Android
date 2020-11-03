@@ -14,6 +14,7 @@ import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Debug;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Looper;
@@ -170,11 +171,11 @@ public class CapacityActivity extends AppCompatActivity {
     }
 
     private void animateProgressBars(){
-        // Set initial progressbar progress
-        salaPolivalenteProgressbar.setProgress((int) (salaPolivalenteFractionNumber*100 + salaPolivalenteLocalUpdate/salaPolivalenteMaxCapacity*100));
-        salaDeLecturaProgressbar.setProgress((int) (salaDeLecturaFractionNumber*100 + salaDeLecturaLocalUpdate/salaDeLecturaMaxCapacity*100));
-        bibliotecaProgressbar.setProgress((int) (bibliotecaFractionNumber*100 + bibliotecaLocalUpdate/bibliotecaMaxCapacity*100));
-        gimnasioProgressbar.setProgress((int) (gimnasioFractionNumber*100 + gimnasioLocalUpdate/gimnasioMaxCapacity*100));
+        // Set initial progressbar progress (TO-DO: This may not do anything)
+        salaPolivalenteProgressbar.setProgress((int) (salaPolivalenteFractionNumber*100));
+        salaDeLecturaProgressbar.setProgress((int) (salaDeLecturaFractionNumber*100));
+        bibliotecaProgressbar.setProgress((int) (bibliotecaFractionNumber*100));
+        gimnasioProgressbar.setProgress((int) (gimnasioFractionNumber*100));
 
         // Set progressbar colors
         salaPolivalenteProgressbar.setProgressTintList(ColorStateList.valueOf(getProgressBarColor(salaPolivalenteFractionNumber)));
@@ -190,27 +191,51 @@ public class CapacityActivity extends AppCompatActivity {
 
         // Progressbar animation
         ProgressBarAnimation anim;
-        anim = new ProgressBarAnimation(salaPolivalenteProgressbar,
-                (int)(salaPolivalenteFractionNumberOld*100),
-                (int)(salaPolivalenteFractionNumber*100));
+        if (salaPolivalenteMaxCapacity != 0){
+            anim = new ProgressBarAnimation(salaPolivalenteProgressbar,
+                    (int)(salaPolivalenteFractionNumberOld*100),
+                    (int)(salaPolivalenteFractionNumber*100 + salaPolivalenteLocalUpdate/salaPolivalenteMaxCapacity*100));
+        } else {
+            anim = new ProgressBarAnimation(salaPolivalenteProgressbar,
+                    (int)(salaPolivalenteFractionNumberOld*100),
+                    (int)(salaPolivalenteFractionNumber*100));
+        }
         anim.setDuration((long) (1000*(Math.abs(salaPolivalenteFractionNumber - salaPolivalenteFractionNumberOld))));
         salaPolivalenteProgressbar.startAnimation(anim);
 
-        anim = new ProgressBarAnimation(salaDeLecturaProgressbar,
-                (int)(salaDeLecturaFractionNumberOld*100),
-                (int)(salaDeLecturaFractionNumber*100));
+        if (salaDeLecturaMaxCapacity != 0){
+            anim = new ProgressBarAnimation(salaDeLecturaProgressbar,
+                    (int)(salaDeLecturaFractionNumberOld*100),
+                    (int)(salaDeLecturaFractionNumber*100 + salaDeLecturaLocalUpdate/salaDeLecturaMaxCapacity*100));
+        } else {
+            anim = new ProgressBarAnimation(salaDeLecturaProgressbar,
+                    (int)(salaDeLecturaFractionNumberOld*100),
+                    (int)(salaDeLecturaFractionNumber*100));
+        }
         anim.setDuration((long) (1000*(Math.abs(salaDeLecturaFractionNumber - salaDeLecturaFractionNumberOld))));
         salaDeLecturaProgressbar.startAnimation(anim);
 
-        anim = new ProgressBarAnimation(bibliotecaProgressbar,
-                (int)(bibliotecaFractionNumberOld*100),
-                (int)(bibliotecaFractionNumber*100));
+        if (bibliotecaMaxCapacity != 0){
+            anim = new ProgressBarAnimation(bibliotecaProgressbar,
+                    (int)(bibliotecaFractionNumberOld*100),
+                    (int)(bibliotecaFractionNumber*100 + bibliotecaLocalUpdate/bibliotecaMaxCapacity*100));
+        } else {
+            anim = new ProgressBarAnimation(bibliotecaProgressbar,
+                    (int)(bibliotecaFractionNumberOld*100),
+                    (int)(bibliotecaFractionNumber*100));
+        }
         anim.setDuration((long) (1000*(Math.abs(bibliotecaFractionNumber - bibliotecaFractionNumberOld))));
         bibliotecaProgressbar.startAnimation(anim);
 
-        anim = new ProgressBarAnimation(gimnasioProgressbar,
-                (int)(gimnasioFractionNumberOld*100),
-                (int)(gimnasioFractionNumber*100));
+        if (gimnasioMaxCapacity != 0){
+            anim = new ProgressBarAnimation(gimnasioProgressbar,
+                    (int)(gimnasioFractionNumberOld*100),
+                    (int)(gimnasioFractionNumber*100 + gimnasioLocalUpdate/gimnasioMaxCapacity*100));
+        } else {
+            anim = new ProgressBarAnimation(gimnasioProgressbar,
+                    (int)(gimnasioFractionNumberOld*100),
+                    (int)(gimnasioFractionNumber*100));
+        }
         anim.setDuration((long) (1000*(Math.abs(gimnasioFractionNumber - gimnasioFractionNumberOld))));
         gimnasioProgressbar.startAnimation(anim);
 
@@ -435,6 +460,7 @@ public class CapacityActivity extends AppCompatActivity {
                 animateProgressBars();
             }
         });
+
     }
 
     private void setUpDetailsButton(Button infoButton, final String roomName){
@@ -681,6 +707,14 @@ public class CapacityActivity extends AppCompatActivity {
             }
         });
 
+        //LOG ONLY TO-DO: DELETE
+        final Handler handler = new Handler(Looper.getMainLooper());
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                handleQRDialogResult(SALA_POLIVALENTE_QR);
+            }
+        }, 200);
 
 
     }
