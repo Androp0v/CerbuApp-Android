@@ -59,7 +59,7 @@
                     android:orientation="horizontal"
                     android:paddingTop="18dp">
 
-                    <TextView
+                    <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/salaPolivalenteTitleTextView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -70,6 +70,7 @@
                         android:text="Sala Polivalente"
                         android:textColor="@color/colorLabelPrimary"
                         android:textSize="28dp"
+                        app:autoSizeTextType="uniform"
                         tools:layout_conversion_absoluteHeight="50dp"
                         tools:layout_conversion_absoluteWidth="146dp"
                         tools:layout_editor_absoluteX="0dp"

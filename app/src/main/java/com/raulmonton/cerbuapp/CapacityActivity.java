@@ -53,6 +53,9 @@ public class CapacityActivity extends AppCompatActivity {
     private static final String GIMNASIO_QR = "ATPi0bjz";
     private static final String OUT_QR = "SVOWE1Kd";
 
+    // Current room
+    String currentRoom;
+
     // Handler thread to update the UI
     HandlerThread handlerThread;
     Handler mainHandler;
@@ -191,6 +194,7 @@ public class CapacityActivity extends AppCompatActivity {
 
         // Progressbar animation
         ProgressBarAnimation anim;
+
         if (salaPolivalenteMaxCapacity != 0){
             anim = new ProgressBarAnimation(salaPolivalenteProgressbar,
                     (int)(salaPolivalenteFractionNumberOld*100),
@@ -290,6 +294,9 @@ public class CapacityActivity extends AppCompatActivity {
     }
 
     private void exitAllRooms(){
+
+        currentRoom = "None";
+
         // Make all location chips invisible
         CapacityActivity.this.runOnUiThread(new Runnable() {
             @Override
@@ -351,10 +358,34 @@ public class CapacityActivity extends AppCompatActivity {
         // Create Runnable to update UI
         Runnable updateChip;
 
+        // Delete local updates
+        deleteLocalUpdates();
+
+        // Exit last current room
+        if (currentRoom != null){
+            switch (currentRoom){
+                case "SalaPolivalente":
+                    salaPolivalenteLocalUpdate = -1;
+                    break;
+                case "SalaDeLectura":
+                    salaDeLecturaLocalUpdate = -1;
+                    break;
+                case "Biblioteca":
+                    bibliotecaLocalUpdate = -1;
+                    break;
+                case "Gimnasio":
+                    gimnasioLocalUpdate = -1;
+                    break;
+                default:
+                    break;
+            }
+        }
+
         // Make visible only the current location
         switch (qrCode) {
             case SALA_POLIVALENTE_QR:
                 QRString = "SalaPolivalente";
+                currentRoom = "SalaPolivalente";
 
                 updateChip = new Runnable() {
                     @Override
@@ -365,11 +396,11 @@ public class CapacityActivity extends AppCompatActivity {
                 };
                 CapacityActivity.this.runOnUiThread(updateChip);
 
-                deleteLocalUpdates();
                 salaPolivalenteLocalUpdate = 1;
                 break;
             case SALA_DE_LECTURA_QR:
                 QRString = "SalaDeLectura";
+                currentRoom = "SalaDeLectura";
 
                 updateChip = new Runnable() {
                     @Override
@@ -380,11 +411,11 @@ public class CapacityActivity extends AppCompatActivity {
                 };
                 CapacityActivity.this.runOnUiThread(updateChip);
 
-                deleteLocalUpdates();
                 salaDeLecturaLocalUpdate = 1;
                 break;
             case BIBLIOTECA_QR:
                 QRString = "Biblioteca";
+                currentRoom = "Biblioteca";
 
                 updateChip = new Runnable() {
                     @Override
@@ -395,11 +426,11 @@ public class CapacityActivity extends AppCompatActivity {
                 };
                 CapacityActivity.this.runOnUiThread(updateChip);
 
-                deleteLocalUpdates();
                 bibliotecaLocalUpdate = 1;
                 break;
             case GIMNASIO_QR:
                 QRString = "Gimnasio";
+                currentRoom = "Gimnasio";
 
                 updateChip = new Runnable() {
                     @Override
@@ -410,7 +441,6 @@ public class CapacityActivity extends AppCompatActivity {
                 };
                 CapacityActivity.this.runOnUiThread(updateChip);
 
-                deleteLocalUpdates();
                 gimnasioLocalUpdate = 1;
                 break;
             case OUT_QR:
@@ -555,7 +585,7 @@ public class CapacityActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.getValue() != null){
-                    String currentRoom = snapshot.child("Room").getValue().toString();
+                    currentRoom = snapshot.child("Room").getValue().toString();
                     switch (currentRoom){
                         case "SalaPolivalente":
                             salaPolivalenteChip.setVisibility(View.VISIBLE);
@@ -659,8 +689,8 @@ public class CapacityActivity extends AppCompatActivity {
 
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                deleteLocalUpdates();
                 for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
-
                     if (Objects.equals(postSnapshot.getKey(), "SalaPolivalente")){
                         Room room = postSnapshot.getValue(Room.class);
                         if ((room != null ? room.Max : -1) == -1){
@@ -706,6 +736,6 @@ public class CapacityActivity extends AppCompatActivity {
                 // ...
             }
         });
-        
+
     }
 }
