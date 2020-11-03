@@ -706,16 +706,6 @@ public class CapacityActivity extends AppCompatActivity {
                 // ...
             }
         });
-
-        //LOG ONLY TO-DO: DELETE
-        final Handler handler = new Handler(Looper.getMainLooper());
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                handleQRDialogResult(SALA_POLIVALENTE_QR);
-            }
-        }, 200);
-
-
+        
     }
 }
