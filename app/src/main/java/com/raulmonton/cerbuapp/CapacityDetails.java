@@ -144,7 +144,7 @@ public class CapacityDetails extends BottomSheetDialogFragment {
 
 
         // Set sheet title
-        sheetTitle.setText((int) (fractionNumber * maxCapacity) + " de " + maxCapacity + " personas");
+        sheetTitle.setText((int) Math.round(fractionNumber * maxCapacity) + " de " + maxCapacity + " personas");
 
         if (maxCapacity != 0) {
             // Set sheet description
