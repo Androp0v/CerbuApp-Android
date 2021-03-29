@@ -38,6 +38,7 @@ public class LoadImageAsync extends AsyncTask<Data,Integer,Drawable> {
         nameText = nameText.replace("ú", "u");
         nameText = nameText.replace("ü", "u");
         nameText = nameText.replace("ñ", "n");
+        nameText = nameText.replace("ç", "c");
 
         int resID = res.getIdentifier(nameText , "drawable", context.get().getPackageName());
 
@@ -53,6 +54,7 @@ public class LoadImageAsync extends AsyncTask<Data,Integer,Drawable> {
             nameText2 = nameText2.replace("ú", "u");
             nameText2 = nameText2.replace("ü", "u");
             nameText2 = nameText2.replace("ñ", "n");
+            nameText2 = nameText2.replace("ç", "c");
             resID = res.getIdentifier(nameText2 , "drawable", context.get().getPackageName());
         }
         if (resID == 0) {

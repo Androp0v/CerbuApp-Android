@@ -24,7 +24,6 @@
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#FFFFFF"
         android:orientation="vertical">
 
         <com.google.android.material.appbar.AppBarLayout
@@ -121,7 +120,7 @@
 
                     <Button
                         android:id="@+id/salaPolivalenteInfo"
-                        style="?android:attr/buttonStyleSmall"
+                        style="@style/InfoButtonStyle"
                         android:layout_width="wrap_content"
                         android:layout_height="35dp"
                         android:layout_weight="0.5"
@@ -208,7 +207,7 @@
 
                     <Button
                         android:id="@+id/bibliotecaInfo"
-                        style="?android:attr/buttonStyleSmall"
+                        style="@style/InfoButtonStyle"
                         android:layout_width="wrap_content"
                         android:layout_height="35dp"
                         android:layout_weight="0.5"
@@ -295,7 +294,7 @@
 
                     <Button
                         android:id="@+id/salaDeLecturaInfo"
-                        style="?android:attr/buttonStyleSmall"
+                        style="@style/InfoButtonStyle"
                         android:layout_width="wrap_content"
                         android:layout_height="35dp"
                         android:layout_weight="0.5"
@@ -382,7 +381,7 @@
 
                     <Button
                         android:id="@+id/gimnasioInfo"
-                        style="?android:attr/buttonStyleSmall"
+                        style="@style/InfoButtonStyle"
                         android:layout_width="wrap_content"
                         android:layout_height="35dp"
                         android:layout_weight="0.5"

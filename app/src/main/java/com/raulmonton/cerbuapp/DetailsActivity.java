@@ -190,6 +190,7 @@ public class DetailsActivity extends AppCompatActivity {
         nameText = nameText.replace("ü", "u");
         nameText = nameText.replace("ñ", "n");
         nameText = nameText.replace("-", "");
+        nameText = nameText.replace("ç", "c");
 
         nameText2 = nameText2.replace(" ","");
         nameText2 = nameText2.toLowerCase();
@@ -201,6 +202,7 @@ public class DetailsActivity extends AppCompatActivity {
         nameText2 = nameText2.replace("ü", "u");
         nameText2 = nameText2.replace("ñ", "n");
         nameText2 = nameText2.replace("-", "");
+        nameText2 = nameText2.replace("ç", "c");
 
         String nameTextHRes = nameText.concat("hres");
         String nameTextHRes2 = nameText2.concat("hres");

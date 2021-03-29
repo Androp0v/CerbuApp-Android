@@ -37,6 +37,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
         rawString = rawString.replace("ó", "o");
         rawString = rawString.replace("ú", "u");
         rawString = rawString.replace("ü", "u");
+        rawString = rawString.replace("ç", "c");
 
         return rawString;
     }
@@ -198,6 +199,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
             filterString = filterString.replace("ó", "o");
             filterString = filterString.replace("ú", "u");
             filterString = filterString.replace("ü", "u");
+            filterString = filterString.replace("ç", "c");
 
             String[] splitedFilterStrings = filterString.split(" ");
 
